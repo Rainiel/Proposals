@@ -1,0 +1,42 @@
+<div class="page-content p3 toggled">
+	<div class="container-fluid p-4">
+
+		<section class="card box-typical-full-height">
+			<div class="card-block">
+				<h5 class="with-border m-t-0">Design Project: Groups
+					<!-- <a class="btn btn-rounded btn-info" style="color: white; float: right;">Add member</a> -->
+				</h5>
+
+				<!-- <div class="groups" *ngFor="let group of group_lists">
+						<div class="dropdown">
+							<button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #ffffff">
+								&nbsp;{{ group.groupName }}&nbsp;
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" *ngFor="let member of group.groupMembers">
+								{{ member.whole_name }}
+							</a>
+							</div>
+						</div>
+					</div> -->
+
+				<div class="groups" *ngFor="let group of group_lists">
+					<table class="table table-sm table-bordered">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col" (click)="viewGroupProfile( group.id )">{{ group.groupName }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let member of group.groupMembers">
+								<td>{{ member.whole_name }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</section>
+
+	</div>
+</div>

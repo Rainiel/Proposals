@@ -1,0 +1,110 @@
+Collections:
+
+calendars:
+	title
+	start
+	end
+	editable
+	durationEditable
+	createdDate
+	allDay
+
+defense_schedules:
+	monday
+	tuesday
+	wednesday
+	thursday
+	friday
+	saturday
+
+employee_navigations:
+	navigation
+	boolean
+	child_nav
+	notification
+
+employees:
+    email
+    hash
+    firstName
+    lastName
+    createdDate
+    raw_password
+
+files:
+	proposal_id
+	file_path
+	file_name
+	folder_parent
+	createdDate
+
+folders:
+	folder_child
+	folder_parent
+	folder_name
+
+groups:
+	groupName
+	groupType
+	groupMember
+	createdDate
+	subject
+	section
+
+proposal_approve_rejects:
+	proposal_id
+	first_name
+	last_name
+	user_id
+	decision
+	createdDate
+
+proposal_comments:
+	proposal_id
+	first_name
+	last_name
+	comment
+	createdDate
+
+proposal_table_columns:
+	column
+
+proposals:
+	title
+	groupName
+	group_id
+	section
+	createdDate
+	approve
+	reject
+	status
+	proposal_approve_reject
+
+section_lists:
+	section
+	color
+	adviser_id
+	adviser_first_name
+	adviser_last_name
+
+user_navigations:
+	navigation
+	boolean
+	child_nav
+	notification
+
+users:
+	email
+	hash
+	firstName
+	lastName
+	createdDate
+	raw_password
+	role
+	role_id
+	status
+	status_id
+	year
+	section
+	group_proposal_id:
+	group_proposal_name

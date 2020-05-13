@@ -1,0 +1,123 @@
+<div class="page-content p3 toggled">
+	<header class="page-content-header">
+		<div class="container-fluid">
+			<div class="tbl">
+				<div class="tbl-row">
+					<div class="tbl-cell">
+						<h3>Schedule For Defense</h3>
+					</div>
+					<div class="tbl-cell tbl-cell-action">
+						<a class="btn btn-rounded btn-primary" style="color: white;" (click)="exportAsXLSX()">Export to excel</a>
+					</div>
+					<div class="tbl-cell tbl-cell-action" *ngIf="ifUserIsStudent">
+						<a class="btn btn-rounded btn-primary" style="color: white;" *ngIf="ifSchedule" (click)="createSchedule()">Create Schedule</a>
+					</div>
+					<div class="tbl-cell tbl-cell-action" *ngIf="ifUserIsStudent">
+						<a class="btn btn-rounded btn-primary" style="color: white;" *ngIf="!ifSchedule" (click)="updateSchedule( schedule_id )">Update Schedule</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header><!--.page-content-header-->
+<div class="container-fluid p-4">
+
+	<section class="card">
+		<div class="card-block">
+			<!-- Filters for Proposals -->
+
+			<!-- Table For Proposals -->
+			<table id="proposals_table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+				<tr>
+					<th>Monday</th>
+					<th>Tuesday</th>
+					<th>Wednesday</th>
+					<th>Thursday</th>
+					<th>Friday</th>
+					<th>Saturday</th>
+				</tr>
+				</thead>
+				<tfoot>
+				<tr>
+					<th>Monday</th>
+					<th>Tuesday</th>
+					<th>Wednesday</th>
+					<th>Thursday</th>
+					<th>Friday</th>
+					<th>Saturday</th>
+				</tr>
+				</tfoot>
+				<tbody>
+					<tr *ngIf="ifUserIsStudent">
+						<td *ngFor="let item of arrays" style="vertical-align: top; padding: 0px;">
+							<div class="schedule-list" *ngFor="let monday of item.monday" [ngStyle]="{'background-color': monday.color}" (click)="openModalAddPanel( monday.group_id )">{{ monday.group }}</div>
+							<div class="schedule-list" *ngFor="let tuesday of item.tuesday" [ngStyle]="{'background-color': tuesday.color}" (click)="openModalAddPanel( tuesday.group_id )">{{ tuesday.group }}</div>
+							<div class="schedule-list" *ngFor="let wednesday of item.wednesday" [ngStyle]="{'background-color': wednesday.color}" (click)="openModalAddPanel( wednesday.group_id )">{{ wednesday.group }}</div>
+							<div class="schedule-list" *ngFor="let thursday of item.thursday" [ngStyle]="{'background-color': thursday.color}" (click)="openModalAddPanel( thursday.group_id )">{{ thursday.group }}</div>
+							<div class="schedule-list" *ngFor="let friday of item.friday" [ngStyle]="{'background-color': friday.color}" (click)="openModalAddPanel( friday.group_id )">{{ friday.group }}</div>
+							<div class="schedule-list" *ngFor="let saturday of item.saturday" [ngStyle]="{'background-color': saturday.color}" (click)="openModalAddPanel( saturday.group_id )">{{ saturday.group }}</div>
+						</td>
+					</tr>
+					<tr *ngIf="!ifUserIsStudent">
+						<td *ngFor="let item of arrays" style="vertical-align: top; padding: 0px;">
+							<div class="schedule-list" *ngFor="let monday of item.monday" [ngStyle]="{'background-color': monday.color}" >{{ monday.group }}</div>
+							<div class="schedule-list" *ngFor="let tuesday of item.tuesday" [ngStyle]="{'background-color': tuesday.color}" >{{ tuesday.group }}</div>
+							<div class="schedule-list" *ngFor="let wednesday of item.wednesday" [ngStyle]="{'background-color': wednesday.color}" >{{ wednesday.group }}</div>
+							<div class="schedule-list" *ngFor="let thursday of item.thursday" [ngStyle]="{'background-color': thursday.color}" >{{ thursday.group }}</div>
+							<div class="schedule-list" *ngFor="let friday of item.friday" [ngStyle]="{'background-color': friday.color}" >{{ friday.group }}</div>
+							<div class="schedule-list" *ngFor="let saturday of item.saturday" [ngStyle]="{'background-color': saturday.color}" >{{ saturday.group }}</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- Table For Proposals -->	
+		</div>
+	</section>
+
+</div>
+</div>
+
+<button type="button" id="openModalPanel" class="btn btn-primary" [hidden]="true"  data-toggle="modal" data-target="#modalAddPanel">
+	open modal
+</button>
+
+<div class="modal fade" id="modalAddPanel" tabindex="-1" role="dialog" aria-labelledby="AddPanel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="AddPanel">Add panel</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+				<input id="group_id" type="hidden" class="form-control" >
+
+				<div class="form-group">
+					<label for="exampleFormControlSelect1">Panel 1</label>
+					<select class="browser-default custom-select" (change)="selectPanel1($event.target.value)">
+						<option selected>{{ panel1 }}</option>
+						<option *ngFor="let emp of employees" value="{{emp._id}},{{ emp.whole_name }}">{{ emp.whole_name }}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlSelect1">Panel 2</label>
+					<select class="browser-default custom-select" (change)="selectPanel2($event.target.value)">
+						<option selected>{{ panel2 }}</option>
+						<option *ngFor="let emp of employees" value="{{emp._id}},{{ emp.whole_name }}">{{ emp.whole_name }}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlSelect1">Panel 3</label>
+					<select class="browser-default custom-select" (change)="selectPanel3($event.target.value)">
+						<option selected>{{ panel3 }}</option>
+						<option *ngFor="let emp of employees" value="{{emp._id}},{{ emp.whole_name }}">{{ emp.whole_name }}</option>
+					</select>
+				</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+		</div>
+	</div>
+</div>

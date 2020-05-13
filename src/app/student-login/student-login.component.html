@@ -1,0 +1,39 @@
+<div class="page-center">
+    <div class="page-center-in">
+        <div class="container-fluid">
+            <form class="sign-box" [formGroup]="loginForm" (ngSubmit) = "tryLogin()">
+                <div class="sign-avatar">
+                    <img src="assets/components/build/img/avatar-sign.png" alt="">
+                </div>
+                <header class="sign-title">Sign In</header>
+                <div class="alert alert-danger" role="alert" *ngIf="incorrect">
+                    Your Email Or Password is Incorrect!
+				</div>
+                <div class="form-group">
+                    <input type="email" formControlName="email" class="form-control" placeholder="E-Mail" [ngClass]="{ 'is-invalid': submitted &&  f.email.errors }"/>
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" formControlName="password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                        <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="float-right reset">
+                        <a href="reset-password.html">Reset Password</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-rounded">Sign in</button>
+                <p class="sign-note">New to our website? <a href="register">Sign up</a></p>
+                <!--<button type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>-->
+            </form>
+        </div>
+    </div>
+</div><!--.page-center-->

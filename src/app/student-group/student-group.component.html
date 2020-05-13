@@ -1,0 +1,42 @@
+<div class="page-content p3 toggled">
+	<div class="container-fluid p-4">
+	
+		<section class="card box-typical-full-height">
+			<div class="card-block">
+				<h5 class="with-border m-t-0">Design Project: Members 
+						<a class="btn btn-rounded btn-info" style="color: white; float: right;">Add member</a>
+				</h5>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="dropdown">
+							<button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #ffffff">
+								<img src="assets/components/build/img/photo-184-1.jpg" alt="" width="25" height="25">&nbsp;Lawrence Jay&nbsp;Egamino
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Another action</a>
+							<a class="dropdown-item" href="#">Something else here</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3" *ngFor="let member of groupMembers">
+						<div class="dropdown">
+							<button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #ffffff">
+								<img src="assets/components/build/img/photo-184-1.jpg" alt="" width="25" height="25">&nbsp;{{ member.firstName }}&nbsp;{{ member.lastName }}
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Another action</a>
+							<a class="dropdown-item" href="#">Something else here</a>
+							</div>
+						</div>
+					</div>
+					
+				</div><!-- .row -->
+			</div>
+		</section>
+
+	</div>
+</div>
+	

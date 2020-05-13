@@ -1,0 +1,868 @@
+<div class="dark-theme">
+    <header class="site-header">
+        <div class="container-fluid">
+            <a href="#" class="site-logo">
+                <img src="assets/img/puplogo.png" width="50px" height="50px" style="margin-top: 3px;"
+                    class="hidden-xs" />
+            </a>
+
+            <!-- <button id="toggle-sidebar" class="">
+                <span>toggle menu</span>
+            </button> -->
+
+            <!-- <button id="toggle-sidebar" type="button" class="btn btn-light" style="margin-left: 10px;">
+                <i class="fas fa-bars fa-lg"></i>
+            </button> -->
+            <!-- <button id="pin-sidebar" type="button" class="btn btn-light" style="margin-left: 10px;">
+                <i class="fas fa-thumbtack fa-lg"></i>
+            </button> -->
+            <div class="row">
+                <div class="checkbox-toggle col">
+                    <input type="checkbox" id="toggle-sidebar" checked />
+                    <label for="toggle-sidebar"
+                        style="margin-left: 10px; margin-top: 10px; color: #c7c7c7;">Menu</label>
+                </div>
+
+                <div class="site-header-content col">
+                    <div class="site-header-content-in">
+                        <div class="site-header-shown">
+
+                            <div class="dropdown dropdown-notification notif">
+                                <a href="#" class="header-alarm dropdown-toggle active" id="dd-notification"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="font-icon-alarm"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification" style="width: 400px;">
+                                    <div class="dropdown-menu-notif-header">
+                                        Notifications
+                                        <span class="label label-pill label-danger">4</span>
+                                    </div>
+                                    <div class="dropdown-menu-notif-list" *ngFor="let activity of activities" style="height: 10vh">
+                                        <div class="dropdown-menu-notif-item">
+                                            <div class="photo">
+                                                <img src="{{activity.avatar_path}}{{activity.avatar_photo}}" alt="">
+                                            </div>
+                                            <!-- <div class="dot"></div> -->
+                                            <a href="#">{{ activity.firstName }}&nbsp;{{ activity.lastName }}</a>&nbsp;{{ activity.message }}
+                                            <a *ngIf="activity.proposal_title">{{ activity.proposal_title }}</a>
+                                            <a *ngIf="activity.group_name" (click)="viewActivity(activity.link, activity.id)">{{ activity.group_name }}</a>
+                                            <a *ngIf="activity.file_name">{{ activity.file_name }}</a>
+                                            <div class="color-blue-grey-lighter">
+                                                {{ activity.createdDate | dateActivity }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu-notif-more">
+                                        <a routerLink="activity">See more</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="dropdown dropdown-notification messages">
+                            <a href="#"
+                               class="header-alarm dropdown-toggle active"
+                               id="dd-messages"
+                               data-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="font-icon-mail"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-messages" aria-labelledby="dd-messages">
+                                <div class="dropdown-menu-messages-header">
+                                    <ul class="nav" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active"
+                                               data-toggle="tab"
+                                               href="#tab-incoming"
+                                               role="tab">
+                                                Inbox
+                                                <span class="label label-pill label-danger">8</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                               data-toggle="tab"
+                                               href="#tab-outgoing"
+                                               role="tab">Outbox</a>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="create">
+                                        <i class="font-icon font-icon-pen-square"></i>
+                                    </button>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab-incoming" role="tabpanel">
+                                        <div class="dropdown-menu-messages-list">
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/photo-64-2.jpg" alt=""></span>
+                                                <span class="mess-item-name">Tim Collins</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something!</span>
+                                            </a>
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/avatar-2-64.png" alt=""></span>
+                                                <span class="mess-item-name">Christian Burton</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something! Morgan was bothering about something.</span>
+                                            </a>
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/photo-64-2.jpg" alt=""></span>
+                                                <span class="mess-item-name">Tim Collins</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something!</span>
+                                            </a>
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/avatar-2-64.png" alt=""></span>
+                                                <span class="mess-item-name">Christian Burton</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something...</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab-outgoing" role="tabpanel">
+                                        <div class="dropdown-menu-messages-list">
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/avatar-2-64.png" alt=""></span>
+                                                <span class="mess-item-name">Christian Burton</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something! Morgan was bothering about something...</span>
+                                            </a>
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/photo-64-2.jpg" alt=""></span>
+                                                <span class="mess-item-name">Tim Collins</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something! Morgan was bothering about something.</span>
+                                            </a>
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/avatar-2-64.png" alt=""></span>
+                                                <span class="mess-item-name">Christian Burtons</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something!</span>
+                                            </a>
+                                            <a href="#" class="mess-item">
+                                                <span class="avatar-preview avatar-preview-32"><img src="assets/components/build/img/photo-64-2.jpg" alt=""></span>
+                                                <span class="mess-item-name">Tim Collins</span>
+                                                <span class="mess-item-txt">Morgan was bothering about something!</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-menu-notif-more">
+                                    <a href="#">See more</a>
+                                </div>
+                            </div>
+                        </div> -->
+
+                            <!-- <div class="dropdown dropdown-lang">
+                            <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="flag-icon flag-icon-us"></span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-menu-col">
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-ru"></span>Русский</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-de"></span>Deutsch</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-it"></span>Italiano</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-es"></span>Español</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-pl"></span>Polski</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-li"></span>Lietuviu</a>
+                                </div>
+                                <div class="dropdown-menu-col">
+                                    <a class="dropdown-item current" href="#"><span class="flag-icon flag-icon-us"></span>English</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-fr"></span>Français</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-by"></span>Беларускi</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-ua"></span>Українська</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-cz"></span>Česky</a>
+                                    <a class="dropdown-item" href="#"><span class="flag-icon flag-icon-ch"></span>中國</a>
+                                </div>
+                            </div>
+                        </div> -->
+
+                            <div class="dropdown user-menu">
+                                <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/components/build/img/avatar-2-64.png" alt="">
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
+                                    <!-- <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>Profile</a>
+                                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-cog"></span>Settings</a>
+                                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a>
+                                <div class="dropdown-divider"></div> -->
+                                    <a class="dropdown-item" (click)="this.logout()"><span
+                                            class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
+                                </div>
+                            </div>
+
+                            <!-- <button type="button" class="burger-right">
+                            <i class="font-icon-menu-addl"></i>
+                        </button> -->
+                        </div>
+                        <!--.site-header-shown-->
+
+                        <div class="mobile-menu-right-overlay"></div>
+                        <!-- <div class="site-header-collapsed">
+                        <div class="site-header-collapsed-in">
+                            <div class="dropdown dropdown-typical">
+                                <div class="dropdown-menu" aria-labelledby="dd-header-sales">
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-home"></span>Quant and Verbal</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-cart"></span>Real Gmat Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-speed"></span>Prep Official App</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-users"></span>CATprer Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-comments"></span>Third Party Test</a>
+                                </div>
+                            </div>
+                            <div class="dropdown dropdown-typical">
+                                <a class="dropdown-toggle" id="dd-header-marketing" data-target="#" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="font-icon font-icon-cogwheel"></span>
+                                    <span class="lbl">Marketing automation</span>
+                                </a>
+    
+                                <div class="dropdown-menu" aria-labelledby="dd-header-marketing">
+                                    <a class="dropdown-item" href="#">Current Search</a>
+                                    <a class="dropdown-item" href="#">Search for Issues</a>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="dropdown-header">Recent issues</div>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-home"></span>Quant and Verbal</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-cart"></span>Real Gmat Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-speed"></span>Prep Official App</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-users"></span>CATprer Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-comments"></span>Third Party Test</a>
+                                    <div class="dropdown-more">
+                                        <div class="dropdown-more-caption padding">more...</div>
+                                        <div class="dropdown-more-sub">
+                                            <div class="dropdown-more-sub-in">
+                                                <a class="dropdown-item" href="#"><span class="font-icon font-icon-home"></span>Quant and Verbal</a>
+                                                <a class="dropdown-item" href="#"><span class="font-icon font-icon-cart"></span>Real Gmat Test</a>
+                                                <a class="dropdown-item" href="#"><span class="font-icon font-icon-speed"></span>Prep Official App</a>
+                                                <a class="dropdown-item" href="#"><span class="font-icon font-icon-users"></span>CATprer Test</a>
+                                                <a class="dropdown-item" href="#"><span class="font-icon font-icon-comments"></span>Third Party Test</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Import Issues from CSV</a>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="dropdown-header">Filters</div>
+                                    <a class="dropdown-item" href="#">My Open Issues</a>
+                                    <a class="dropdown-item" href="#">Reported by Me</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Manage filters</a>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="dropdown-header">Timesheet</div>
+                                    <a class="dropdown-item" href="#">Subscribtions</a>
+                                </div>
+                            </div>
+                            <div class="dropdown dropdown-typical">
+                                <a class="dropdown-toggle" id="dd-header-social" data-target="#" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="font-icon font-icon-share"></span>
+                                    <span class="lbl">Social media</span>
+                                </a>
+    
+                                <div class="dropdown-menu" aria-labelledby="dd-header-social">
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-home"></span>Quant and Verbal</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-cart"></span>Real Gmat Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-speed"></span>Prep Official App</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-users"></span>CATprer Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-comments"></span>Third Party Test</a>
+                                </div>
+                            </div>
+                            <div class="dropdown dropdown-typical">
+                                <a href="#" class="dropdown-toggle no-arr">
+                                    <span class="font-icon font-icon-page"></span>
+                                    <span class="lbl">Projects</span>
+                                    <span class="label label-pill label-danger">35</span>
+                                </a>
+                            </div>
+    
+                            <div class="dropdown dropdown-typical">
+                                <a class="dropdown-toggle" id="dd-header-form-builder" data-target="#" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="font-icon font-icon-pencil"></span>
+                                    <span class="lbl">Form builder</span>
+                                </a>
+    
+                                <div class="dropdown-menu" aria-labelledby="dd-header-form-builder">
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-home"></span>Quant and Verbal</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-cart"></span>Real Gmat Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-speed"></span>Prep Official App</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-users"></span>CATprer Test</a>
+                                    <a class="dropdown-item" href="#"><span class="font-icon font-icon-comments"></span>Third Party Test</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-rounded dropdown-toggle" id="dd-header-add" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Add
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dd-header-add">
+                                    <a class="dropdown-item" href="#">Quant and Verbal</a>
+                                    <a class="dropdown-item" href="#">Real Gmat Test</a>
+                                    <a class="dropdown-item" href="#">Prep Official App</a>
+                                    <a class="dropdown-item" href="#">CATprer Test</a>
+                                    <a class="dropdown-item" href="#">Third Party Test</a>
+                                </div>
+                            </div>
+                            <div class="help-dropdown">
+                                <button type="button">
+                                    <i class="font-icon font-icon-help"></i>
+                                </button>
+                                <div class="help-dropdown-popup">
+                                    <div class="help-dropdown-popup-side">
+                                        <ul>
+                                            <li><a href="#">Getting Started</a></li>
+                                            <li><a href="#" class="active">Creating a new project</a></li>
+                                            <li><a href="#">Adding customers</a></li>
+                                            <li><a href="#">Settings</a></li>
+                                            <li><a href="#">Importing data</a></li>
+                                            <li><a href="#">Exporting data</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="help-dropdown-popup-cont">
+                                        <div class="help-dropdown-popup-cont-in">
+                                            <div class="jscroll">
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Lorem Ipsum is simply
+                                                    <span class="describe">Lorem Ipsum has been the industry's standard dummy text </span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Contrary to popular belief
+                                                    <span class="describe">Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    The point of using Lorem Ipsum
+                                                    <span class="describe">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Lorem Ipsum
+                                                    <span class="describe">There are many variations of passages of Lorem Ipsum available</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Lorem Ipsum is simply
+                                                    <span class="describe">Lorem Ipsum has been the industry's standard dummy text </span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Contrary to popular belief
+                                                    <span class="describe">Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    The point of using Lorem Ipsum
+                                                    <span class="describe">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Lorem Ipsum
+                                                    <span class="describe">There are many variations of passages of Lorem Ipsum available</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Lorem Ipsum is simply
+                                                    <span class="describe">Lorem Ipsum has been the industry's standard dummy text </span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Contrary to popular belief
+                                                    <span class="describe">Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    The point of using Lorem Ipsum
+                                                    <span class="describe">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text</span>
+                                                </a>
+                                                <a href="#" class="help-dropdown-popup-item">
+                                                    Lorem Ipsum
+                                                    <span class="describe">There are many variations of passages of Lorem Ipsum available</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>.help-dropdown
+                            <a class="btn btn-nav btn-rounded btn-inline btn-danger-outline" href="http://themeforest.net/item/startui-premium-bootstrap-4-admin-dashboard-template/15228250?ref=themesanytime">
+                                Buy Theme
+                            </a>
+                            <div class="site-header-search-container">
+                                <form class="site-header-search closed">
+                                    <input type="text" placeholder="Search"/>
+                                    <button type="submit">
+                                        <span class="font-icon-search"></span>
+                                    </button>
+                                    <div class="overlay"></div>
+                                </form>
+                            </div>
+                        </div>.site-header-collapsed-in
+                    </div> -->
+                        <!--.site-header-collapsed-->
+                    </div>
+                    <!--site-header-content-in-->
+                </div>
+                <!--.site-header-content-->
+            </div>
+        </div>
+        <!--.container-fluid-->
+    </header>
+    <!--.site-header-->
+
+    <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <!-- sidebar-brand  -->
+                <!-- <div class="sidebar-item sidebar-brand">
+                    <a id="pin-sidebar" class="myClickableThing">Pin sidebar</a>
+                    <div id="close-sidebar">                             src="assets/sidebar/img/user.jpg"
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div> -->
+                <!-- sidebar-header  -->
+                <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+                    <div class="user-pic">
+                        <img class="img-responsive img-rounded" src='{{ user_avatar }}' alt="User picture"
+                            data-toggle="modal" data-target="#changePhoto">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">{{ currentUser.firstName }}
+                            <strong>{{ currentUser.lastName }}</strong>
+                        </span>
+                        <span class="user-role">{{ currentUser.role }}</span>
+                        <span class="user-status">
+                            <i class="fa fa-circle"></i>
+                            <span>{{ currentUser.status }}</span>
+                        </span>
+                    </div>
+                </div>
+                <!-- sidebar-search  -->
+                <!-- <div class="sidebar-item sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="sidebar-item sidebar-pin">
+                    <div style="padding: 0px;">
+                        <div class="checkbox-toggle col ">
+                            <input type="checkbox" id="pin-sidebar" checked/>
+                            <label for="pin-sidebar" style="margin-left: 4px; margin-top: 10px; color: #c7c7c7"><span class="pin-menu">Pin-Menu</span></label>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- sidebar-menu  -->
+                <div class="sidebar-item sidebar-menu">
+                    <ul>
+                        <li class="header-menu">
+                            <span>General</span>
+                        </li>
+
+                        <!-- ------------------------------------------------------------------------------------------------------ -->
+
+                        <li *ngFor="let nav of navigations" [ngClass]="{'sidebar-dropdown' : nav.child_nav!=false }">
+                            <a class="myClickableThing" [routerLink]="nav.link ? nav.link : null">
+                                <i class="{{nav.icon}}">
+                                    <!-- <span *ngFor="let notif of nav.notification" [ngClass]="{'dot' : notif.user==currentUser._id }"></span> -->
+                                </i>
+                                <span class="menu-text">{{ nav.navigation }}</span>
+                                <span class="badge badge-pill badge-danger"></span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a *ngFor="let child of nav.child_nav" class="myClickableThing"
+                                            routerLink="view_class">{{ child.child_name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+
+
+                        <!-- <li class="header-menu">
+                            <span>Extra</span>
+						</li>
+						
+                        <li>
+                            <a class="myClickableThing" routerLink="settings">
+                                <i class="fa fa-book"></i>
+                                <span class="menu-text">Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="myClickableThing">
+                                <i class="fa fa-calendar"></i>
+                                <span class="menu-text">Themes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="myClickableThing">
+                                <i class="fa fa-folder"></i>
+                                <span class="menu-text">Examples</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-footer  -->
+            <!-- <div class="sidebar-footer">
+                <div class="dropdown">
+    
+                    <a class="myClickableThing dropdown-toggle" href="#" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-warning notification">3</span>
+                    </a>
+                    <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
+                        <div class="notifications-header">
+                            <i class="fa fa-bell"></i>
+                            Notifications
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item myClickableThing">
+                            <div class="notification-content">
+                                <div class="icon">
+                                    <i class="fas fa-check text-success border border-success"></i>
+                                </div>
+                                <div class="content">
+                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                    <div class="notification-time">
+                                        6 minutes ago
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item myClickableThing">
+                            <div class="notification-content">
+                                <div class="icon">
+                                    <i class="fas fa-exclamation text-info border border-info"></i>
+                                </div>
+                                <div class="content">
+                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                    <div class="notification-time">
+                                        Today
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item myClickableThing">
+                            <div class="notification-content">
+                                <div class="icon">
+                                    <i class="fas fa-exclamation-triangle text-warning border border-warning"></i>
+                                </div>
+                                <div class="content">
+                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                    <div class="notification-time">
+                                        Yesterday
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center myClickableThing" >View all notifications</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a class="myClickableThing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge badge-pill badge-success notification">7</span>
+                    </a>
+                    <div class="dropdown-menu messages" aria-labelledby="dropdownMenuMessage">
+                        <div class="messages-header">
+                            <i class="fa fa-envelope"></i>
+                            Messages
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item myClickableThing">
+                            <div class="message-content">
+                                <div class="pic">
+                                    <img src="assets/components/build/img/user.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="message-title">
+                                        <strong> Jhon doe</strong>
+                                    </div>
+                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                </div>
+                            </div>
+    
+                        </a>
+                        <a class="dropdown-item myClickableThing">
+                            <div class="message-content">
+                                <div class="pic">
+                                    <img src="assets/components/build/img/user.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="message-title">
+                                        <strong> Jhon doe</strong>
+                                    </div>
+                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                </div>
+                            </div>
+    
+                        </a>
+                        <a class="dropdown-item myClickableThing">
+                            <div class="message-content">
+                                <div class="pic">
+                                    <img src="assets/components/build/img/user.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="message-title">
+                                        <strong> Jhon doe</strong>
+                                    </div>
+                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center myClickableThing">View all messages</a>
+    
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a class="myClickableThing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog"></i>
+                        <span class="badge-sonar"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
+                        <a class="dropdown-item myClickableThing">My profile</a>
+                        <a class="dropdown-item myClickableThing">Help</a>
+                        <a class="dropdown-item myClickableThing">Setting</a>
+                    </div>
+                </div>
+                <div>
+                    <a class="myClickableThing">
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </div>
+                <div class="pinned-footer">
+                    <a class="myClickableThing">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a>
+                </div>
+            </div> -->
+        </nav>
+        <!-- page-content  -->
+        <!-- <main class="page-content pt-2">
+            <div id="overlay" class="overlay"></div>
+            <div class="container-fluid p-5">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <h2>Pro Sidebar</h2>
+                        <p>This is a responsive sidebar template with dropdown menu based on bootstrap framework.</p>
+    
+                    </div>
+                    <div class="form-group col-md-12">
+                        <iframe
+                            src="https://ghbtns.com/github-btn.html?user=azouaoui-med&repo=pro-sidebar-template&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="100px" height="30px"></iframe>
+                        <iframe
+                            src="https://ghbtns.com/github-btn.html?user=azouaoui-med&repo=pro-sidebar-template&type=fork&count=true&size=small"
+                            frameborder="0" scrolling="0" width="100px" height="30px"></iframe>
+                    </div>
+    
+                    <div class="form-group col-md-12">
+                        <a id="toggle-sidebar" class="btn btn-secondary rounded-0 myClickableThing">
+                            <span>Toggle Sidebar</span>
+                        </a>
+                        <a id="pin-sidebar" class="btn btn-outline-secondary rounded-0 myClickableThing">
+                            <span>Pin Sidebar</span>
+                        </a>
+    
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <h3>Themes</h3>
+                        <p>Here are more themes that you can use</p>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <a class="myClickableThing" data-theme="default-theme" class="theme default-theme selected"></a>
+                        <a class="myClickableThing" data-theme="chiller-theme" class="theme chiller-theme"></a>
+                        <a class="myClickableThing" data-theme="legacy-theme" class="theme legacy-theme"></a>
+                        <a class="myClickableThing" data-theme="ice-theme" class="theme ice-theme"></a>
+                        <a class="myClickableThing" data-theme="cool-theme" class="theme cool-theme"></a>
+                        <a class="myClickableThing" data-theme="light-theme" class="theme light-theme"></a>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <p>You can also use background image </p>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <a class="myClickableThing" data-bg="bg1" class="theme theme-bg selected"></a>
+                        <a class="myClickableThing" data-bg="bg2" class="theme theme-bg"></a>
+                        <a class="myClickableThing" data-bg="bg3" class="theme theme-bg"></a>
+                        <a class="myClickableThing" data-bg="bg4" class="theme theme-bg"></a>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="toggle-bg" checked>
+                            <label class="custom-control-label" for="toggle-bg">Background image</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="toggle-border-radius">
+                            <label class="custom-control-label" for="toggle-border-radius">Border radius</label>
+                        </div>
+                    </div>
+    
+                </div>
+    
+    
+                <hr>
+                <div class="row ">
+                    <div class="form-group col-md-12">
+                        <small>Made with <i class="fa fa-heart text-danger" aria-hidden="true"></i> by <span
+                                class="text-secondary font-weight-bold">Mohamed
+                                Azouaoui</span></small>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <a href="https://github.com/azouaoui-med" target="_blank"
+                            class="btn btn-sm bg-secondary shadow-sm rounded-0 text-light mr-3 mb-3">
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/azouaoui_med" target="_blank"
+                            class="btn btn-sm bg-secondary shadow-sm rounded-0 text-light mr-3 mb-3">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.instagram.com/azouaoui_med/" target="_blank"
+                            class="btn btn-sm bg-secondary shadow-sm rounded-0 text-light mr-3 mb-3">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/mohamed-azouaoui/" target="_blank"
+                            class="btn btn-sm bg-secondary shadow-sm rounded-0 text-light mr-3 mb-3">
+                            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main> -->
+        <!-- page-content" -->
+    </div>
+    <!-- page-wrapper -->
+</div>
+
+<!-- Model for uploading Display Photo -->
+<div class="modal fade" id="changePhoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose Your Avatar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Boy_1.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Boy_1.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 1
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Boy_2.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Boy_2.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 2
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Boy_3.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Boy_3.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 3
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Boy_4.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Boy_4.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 4
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Girl_1.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Girl_1.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 5
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Girl_2.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Girl_2.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 6
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Girl_3.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Girl_3.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 7
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div>
+                            <div class="avatar-pic">
+                                <img src="assets/img/Avatars/Girl_4.png">
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio"
+                                        value="assets/img/Avatars/Girl_4.png"
+                                        (change)="selectAvatar($event.target.value)">Avatar 8
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="submitAvatar()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

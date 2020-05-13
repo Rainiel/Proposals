@@ -1,0 +1,4 @@
+{
+    "connectionString": "mongodb://localhost:27017/pafms?replicaSet=mongo-repl",
+    "secret": "fake-jwt-token"
+}

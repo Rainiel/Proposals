@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+
+// admin dashboard
+@import "~assets/components/build/css/lib/lobipanel/lobipanel.min.css";
+@import "~assets/components/build/css/separate/vendor/lobipanel.min.css";
+@import "~assets/components/build/css/lib/jqueryui/jquery-ui.min.css";
+@import "~assets/components/build/css/separate/pages/widgets.min.css";
+
+//admin viewclass
+@import "~../node_modules/select2/dist/css/select2.min.css";
+
+@import "~assets/components/build/css/lib/font-awesome/font-awesome.min.css";
+@import "~assets/components/build/css/lib/bootstrap/bootstrap.min.css";
+@import "~assets/components/build/css/main.css";
+
+
+@import '~../node_modules/@fullcalendar/core/main.css';
+@import '~../node_modules/@fullcalendar/daygrid/main.css';
+@import '~../node_modules/@fullcalendar/timegrid/main.css';
+@import '~../node_modules/@fullcalendar/list/main.css';
+
+body{
+    margin: 0px;
+}
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-thumb {
+    background: #6c757d;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+/* Niel */
+.page-content{
+    height: 100%;
+    width: 100%;
+    padding-right: 0px;
+    padding-top: 50px;
+    -webkit-transition: padding-left .3s ease;
+    transition: padding-left .3s ease;
+}
+
+.page-content-header{
+    margin: 0px;
+}
+
+.page-content.pinned{
+    padding-left: 0px !important;   
+} 
+
+.page-content.toggled{
+    padding-left: 280px !important; 
+} 
+
+.page-content.pinned.toggled{
+    padding-left: 80px !important;
+} 
+
+.page-content{
+    padding-left: 0px !important;
+} 

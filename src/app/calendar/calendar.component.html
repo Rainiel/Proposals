@@ -1,0 +1,110 @@
+<div class="page-content p3 toggled">
+    <header class="page-content-header">
+        <div class="container-fluid">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3>Calendar</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header><!--.page-content-header-->
+<div class="container-fluid p-4">
+
+		<div class="box-typical">
+				<div class="calendar-page">
+					<div class="calendar-page-content" style="width: fit-content;">
+						<div class="calendar-page-content-in" *ngIf="ifUserIsStudent">
+								<full-calendar
+									#calendaryo
+									id="calendar"
+									defaultView="dayGridMonth"
+									[header]="{
+									left: 'prev,next today',
+									center: 'title',
+									right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+									}"
+									[plugins]="calendarPlugins"
+									[weekends]="calendarWeekends"
+									[events]="calendarEvents"
+									(dateClick)="handleDateClick($event)"
+									(eventClick)="eventClick($event)"
+									(eventDrop)="eventDrop($event)"
+									(eventResize)="eventResize($event)"
+									deepChangeDetection="true"
+								></full-calendar>
+						</div> 
+						<div class="calendar-page-content-in" *ngIf="!ifUserIsStudent">
+								<full-calendar
+									#calendaryo
+									id="calendar"
+									defaultView="dayGridMonth"
+									[header]="{
+									left: 'prev,next today',
+									center: 'title',
+									right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+									}"
+									[plugins]="calendarPlugins"
+									[weekends]="calendarWeekends"
+									[events]="calendarEvents"
+									deepChangeDetection="true"
+								></full-calendar>
+						</div> 
+						<!-- .calendar-page-content-in -->
+					</div><!--.calendar-page-content-->
+
+					<!-- <div class="calendar-page-side">
+						<section class="calendar-page-side-section">
+							<div class="calendar-page-side-section-in">
+								<div id="side-datetimepicker"></div>
+							</div>
+						</section>
+					</div> -->
+					<!--.calendar-page-side-->
+				</div><!--.calendar-page-->
+			</div><!--.box-typical-->
+
+	
+</div>
+</div>
+
+
+<!-- Modals -->
+
+<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="calendarModalLabel">Create Event</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+
+		<form [formGroup]="calendarForm" (ngSubmit)="createEvent()">
+			<div class="modal-body">
+				
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+						<span class="input-group-text" id="basic-addon1">Title:</span>
+						</div>
+						<input type="text" class="form-control" formControlName="title" placeholder="Event name" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+						<span class="input-group-text" id="basic-addon1">Start:</span>
+						</div>
+						<input type="text" class="form-control" [(ngModel)]="startValue" formControlName="start" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save</button>
+			</div>
+		</form>
+
+	  </div>
+	</div>
+  </div>

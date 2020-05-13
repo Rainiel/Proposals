@@ -1,0 +1,227 @@
+<div class="page-content p3 toggled">
+	<header class="page-content-header">
+		<div class="container-fluid">
+			<div class="tbl">
+				<div class="tbl-row">
+					<div class="tbl-cell">
+						<h3>Settings <small class="text-muted"></small></h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!--.page-content-header-->
+	<div class="container-fluid p-4">
+
+		<div class="row">
+			<div class="col">
+				<section class="card">
+					<div class="card-block">
+						<table class="display table table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Current Batch Year</th>
+									<th>Current Sem</th>
+									<th>Save</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<div class="form-group">
+											<input type="text" id="batch_year" class="form-control" placeholder="Enter Year Ex. 2019-2020" value="{{ batchYear }}" />
+										</div>
+									</td>
+									<td>
+										<select class="browser-default custom-select" id="batch_sem">
+											<option selected value="{{ batchSem }}">{{ batchSem }}</option>
+											<option value="1">1st Sem</option>
+											<option value="2">2nd Sem</option>
+										</select>
+									</td>
+									<td><button class="btn btn-rounded" (click)="updateCurrentBatch()">Save</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<!-- Table For Proposals -->
+					</div>
+				</section>
+			</div>
+
+			<div class="col">
+				<section class="card">
+					<div class="card-block">
+						<table class="display table table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Year</th>
+									<th>Section</th>
+									<th>Submit</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<div class="form-group">
+											<input type="text" id="year" class="form-control" placeholder="Create Year" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text" id="section" class="form-control" placeholder="Create Section" />
+										</div>
+									</td>
+									<td><button class="btn btn-rounded" (click)="createYearAndSection()">Submit</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<!-- Table For Proposals -->
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<section class="card">
+					<div class="card-block">
+						<table id="proposals_table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Year</th>
+									<th>Section</th>
+									<th>Color</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let section of sections">
+									<td>{{ section.year }}</td>
+									<td>{{ section.section }}</td>
+									<td [ngStyle]="{ 'background-color': section.color }"><button type="button"
+											class="btn btn-rounded btn-primary" style="float: right;"
+											(click)="openInputColorSection(section._id)">Edit</button></td>
+								</tr>
+						</table>
+						<!-- Table For Proposals -->
+					</div>
+				</section>
+			</div>
+			<div class="col">
+				<section class="card">
+					<div class="card-block">
+						<div class="alert alert-danger" role="alert" *ngIf="isAssigned">
+							Employee has been assigned to other section
+						</div>
+						<table id="proposals_table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Year</th>
+									<th>Sections</th>
+									<th>Adviser</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let section of sections">
+									<td>{{ section.year }}</td>
+									<td>{{ section.section }}</td>
+									<td>
+										<select class="browser-default custom-select" (change)="selectAdviser($event.target.value)">
+											<option selected>{{ section.adviser_whole_name }}</option>
+											<option *ngFor="let emp of employees"
+												value="{{emp._id}},{{ section.id }},{{ emp.title}},{{ emp.whole_name }}">
+												{{ emp.title}}&nbsp;{{ emp.whole_name }}</option>
+										</select>
+									</td>
+								</tr>
+						</table>
+						<!-- Table For Proposals -->
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<section class="card">
+					<div class="card-block">
+						<table id="proposals_table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Student Navigation</th>
+									<th>Show Navigation</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let unav of userNavigation">
+									<td>{{ unav.navigation }}</td>
+									<td>
+										<div class="checkbox-bird">
+											<input type="checkbox" id="{{ unav.id }}" [(checked)]="unav.boolean"
+												(change)="checkboxUserNav((unav.id),(unav.boolean = !unav.boolean))" />
+											<label for="{{ unav.id }}">Show</label>
+										</div>
+									</td>
+								</tr>
+						</table>
+						<!-- Table For Proposals -->
+					</div>
+				</section>
+			</div>
+			<div class="col">
+				<section class="card">
+					<div class="card-block">
+						<table id="proposals_table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Employee Navigation</th>
+									<th>Show</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let enav of employeeNavigation">
+									<td>{{ enav.navigation }}</td>
+									<td>
+										<div class="checkbox-bird">
+											<input type="checkbox" id="{{ enav.id }}" [(checked)]="enav.boolean"
+												(change)="checkboxEmploeeNav((enav.id),(enav.boolean = !enav.boolean))" />
+											<label for="{{ enav.id }}">Show</label>
+										</div>
+									</td>
+								</tr>
+						</table>
+						<!-- Table For Proposals -->
+					</div>
+				</section>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<button type="button" id="buttonColorSection" class="btn btn-primary" [hidden]="true" data-toggle="modal"
+	data-target="#colorSection">
+</button>
+
+<div class="modal fade" id="colorSection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<input id="section_id" type="hidden" class="form-control">
+				<div class="form-group">
+					<input type="text" id="color" class="form-control" placeholder="Color" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" (click)="inputColorSection()">Save</button>
+			</div>
+		</div>
+	</div>
+</div>

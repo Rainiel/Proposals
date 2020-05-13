@@ -1,0 +1,551 @@
+<div class="page-content p3 toggled">
+	<div class="container-fluid p-4">
+
+		<div class="row">
+			<div class="col-xxl-9 col-lg-12 col-xl-8 col-md-8">
+				<section class="box-typical proj-page">
+					<section class="proj-page-section proj-page-header">
+						<div class="row">
+							<div class="col">
+								<div class="title">
+									Proposal title: {{ proposal_profile.title }}
+									<i class="font-icon font-icon-pencil"></i>
+								</div>
+								<div class="project">Group: {{ proposal_groupName }}</div>
+							</div>
+							<div class="col" *ngIf="ifUserIsStudent">
+								<div *ngIf="checkProposalCommentIfExisting">
+									<form [formGroup]="proposal_approve_reject">
+										<!-- <button type="button" class="btn btn-rounded btn-danger float-right" (click)="createProposalApproveReject('reject')">Reject</button> -->
+										<!-- <button type="button" class="btn btn-rounded btn-success float-right" style="margin-right: 10px;" (click)="createProposalApproveReject('approve')">Approve</button> -->
+										<button type="button" class="btn btn-rounded btn-danger float-right" data-toggle="modal"
+											data-target="#Reject" [disabled]="!rejectBTN">Reject</button>
+										<button type="button" class="btn btn-rounded btn-success float-right" style="margin-right: 10px;"
+											data-toggle="modal" data-target="#Approve" [disabled]="!approveBTN">Approve</button>
+									</form>
+								</div>
+								<div *ngIf="!checkProposalCommentIfExisting">										
+									<button type="button" class="btn btn-rounded btn-info float-right" style="margin-right: 10px;"
+									(click)="changeDecision()">Change Decision</button></div>
+							</div>
+						</div>
+					</section>
+
+					<section class="proj-page-section">
+						<header class="proj-page-subtitle">
+							<div class="row">
+								<div class="col">
+									<h3>Attachments</h3>
+								</div>
+								<div class="col" *ngIf="Proposal_have_attachment">
+									<button type="button" *ngIf="!ifUserIsStudent" class="btn btn-primary float-right" data-toggle="modal"
+										data-target="#upload2Modal">Add Proposal PDF</button>
+								</div>
+							</div>
+						</header>
+						<div class="proj-page-attach" *ngFor="let file of proposal_file">
+							<i class="font-icon font-icon-pdf"></i>
+							<p class="name">{{ file.file_name }}</p>
+							<p class="date">16:48, 02 dec 2016</p>
+							<p>
+								<a (click)="viewPdf(file.file_path, file.file_name)" style="color: #0082c6;">View</a>
+							</p>
+						</div>
+						<div class="alert alert-info" role="alert" *ngIf="Proposal_have_attachment">
+							No Attachment Available
+						</div>
+					</section>
+					<!--.proj-page-attach-section-->
+
+					<!-- <section class="proj-page-add-txt">
+						<form [formGroup]="proposalComment" (ngSubmit)="createProposalComment()">
+							<div class="input-group">
+								<textarea formControlName="comment" class="form-control" aria-label="With textarea"></textarea>
+							</div>
+							<button type="submit" class="btn">Add</button>
+							<button type="button" class="proj-page-del">
+								<i class="font-icon font-icon-trash"></i>
+							</button>
+						</form>
+					</section> -->
+
+					<section class="proj-page-section">
+						<header class="proj-page-subtitle">
+							<h3>Comments</h3>
+						</header>
+
+						<div class="alert alert-info" role="alert" *ngIf="ifProposalHaveComment">
+							No Comments Available
+						</div>
+
+						<div class="comment-rows-container">
+							<div class="comment-row-item" *ngFor="let comment of proposal_comment" style="background-color: white;">
+								<div class="avatar-preview avatar-preview-32">
+									<a href="#">
+										<img src="{{comment.avatar_path}}/{{comment.avatar_photo}}" alt="">
+									</a>
+								</div>
+								<div class="tbl comment-row-item-header">
+									<div class="tbl-row">
+										<div class="tbl-cell tbl-cell-name">
+											{{ comment.firstName }}&nbsp;{{ comment.lastName }}&nbsp;-&nbsp;{{ comment.decision }}</div>
+										<div class="tbl-cell tbl-cell-date">{{ comment.createdDate | dateComment }}</div>
+									</div>
+								</div>
+								<div class="comment-row-item-content">
+									<p class="new-line">{{ comment.comment }}</p>
+									<button type="button" class="comment-row-item-action edit">
+										<i class="font-icon font-icon-pencil" (click)="openModaleditCommentOrDecision( comment.id )"></i>
+									</button>
+									<button type="button" class="comment-row-item-action del">
+										<i class="font-icon font-icon-trash" (click)="openModalDeleteComment( comment.id )"></i>
+									</button>
+								</div>
+								<!-- <a href="#" class="comment-row-item-reply">Reply</a>
+								<div class="comment-row-item-rating">
+									<i class="glyphicon glyphicon-menu-down"></i>
+									<span class="number color-green">1</span>
+									<i class="glyphicon glyphicon-menu-up"></i>
+								</div> -->
+							</div>
+						</div>
+						<!--.comment-rows-container-->
+					</section>
+					<!--.proj-page-attach-section-->
+				</section>
+				<!--.proj-page-->
+			</div>
+
+			<div class="col-xxl-3 col-lg-12 col-xl-4 col-md-4">
+				<section class="box-typical proj-page">
+					<!-- <section class="proj-page-section proj-page-time-info">
+					<div class="tbl">
+						<div class="tbl-row">
+							<div class="tbl-cell">Time estimated</div>
+							<div class="tbl-cell tbl-cell-time">4h 30m</div>
+						</div>
+						<div class="tbl-row">
+							<div class="tbl-cell">Time working</div>
+							<div class="tbl-cell tbl-cell-time">2h 10m</div>
+						</div>
+					</div>
+					<div class="progress-compact-style">
+						<div class="progress">
+							<span class="progress-bar" style="width: 65%;">65%</span>
+						</div>
+					</div>
+				</section> -->
+					<!--.proj-page-section-->
+
+					<section class="proj-page-section proj-page-assigned">
+						<header class="proj-page-subtitle padding-sm">
+							<h3>Decisions:</h3>
+						</header>
+						<div class="alert alert-info" role="alert" *ngIf="ifProposalHaveDecision">
+							No Decision Available
+						</div>
+						<div class="user-card-row" *ngFor="let decision of proposal_decisions">
+							<div class="tbl-row">
+								<div class="tbl-cell tbl-cell-photo">
+									<a href="#">
+										<img src="{{ decision.avatar_path }}{{ decision.avatar_photo }}" alt="">
+									</a>
+								</div>
+								<div class="tbl-cell">
+									<p class="user-card-row-name">
+										{{ decision.title }}&nbsp;{{ decision.firstName }}&nbsp;{{ decision.lastName }}<span
+											style="color: gray;">:&nbsp;{{ decision.decision }}</span></p>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--.proj-page-section-->
+
+					<section class="proj-page-section proj-page-assigned">
+						<header class="proj-page-subtitle padding-sm">
+							<h3>Adviser</h3>
+						</header>
+						<div class="user-card-row">
+							<div class="tbl-row">
+								<div class="tbl-cell tbl-cell-photo">
+									<a href="#">
+										<img src="{{adviser_photo}}" alt="">
+									</a>
+								</div>
+								<div class="tbl-cell">
+									<p class="user-card-row-name">{{ adviser }}</p>
+									<!-- <p class="color-blue-grey-lighter">Developer</p> -->
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--.proj-page-section-->
+
+					<section class="proj-page-section proj-page-people">
+						<header class="proj-page-subtitle padding-sm">
+							<h3>People</h3>
+						</header>
+						<div class="tbl tbl-people">
+							<div class="tbl-row" *ngFor="let member of proposal_members">
+								<div class="tbl-cell tbl-cell-lbl">Member:</div>
+								<div class="tbl-cell">
+									<div class="user-card-row">
+										<div class="tbl-row">
+											<div class="tbl-cell tbl-cell-photo">
+												<a href="#">
+													<img src="{{member.avatar_path}}{{member.avatar_photo}}" alt="">
+												</a>
+											</div>
+											<div class="tbl-cell">{{ member.whole_name }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--.proj-page-section-->
+
+					<section class="proj-page-section proj-page-people">
+						<header class="proj-page-subtitle padding-sm">
+							<div class="row">
+								<div class="col">
+									<h3>Panelist</h3>
+								</div>
+								<!-- <div class="col">
+								<button type="button" class="btn btn-rounded btn-primary float-right">Add panelist</button>
+							</div> -->
+							</div>
+						</header>
+						<div class="tbl tbl-people">
+							<div class="tbl-row">
+								<div class="tbl-cell tbl-cell-lbl">Panel1:</div>
+								<div class="tbl-cell">
+									<div class="user-card-row">
+										<div class="tbl-row">
+											<div class="tbl-cell tbl-cell-photo">
+												<a href="#">
+													<img src="{{panel1_photo}}" alt="">
+												</a>
+											</div>
+											<div class="tbl-cell">{{ panel1 }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="tbl tbl-people">
+							<div class="tbl-row">
+								<div class="tbl-cell tbl-cell-lbl">Panel2:</div>
+								<div class="tbl-cell">
+									<div class="user-card-row">
+										<div class="tbl-row">
+											<div class="tbl-cell tbl-cell-photo">
+												<a href="#">
+													<img src="{{panel2_photo}}" alt="">
+												</a>
+											</div>
+											<div class="tbl-cell">{{ panel2 }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="tbl tbl-people">
+							<div class="tbl-row">
+								<div class="tbl-cell tbl-cell-lbl">Panel3:</div>
+								<div class="tbl-cell">
+									<div class="user-card-row">
+										<div class="tbl-row">
+											<div class="tbl-cell tbl-cell-photo">
+												<a href="#">
+													<img src="{{panel3_photo}}" alt="">
+												</a>
+											</div>
+											<div class="tbl-cell">{{ panel3 }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</section>
+
+					<!-- <section class="proj-page-section proj-page-dates">
+					<header class="proj-page-subtitle padding-sm">
+						<h3>Dates</h3>
+					</header>
+					<div class="tbl">
+						<div class="tbl-row">
+							<div class="tbl-cell tbl-cell-lbl">Created:</div>
+							<div class="tbl-cell">5 days ago</div>
+						</div>
+						<div class="tbl-row">
+							<div class="tbl-cell tbl-cell-lbl">Updates:</div>
+							<div class="tbl-cell">6 days ago</div>
+						</div>
+					</div>
+				</section> -->
+					<!--.proj-page-section-->
+
+					<!-- <section class="proj-page-section">
+					<header class="proj-page-subtitle padding-sm">
+						<h3>Developers</h3>
+					</header>
+					<a href="#">Create branch</a>
+				</section> -->
+					<!--.proj-page-section-->
+
+					<!-- <section class="proj-page-section proj-page-agile">
+					<header class="proj-page-subtitle padding-sm">
+						<h3>Agile</h3>
+					</header>
+					<div class="tbl">
+						<div class="tbl-row">
+							<div class="tbl-cell">Future Sprint</div>
+							<div class="tbl-cell"><a href="#">Sprit - Signature</a></div>
+						</div>
+					</div>
+					<a href="#">View on Board</a>
+				</section> -->
+					<!--.proj-page-section-->
+
+					<!-- <section class="proj-page-section">
+					<ul class="proj-page-actions-list">
+						<li><a href="#"><i class="font-icon font-icon-check-square"></i>Create checklist</a></li>
+						<li><a href="#"><i class="font-icon font-icon-alarm-2"></i>Due date</a></li>
+						<li><a href="#"><i class="font-icon font-icon-archive"></i>Move to archive</a></li>
+					</ul>
+				</section> -->
+					<!--.proj-page-section-->
+				</section>
+				<!--.proj-page-->
+			</div>
+		</div>
+		<!--.row-->
+
+
+	</div>
+</div>
+
+
+
+<!-- Modals -->
+<div class="modal fade modal-upload-default" id="upload2Modal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+					<i class="font-icon-close-2"></i>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Upload File</h4>
+			</div>
+			<div class="modal-upload menu-bottom">
+				<div class="modal-upload-cont">
+					<div class="modal-upload-cont-in">
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tab-upload-2">
+								<form [formGroup]="proposalFileForm" (ngSubmit)="createProposal()">
+									<div class="modal-upload-body scrollable-block">
+										<div class="uploading-container">
+											<div class="uploading-container-left">
+												<div class="drop-zone">
+
+													<i class="font-icon font-icon-cloud-upload-2"></i>
+													<div class="drop-zone-caption">Upload File</div>
+													<span class="btn btn-rounded btn-file">
+														<span>Choose file</span>
+														<input type="file" name="files" accept="application/pdf" ng2FileSelect
+															[uploader]="uploadFile">
+													</span>
+
+												</div>
+											</div>
+											<!--.uploading-container-left-->
+											<div class="uploading-container-right">
+												<div class="uploading-container-right-in">
+													<h6 class="uploading-list-title">Upload</h6>
+													<ul class="uploading-list">
+
+														<li class="uploading-list-item" *ngIf="fileToUpload">
+															<div class="uploading-list-item-wrapper">
+																<div class="uploading-list-item-name">
+																	<i class="font-icon font-icon-page"></i>
+																	{{ fileName }}
+																</div>
+																<div class="uploading-list-item-size">{{ fileSize }}</div>
+																<button type="button" class="uploading-list-item-close">
+																	<i class="font-icon-close-2"></i>
+																</button>
+															</div>
+															<div class="progress">
+																<span class="progress-bar" [ngStyle]="{ 'width': uploadFile.progress + '%' }"></span>
+															</div>
+															<div class="uploading-list-item-progress">{{ uploadFile.progress }}</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<!--.uploading-container-right-->
+										</div>
+										<!--.uploading-container-->
+									</div>
+									<!--.modal-upload-body-->
+									<div class="modal-upload-bottom">
+										<button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-rounded">Upload</button>
+										<!-- (click)="uploadFile.uploadAll()" -->
+									</div>
+									<!--.modal-upload-bottom-->
+								</form>
+							</div>
+							<!--.tab-pane-->
+
+						</div>
+						<!--.tab-content-->
+					</div>
+					<!--.modal-upload-cont-in-->
+				</div>
+				<!--.modal-upload-cont-->
+			</div>
+		</div>
+	</div>
+</div>
+<!--.modal-->
+
+<!-- <div class="modal fade" id="changeDecision" tabindex="-1" role="dialog" aria-labelledby="ApproveLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="ApproveLabel">Feedback</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form [formGroup]="proposalComment" (ngSubmit)="createProposalComment('approve')">
+				<div class="modal-body">
+					Your Decision: Approve
+					<div class="input-group">
+						<textarea formControlName="comment" class="form-control" aria-label="With textarea"></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Add</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div> -->
+
+<div class="modal fade" id="Approve" tabindex="-1" role="dialog" aria-labelledby="ApproveLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="ApproveLabel">Feedback</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form [formGroup]="proposalComment" (ngSubmit)="createProposalComment('approve')">
+				<div class="modal-body">
+					Your Decision: Approve
+					<div class="input-group">
+						<textarea formControlName="comment" class="form-control" aria-label="With textarea"></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Add</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="Reject" tabindex="-1" role="dialog" aria-labelledby="RejectLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="RejectLabel">Feedback</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form [formGroup]="proposalComment" (ngSubmit)="createProposalComment('reject')">
+				<div class="modal-body">
+					Your Decision: Reject
+					<div class="input-group">
+						<textarea formControlName="comment" class="form-control" aria-label="With textarea"></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Add</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+<button type="button" id="openModaleditCommentOrDecision" class="btn btn-primary" [hidden]="true" data-toggle="modal"
+	data-target="#editCommentOrDecision">
+	open modal
+</button>
+
+<div class="modal fade" id="editCommentOrDecision" tabindex="-1" role="dialog"
+	aria-labelledby="editCommentOrDecisionLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editCommentOrDecisionLabel">Edit</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form [formGroup]="editCommentForm" (ngSubmit)="editComment()">
+				<div class="modal-body">
+					Edit Your Comment
+					<div class="input-group">
+						<textarea formControlName="comment" class="form-control" aria-label="With textarea"></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save Changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<button type="button" id="openModalDeleteComment" class="btn btn-primary" [hidden]="true" data-toggle="modal"
+	data-target="#deleteComment">
+	open modal
+</button>
+<div class="modal fade" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteCommentLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editCommentOrDecisionLabel">Are you sure you want to delete this?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" (click)="deleteComment()">Delete Comment</button>
+			</div>
+		</div>
+	</div>
+</div>

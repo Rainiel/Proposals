@@ -1,0 +1,267 @@
+<div class="page-content p3 toggled">
+	<header class="page-content-header">
+		<div class="container-fluid">
+			<div class="tbl">
+				<div class="tbl-row">
+					<div class="tbl-cell">
+						<h3>List of Proposals <small class="text-muted"></small></h3>
+					</div>
+					<div *ngIf="!isUserStudent" style="float:right;">
+						<div class="tbl-cell tbl-cell-action">
+							<a class="btn btn-rounded btn-info" style="color: white;" *ngIf="!userHaveGroup" data-toggle="modal"
+								data-target="#groupModal">Create Group</a>
+						</div>
+						<div class="tbl-cell tbl-cell-action" *ngIf="userHaveGroup">
+							<a class="btn btn-rounded btn-info" style="color: white;" routerLink="group_list">View your group</a>
+						</div>
+						<div class="tbl-cell tbl-cell-action" *ngIf="userHaveGroup">
+							<a class="btn btn-rounded" style="color: white;" data-toggle="modal" data-target="#upload3Modal">Add
+								Proposal</a>
+						</div>
+						<div class="tbl-cell tbl-cell-action" *ngIf="!userHaveGroup">
+							<a class="btn btn-primary btn-rounded disabled" style="color: white;">Add Proposal</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!--.page-content-header-->
+	<div class="container-fluid p-4">
+
+		<section class="card">
+			<div class="card-block">
+				<!-- Filters for Proposals -->
+				<div class="row" style="padding-left: 15px; padding-right: 15px;" *ngIf="isUserStudent">
+
+				</div><!-- Filters for Proposals -->
+
+				<!-- Table For Proposals -->
+				<table id="proposals_table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th *ngFor="let column of proposal_table_column">{{ column.column }}</th>
+							<!-- <th>Group</th>
+						<th>Section</th>
+						<th>Title</th>
+						<th>Approve</th>
+						<th>Reject</th>
+						<th>Status</th>
+						<th>Action</th> -->
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th *ngFor="let column of proposal_table_column">{{ column.column }}</th>
+						</tr>
+					</tfoot>
+					<tbody>
+						<tr *ngFor="let proposal of proposals">
+							<td>{{ proposal.createdDate | dateFormat}}</td>
+							<td>{{ proposal.section }}</td>
+							<td>{{ proposal.title }}</td>
+							<td>{{ proposal.approve }}</td>
+							<td>{{ proposal.reject }}</td>
+							<td>{{ proposal.status }}</td>
+							<td><button type="button" class="btn btn-rounded btn-info"
+									(click)="viewProposal( proposal.id )">View</button></td>
+						</tr>
+				</table>
+				<!-- Table For Proposals -->
+			</div>
+		</section>
+
+	</div> <!-- page content -->
+</div><!-- container fluid -->
+
+<!-- Modal -->
+<div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="groupModalLabel">Create Group</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form [formGroup]="groupForm" id="groupForm" (ngSubmit)="createGroup()">
+				<div class="modal-body">
+
+					<div class="alert alert-danger" role="alert" *ngIf="alertMembers">
+						Software group should have maximum of 2 members
+					</div>
+					<div class="row">
+						<div class="col form-group">
+							<input type="email" id="groupName" formControlName="groupName" class="form-control"
+								placeholder="Group Name" [ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
+							<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+								<div *ngIf="f.email.errors.required">Email is required</div>
+								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+							</div>
+						</div>
+						<div class="col input-group mb-3">
+							<div class="input-group-prepend">
+								<label class="input-group-text" for="groupType">Type:</label>
+							</div>
+							<select class="custom-select" id="groupType" formControlName="groupType"
+								(change)="handleLimitSelection(this.groupForm.value.groupType)">
+								<option selected value="">Choose...</option>
+								<option value="2">Software</option>
+								<option value="4">Hardware</option>
+							</select>
+						</div>
+					</div>
+					<h6 class="with-border m-t-lg">Members</h6>
+					<div class="row">
+						<div class="col-md-12">
+							<ng-multiselect-dropdown name="groupMembers" [placeholder]="'Select member'" [data]="users"
+								formControlName="groupMembers" [disabled]="disabled" [settings]="dropdownSettings"
+								(onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
+							</ng-multiselect-dropdown>
+						</div>
+					</div>
+					<!--.row-->
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade modal-upload-default" id="upload2Modal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+					<i class="font-icon-close-2"></i>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Upload File</h4>
+			</div>
+			<div class="modal-upload menu-bottom">
+				<div class="modal-upload-cont">
+					<div class="modal-upload-cont-in">
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tab-upload-2">
+								<form [formGroup]="proposalForm" (ngSubmit)="createProposal()">
+									<div class="modal-upload-body scrollable-block">
+										<div class="uploading-container">
+											<div class="uploading-container-left">
+												<div class="drop-zone">
+
+													<i class="font-icon font-icon-cloud-upload-2"></i>
+													<div class="drop-zone-caption">Upload File</div>
+													<span class="btn btn-rounded btn-file">
+														<span>Choose file</span>
+														<input type="file" name="files" accept="application/pdf" ng2FileSelect
+															[uploader]="uploadFile">
+													</span>
+
+												</div>
+											</div>
+											<!--.uploading-container-left-->
+											<div class="uploading-container-right">
+												<div class="uploading-container-right-in">
+													<div class="form-group">
+														<input type="name" formControlName="title" class="form-control" placeholder="Thesis Title"
+															[ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
+														<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+															<div *ngIf="f.email.errors.required">Email is required</div>
+															<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+														</div>
+													</div>
+													<h6 class="uploading-list-title">Upload</h6>
+													<ul class="uploading-list">
+
+														<li class="uploading-list-item" *ngIf="fileToUpload">
+															<div class="uploading-list-item-wrapper">
+																<div class="uploading-list-item-name">
+																	<i class="font-icon font-icon-page"></i>
+																	{{ fileName }}
+																</div>
+																<div class="uploading-list-item-size">{{ fileSize }}</div>
+																<button type="button" class="uploading-list-item-close">
+																	<i class="font-icon-close-2"></i>
+																</button>
+															</div>
+															<div class="progress">
+																<span class="progress-bar" [ngStyle]="{ 'width': uploadFile.progress + '%' }"></span>
+															</div>
+															<div class="uploading-list-item-progress">{{ uploadFile.progress }}</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<!--.uploading-container-right-->
+										</div>
+										<!--.uploading-container-->
+									</div>
+									<!--.modal-upload-body-->
+									<div class="modal-upload-bottom">
+										<button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
+										<button class="btn btn-rounded">Upload</button><!-- (click)="uploadFile.uploadAll()" -->
+									</div>
+									<!--.modal-upload-bottom-->
+								</form>
+							</div>
+							<!--.tab-pane-->
+
+						</div>
+						<!--.tab-content-->
+					</div>
+					<!--.modal-upload-cont-in-->
+				</div>
+				<!--.modal-upload-cont-->
+			</div>
+		</div>
+	</div>
+</div>
+<!--.modal-->
+
+
+<div class="modal fade" id="upload3Modal" tabindex="-1" role="dialog" aria-labelledby="upload3ModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="upload3ModalLabel">Add Proposal TItle</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form [formGroup]="proposalForm" (ngSubmit)="createProposal()">
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col form-group">
+							<input type="name" formControlName="title" class="form-control" placeholder="Proposal Title"
+								[ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
+							<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+								<div *ngIf="f.email.errors.required">Email is required</div>
+								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+							</div>
+							<div *ngIf="ifSameProposal">
+								<div class="alert alert-info" role="alert">
+									Possible same title or proposals
+								</div>
+								<div class="alert alert-info" role="alert" *ngFor="let proposal of sameProposals">
+									{{ proposal.title }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" #closeModalWhenCreateGroup data-dismiss="modal">Close</button>
+					<button type="submit" id="save_proposal_title" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

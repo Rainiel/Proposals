@@ -1,0 +1,166 @@
+<div class="page-content p3 toggled">
+	<header class="page-content-header">
+		<div class="container-fluid">
+			<div class="tbl">
+				<div class="tbl-row">
+					<div class="tbl-cell" *ngIf="ifRoleCommittee">
+						<h3>Students <small class="text-muted"> Total: {{ users?.length }} candidates</small></h3>
+					</div>
+					<div class="tbl-cell" *ngIf="ifRoleStudent">
+						<h3>Students <small class="text-muted"> Total: {{ classmates?.length }} candidates</small></h3>
+					</div>
+					<div class="tbl-cell tbl-cell-action" *ngIf="ifRoleCommittee">
+						<a href="#" class="btn btn-rounded" data-toggle="modal" data-target="#modalAddStudent">Add member</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!--.page-content-header-->
+	<div class="container-fluid p-4">
+
+		<!-- Student Profile -->
+		<div class="input-group mb-3" *ngIf="ifRoleCommittee">
+			<div class="input-group-prepend">
+				<label class="input-group-text" for="studentSection">Year And Section</label>
+			</div>
+			<select class="custom-select" id="studentSection" [(ngModel)]="studentSection">
+				<option *ngFor="let section of section_list" value="{{section.year}},{{section.section}}">
+					{{ section.year }}-{{ section.section }}</option>
+			</select>
+		</div>
+
+		<div class="row card-user-grid" style="padding-left: 15px;" *ngIf="ifRoleCommittee">
+			<div style="width: 150px; padding-right: 15px;" *ngFor="let user of users | sectionFilter: studentSection">
+				<article class="card-user box-typical">
+					<div class="card-user-action float-right">
+						<div class="dropdown dropdown-user-menu">
+							<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-option-vertical"></span>
+							</button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="#"><span class="font-icon font-icon-home"></span>Quant and Verbal</a>
+								<a class="dropdown-item" href="#"><span class="font-icon font-icon-cart"></span>Real Gmat Test</a>
+								<a class="dropdown-item" href="#"><span class="font-icon font-icon-speed"></span>Prep Official App</a>
+								<a class="dropdown-item" href="#"><span class="font-icon font-icon-users"></span>CATprer Test</a>
+								<a class="dropdown-item"><i class="font-icon font-icon-comments"></i>Third Party Test</a>
+							</div>
+						</div>
+					</div>
+					<div class="card-user-photo">
+						<img *ngIf="user.avatar_path" src="{{ user.avatar_path }}{{ user.avatar_photo }}" alt="">
+						<img *ngIf="!user.avatar_path" src="assets/img/Avatars/unknown_avatar.png" alt="">
+					</div>
+					<div class="card-user-name">{{ user.firstName}} <br> {{ user.lastName}}</div>
+					<div class="card-user-status">Section: {{ user.year }} - {{ user.section }}</div>
+					<!-- <button class="btn btn-rounded btn-sm">View Proposal</button> -->
+				</article><!-- .card-user -->
+			</div><!-- Student Profile -->
+		</div> <!-- .card-user-grid -->
+
+		<div class="row card-user-grid" style="padding-left: 15px;" *ngIf="ifRoleStudent">
+			<div style="width: 150px; padding-right: 15px;" *ngFor="let user of classmates ">
+				<article class="card-user box-typical">
+					<div class="card-user-photo">
+						<img *ngIf="user.avatar_path" src="{{ user.avatar_path }}{{ user.avatar_photo }}" alt="">
+						<img *ngIf="!user.avatar_path" src="assets/img/Avatars/unknown_avatar.png" alt="">
+					</div>
+					<div class="card-user-name">{{ user.firstName}} <br> {{ user.lastName}}</div>
+					<div class="card-user-status">Section: {{ user.year }} - {{ user.section }}</div>
+					<!-- <button class="btn btn-rounded btn-sm">View Proposal</button> -->
+				</article><!-- .card-user -->
+			</div><!-- Student Profile -->
+		</div> <!-- .card-user-grid -->
+
+	</div>
+</div>
+
+<!-- modal -->
+
+<div class="modal fade" id="modalAddStudent" tabindex="-1" role="dialog" aria-labelledby="AddStudent"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="AddStudent">Add panel</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+				<div class="modal-upload-body scrollable-block">
+					<div class="uploading-container">
+						<div class="uploading-container-left">
+							<div class="drop-zone">
+
+								<i class="font-icon font-icon-cloud-upload-2"></i>
+								<div class="drop-zone-caption">Upload File</div>
+								<span class="btn btn-rounded btn-file">
+									<span>Choose file</span>
+									<input type="file" class="form-control" (change)="onFileChange($event);">
+								</span>
+
+							</div>
+						</div>
+						<!--.uploading-container-left-->
+					</div>
+					<!-- .uploading-container -->
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success" (click)="Upload()">Upload</button>
+			</div>
+		</div>
+	</div>
+</div> 
+
+<!-- <div class="modal fade modal-upload-default" id="modalAddStudent" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+					<i class="font-icon-close-2"></i>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Upload File</h4>
+			</div>
+			<div class="modal-upload menu-bottom">
+				<div class="modal-upload-cont">
+					<div class="modal-upload-cont-in">
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tab-upload-2">
+									<div class="modal-upload-body scrollable-block">
+										<div class="uploading-container">
+											<div class="uploading-container-left">
+												<div class="drop-zone">
+													<i class="font-icon font-icon-cloud-upload-2"></i>
+													<div class="drop-zone-caption">Upload File</div>
+													<span class="btn btn-rounded btn-file">
+														<span>Choose file</span>
+														<input type="file" name="files" accept="application/pdf" ng2FileSelect
+															[uploader]="uploadFile">
+													</span>
+										.uploading-container
+									</div>
+									.modal-upload-body
+									<div class="modal-upload-bottom">
+										<button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-rounded">Upload</button>
+										(click)="uploadFile.uploadAll()"
+									</div>
+									.modal-upload-bottom
+							</div>
+							.tab-pane
+						</div>
+						.tab-content
+					</div>
+					.modal-upload-cont-in
+				</div>
+				.modal-upload-cont
+			</div>
+		</div>
+	</div>
+</div> -->
