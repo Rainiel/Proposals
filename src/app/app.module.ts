@@ -42,6 +42,8 @@ import { ActivityComponent } from './activity/activity.component';
 import { DateActivityPipe } from './_pipe/date-activity.pipe';
 import { GroupProfileComponent } from './group-profile/group-profile.component';
 
+import { FileUploadModule } from 'ng2-file-upload';
+
 @NgModule({
   	declarations: [
 		AppComponent,
@@ -81,6 +83,7 @@ import { GroupProfileComponent } from './group-profile/group-profile.component';
 		jqxDragDropModule,
 		MaterialModule,
 		FullCalendarModule,
+		FileUploadModule,
 		NgMultiSelectDropDownModule.forRoot()
   	],
   	providers: [ 	

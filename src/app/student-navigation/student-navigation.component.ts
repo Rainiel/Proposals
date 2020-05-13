@@ -5,9 +5,10 @@ import { User } from '../_models';
 import { AuthService, UserService } from '../_services';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { ActivityService } from '../_services/activity.service';
 import { Router } from '@angular/router';
+import { FileUploadModule, FileUploader } from 'ng2-file-upload';
 
 const UploadURL = 'http://localhost:4000/upload/uploadPhoto';
 
