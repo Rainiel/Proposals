@@ -12,6 +12,7 @@ import { GroupService } from '../_services/group.service';
 import { EmployeeService } from '../_services/employee.service';
 import { FileExplorerService } from '../_services/file-explorer.service';
 import { ActivityService } from '../_services/activity.service';
+import { NodemailService } from '../_services/nodemail.service';
 
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
@@ -76,7 +77,8 @@ export class ProposalsProfileComponent implements OnInit {
 		private groupService: GroupService,
 		private employeeService: EmployeeService,
 		private fileExplorerService: FileExplorerService,
-		private activityService: ActivityService) {
+		private activityService: ActivityService,
+		private nodemailService: NodemailService) {
 		//-----For Realtime--------------
 		this.socket = io(this.url);
 		this.userSubscription.push(
@@ -245,10 +247,11 @@ export class ProposalsProfileComponent implements OnInit {
 		console.log(this.proposalComment.value)
 		this.proposalService.checkProposalCommentIfExisting(this.proposalComment.value.proposal_id, this.proposalComment.value.committee_id).subscribe(
 			data => {
-				console.log("niel", data)
+				// console.log("niel", data)
 				if (data.length == 0) {
 					this.proposalService.createProposalComment(this.proposalComment.value).subscribe(
 						data => {
+							this.nodemailService.mailDecision(this.currentUser.firstName, this.currentUser.lastName, this.proposalComment.value.decision, this.proposalComment.value.comment, this.proposalComment.value.proposal_id).subscribe();
 							this.updateApproveRejectOnOpen();
 							this.getProposalApproveReject();
 						}

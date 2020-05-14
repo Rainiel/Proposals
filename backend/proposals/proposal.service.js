@@ -4,8 +4,6 @@ const Proposal = db.Proposal;
 const File = db.File;
 const Proposal_comment = db.Proposal_comment;
 const Proposal_approve_reject = db.Proposal_approve_reject;
-const nodemailer = require("nodemailer");
-const mailer = {user: 'proposalsystemmailer@gmail.com', password: 'Proposal12345678'};
 
 module.exports = {
 	getAll,
@@ -26,36 +24,9 @@ module.exports = {
 	updateProposalComment,
 	updateProposalDecision,
 	deleteComment,
-	deletes: _delete,
-	nodemail
+	deletes: _delete
 };
 
-async function nodemail() {
-	console.log("nodemail");
-	// let testAccount = await nodemailer.createTestAccount();
-
-	let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: 'proposalsystemmailer@gmail.com', // generated ethereal user
-      pass: 'Proposal12345678' // generated ethereal password
-    },
-		tls: {
-				rejectUnauthorized: false
-		}
-	});
-	
-	let info = await transporter.sendMail({
-    from: '"Proposal System" <proposalsystemmailer@gmail.com>', // sender address
-    to: "villanuevarainiel@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>" // html body
-	});
-	
-	return await info;
-}
 
 async function getAll() {
 	return await Proposal.find().select('-hash');

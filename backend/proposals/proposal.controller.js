@@ -7,7 +7,6 @@ router.post('/create', create);
 router.post('/proposalFile', proposalFile);
 router.post('/comment', proposalComment);
 router.post('/approve_reject/:proposal_id/:user_id', proposalApproveReject);
-router.get('/nodemail', nodemail);
 router.get('/get_approve_count/:id', getApproveCount);
 router.get('/get_reject_count/:id', getRejectCount);
 router.get('/get_approve_reject/:id', getApproveReject);
@@ -26,12 +25,6 @@ router.delete('/deleteComment/:id', deleteComment);
 router.delete('/:id', _delete);
 
 module.exports = router;
-
-function nodemail(req, res, next){
-	proposalService.nodemail()
-		.then(mail => res.json(mail))
-		.catch(err => next(err));
-}
 
 function create(req, res, next) {
 	proposalService.create(req.body)

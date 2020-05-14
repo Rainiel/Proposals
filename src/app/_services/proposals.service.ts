@@ -111,8 +111,4 @@ export class ProposalsService {
 	deleteComment(id) {
 		return this.http.delete(`${this.url}/proposal/deleteComment/${id}`);
 	}
-
-	nodemail(){
-		return this.http.get(`${this.url}/proposal/nodemail`);
-	}
 }

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import * as io from 'socket.io-client';
 import { ActivityService } from '../_services/activity.service';
+import { NodemailService } from '../_services/nodemail.service';
 declare var $: any;
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
@@ -67,7 +68,8 @@ export class ProposalsComponent implements OnInit {
 		private proposalService: ProposalsService,
 		private changeDetectorRef: ChangeDetectorRef,
 		private router: Router,
-		private activityService: ActivityService) {
+		private activityService: ActivityService,
+		private nodemailService: NodemailService) {
 		//-----For Realtime--------------
 		this.authService.currentUser.subscribe(x => this.currentUser = x);
 		this.socket = io(this.url);
@@ -337,11 +339,7 @@ export class ProposalsComponent implements OnInit {
 				if (counter == 0) {
 					this.proposalService.createProposal(this.proposalForm.value).subscribe(
 						data => {
-							this.proposalService.nodemail(this.currentUser.email).subscribe(
-								data=>{
-									
-								}
-							);
+							this.nodemailService.nodemail(this.currentUser.email, this.proposalForm.value.title).subscribe();
 							let activity = ({ 
 								notification_users: [this.currentUser._id],
 								user_id: `${this.currentUser._id}`,
