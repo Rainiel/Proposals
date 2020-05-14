@@ -234,6 +234,14 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<div *ngIf="ifSameProposal">
+				<div class="alert alert-info" role="alert">
+					There's a same proposal
+				</div>
+				<!-- <div class="alert alert-info" role="alert" *ngFor="let proposal of sameProposals">
+					{{ proposal.title }}
+				</div> -->
+			</div>
 			<form [formGroup]="proposalForm" (ngSubmit)="createProposal()">
 				<div class="modal-body">
 
@@ -245,14 +253,7 @@
 								<div *ngIf="f.email.errors.required">Email is required</div>
 								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
 							</div>
-							<div *ngIf="ifSameProposal">
-								<div class="alert alert-info" role="alert">
-									Possible same title or proposals
-								</div>
-								<div class="alert alert-info" role="alert" *ngFor="let proposal of sameProposals">
-									{{ proposal.title }}
-								</div>
-							</div>
+
 						</div>
 					</div>
 

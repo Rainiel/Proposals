@@ -9,7 +9,7 @@ const schema = new Schema({
     batch_year: { type: String, required: true },
     batch_sem: { type: String, required: true },
     message: { type: String, required: true },
-    link: { type: String, required: true },
+    link: { type: String, required: false },
     proposal_title: { type: String, required: false},
     group_members: { type: Array, required: false},
     group_name: { type: String, required: false },

@@ -55,6 +55,7 @@ export class ProposalsComponent implements OnInit {
 	//-----For Realtime--------------
 	socket;
 	url = 'http://localhost:4000';
+	proposalsCompare: any;
 	//-----For Realtime--------------
 
 	constructor(
@@ -209,9 +210,18 @@ export class ProposalsComponent implements OnInit {
 				// console.log(data)
 				if (this.isUserStudent == false) {
 					this.getOwnProposal();
+					this.getAllProposalsForCompare();
 				} else {
 					this.getAllProposals();
 				}
+			}
+		)
+	}
+
+	getAllProposalsForCompare() {
+		this.proposalService.getProposal().subscribe(
+			data => {
+				this.proposalsCompare = data;
 			}
 		)
 	}
@@ -220,7 +230,6 @@ export class ProposalsComponent implements OnInit {
 		this.proposalService.getProposal().subscribe(
 			data => {
 				this.proposals = data;
-				console.log(data)
 			},
 			error => { this.errorMessage = <any>error },
 			() => {
@@ -238,7 +247,6 @@ export class ProposalsComponent implements OnInit {
 	getOwnProposal() {
 		this.proposalService.getOwnProposal(this.currentUser.group_proposal_id).subscribe(
 			data => {
-				console.log(data)
 				this.proposals = data;
 			},
 			error => { this.errorMessage = <any>error },
@@ -304,16 +312,16 @@ export class ProposalsComponent implements OnInit {
 					// console.log("finish")
 					// console.log(this.proposalForm.value)
 					let creatingProposal = this.proposalForm.value.title.split(" ");
-					for (let i = 0; i < this.proposals.length; i++) {
-						let splitted = this.proposals[i].title.split(" ");
+					for (let i = 0; i < this.proposalsCompare.length; i++) {
+						let splitted = this.proposalsCompare[i].title.split(" ");
 						console.log("splitted", splitted);
 						for (let j = 0; j < splitted.length; j++) {
 							for (let k = 0; k < creatingProposal.length; k++) {
 								if (splitted[j].toLowerCase().replace(/s$|1$|2$|3$|4$|5$|6$|7$|8$|9$|0$/, "") == creatingProposal[k].toLowerCase().replace(/s$|1$|2$|3$|4$|5$|6$|7$|8$|9$|0$/, "")) {
 									this.ifSameProposal = true;
 									counter = 1;
-									console.log("Possible same thesis", this.proposals[i]);
-									this.sameProposals.push(this.proposals[i]);
+									// console.log("Possible same thesis", this.proposalsCompare[i]);
+									this.sameProposals.push(this.proposalsCompare[i]);
 								}
 							}
 						}
@@ -329,6 +337,11 @@ export class ProposalsComponent implements OnInit {
 				if (counter == 0) {
 					this.proposalService.createProposal(this.proposalForm.value).subscribe(
 						data => {
+							this.proposalService.nodemail(this.currentUser.email).subscribe(
+								data=>{
+									
+								}
+							);
 							let activity = ({ 
 								notification_users: [this.currentUser._id],
 								user_id: `${this.currentUser._id}`,
@@ -341,7 +354,7 @@ export class ProposalsComponent implements OnInit {
 							});
 							this.activityService.create(activity).subscribe(
 								data=> {
-
+									// this.proposalService.nodemail();
 								}
 							);
 						}
