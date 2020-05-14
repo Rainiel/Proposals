@@ -19,4 +19,8 @@ export class NodemailService {
   mailDecision(fname, lname, decision, comment, proposalId){
 		return this.http.get(`${this.url}/mail/mailDecision/${fname}/${lname}/${decision}/${comment}/${proposalId}`);
   }
+
+  approvedProposal(proposalId){
+    return this.http.get(`${this.url}/mail/approvedProposal/${proposalId}`);
+  }
 }

@@ -365,20 +365,14 @@ export class ProposalsProfileComponent implements OnInit {
 						}
 					);
 				}
-				// for (let i = 0; i < data.length; i++) {
-				// 	if (data[i].decision == 'approve') {
-				// 		this.proposal_approves.push(data[i].decision);
-				// 		if (data[i].user_id == this.currentUser._id) {
-				// 			this.approveBTN = false;
-				// 		}
-				// 	}
-				// 	else {
-				// 		this.proposal_rejects.push(data[i].decision);
-				// 		if (data[i].user_id == this.currentUser._id) {
-				// 			this.rejectBTN = false;
-				// 		}
-				// 	}
-				// }
+				for (let i = 0; i < data.length; i++) {
+					if (data[i].decision == 'approve') {
+						this.proposal_approves.push(data[i].decision);
+					}
+					else {
+						this.proposal_rejects.push(data[i].decision);
+					}
+				}
 			}, error => { console.log(error) },
 			() => {
 				//Complete
@@ -390,13 +384,14 @@ export class ProposalsProfileComponent implements OnInit {
 						data => { }
 					);
 				}
-				else if (this.proposal_approves.length >= 7 && this.proposal_rejects.length <= 3) {
+				if (this.proposal_approves.length >= 7 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Approved';
 					this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
 						data => { }
 					);
+					this.nodemailService.approvedProposal(this.proposal_id).subscribe();
 				}
-				else if (this.proposal_approves.length >= 0 && this.proposal_rejects.length >= 4) {
+				if (this.proposal_approves.length >= 0 && this.proposal_rejects.length >= 4) {
 					this.update_proposal_status.value.status = 'Rejected';
 					this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
 						data => { }

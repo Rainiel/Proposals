@@ -5,6 +5,7 @@ const nodemailerService = require('./nodemailer.service');
 // routes
 router.get('/nodemail/:userId/:title', nodemail);
 router.get('/mailDecision/:fname/:lname/:decision/:comment/:proposalId', mailDecision);
+router.get('/approvedProposal/:proposalId', approvedProposal);
 
 module.exports = router;
 
@@ -16,6 +17,12 @@ function nodemail(req, res, next){
 
 function mailDecision(req,res,next){
 	nodemailerService.mailDecision(req.params.fname, req.params.lname, req.params.decision, req.params.comment, req.params.proposalId)
+	.then(mail => res.json(mail))
+	.catch(err => next(err));
+}
+
+function approvedProposal(req,res,next){
+	nodemailerService.approvedProposal(req.params.proposalId)
 	.then(mail => res.json(mail))
 	.catch(err => next(err));
 }

@@ -11,7 +11,8 @@ const mailer = {user: 'proposalsystemmailer@gmail.com', password: 'Proposal12345
 
 module.exports = {
 	nodemail,
-	mailDecision
+	mailDecision,
+	approvedProposal
 };
 
 async function nodemail(userId, title) {
@@ -69,3 +70,30 @@ async function mailDecision(fname, lname, decision, comment, proposalId){
 	return await info;
 }
 
+async function approvedProposal(proposalId){
+	const proposal = await Proposal.findById(proposalId).select('-hash');
+	const group = await Group.findById(proposal.group_id).select('-hash');
+	const user1 = await User.findById(group.groupMembers[0]._id).select('-hash');
+	const user2 = await User.findById(group.groupMembers[1]._id).select('-hash');
+
+	let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'proposalsystemmailer@gmail.com', // generated ethereal user
+      pass: 'Proposal12345678' // generated ethereal password
+    },
+		tls: {
+				rejectUnauthorized: false
+		}
+	});
+	
+	let info = await transporter.sendMail({
+    from: '"Proposal System" <proposalsystemmailer@gmail.com>', // sender address
+    to: `${user1.email}, ${user2.email}`,// list of receivers
+    subject: "Approved", // Subject line
+    html: `<b>Your Proposal is now approved</b>` // html body
+	});
+	
+	return await info;
+}

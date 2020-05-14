@@ -79,20 +79,21 @@ export class ProposalsComponent implements OnInit {
 		else {
 			this.isUserStudent = true;
 		}
-		// this.userSubscription.push(
-		// 	this.proposalService
-		// 		.getProposals()
-		// 		.subscribe(() => {
+		this.userSubscription.push(
+			this.proposalService
+				.getProposals()
+				.subscribe(() => {
 
-		// 			if (this.currentUser.role == 'Student') {
-		// 				console.log('group id', this.currentUser.group_proposal_id);
-		// 				this.getOwnProposal();
-		// 			} else {
-		// 				console.log('group Id', this.currentUser.group_proposal_id);
-		// 				this.getAllProposals();
-		// 			}
-		// 		})
-		// );
+					if (this.currentUser.role == 'Student') {
+						// console.log('group id', this.currentUser.group_proposal_id);
+						this.getOwnProposal();
+						this.getAllProposalsForCompare();
+					} else {
+						// console.log('group Id', this.currentUser.group_proposal_id);
+						this.getAllProposals();
+					}
+				})
+		);
 		//-----For Realtime--------------
 
 		this.getUserWithoutGroup();
