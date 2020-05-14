@@ -43,11 +43,11 @@ import { DateActivityPipe } from './_pipe/date-activity.pipe';
 import { GroupProfileComponent } from './group-profile/group-profile.component';
 
 import { FileUploadModule } from 'ng2-file-upload';
+import { GroupsFilterPipe } from './_pipe/groups-filter.pipe';
 
 @NgModule({
   	declarations: [
 		AppComponent,
-		FileSelectDirective,
 		StudentLoginComponent,
 		StudentRegisterComponent,
 		StudentNavigationComponent,
@@ -70,7 +70,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 		DateCommentPipe,
 		ActivityComponent,
 		DateActivityPipe,
-		GroupProfileComponent
+		GroupProfileComponent,
+		GroupsFilterPipe
   	],
   	imports: [
 		BrowserModule,
@@ -94,7 +95,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 		DatePipe,
-		SectionFilterPipe
+		SectionFilterPipe,
+		GroupsFilterPipe
 
 		// provider used to create fake backend
 		// fakeBackendProvider,

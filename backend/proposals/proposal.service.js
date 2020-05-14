@@ -58,11 +58,11 @@ async function proposalApproveReject(proposal_id, user_id, decisionParam) {
 }
 
 async function getApproveCount(proposal_id) {
-	return await Proposal_approve_reject.find({ proposal_id: `${proposal_id}`, decision: 'approve' });
+	return await Proposal_comment.find({ proposal_id: `${proposal_id}`, decision: 'approve' });
 }
 
 async function getRejectCount(proposal_id) {
-	return await Proposal_approve_reject.find({ proposal_id: `${proposal_id}`, decision: 'reject' });
+	return await Proposal_comment.find({ proposal_id: `${proposal_id}`, decision: 'reject' });
 }
 
 // async function getApproveReject(proposal_id) {

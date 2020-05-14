@@ -4,26 +4,30 @@ import { HttpClient } from '@angular/common/http';
 import { Group } from '../_models';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class GroupService {
 	url = 'http://localhost:4000';
 
 	constructor(private http: HttpClient) { }
 
-	getById(id){
+	getById(id) {
 		return this.http.get<any>(`${this.url}/group/${id}`);
 	}
 
-	getAll(){
+	getAll() {
 		return this.http.get<any>(`${this.url}/group`);
-    }
+	}
 
-	createGroup(group: Group){
+	getGroupsBySection(section, year){
+		return this.http.get<any>(`${this.url}/group/getGroupsBySection/${section}/${year}`);
+	}
+
+	createGroup(group: Group) {
 		return this.http.post<any>(`${this.url}/group/createGroup`, group);
 	}
 
-	getProposalGroup(proposalGroup){
+	getProposalGroup(proposalGroup) {
 		return this.http.get<any>(`${this.url}/group/getProposalGroup/${proposalGroup}`);
 	}
 

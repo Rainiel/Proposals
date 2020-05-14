@@ -222,7 +222,7 @@ export class ProposalsProfileComponent implements OnInit {
 	checkProposalCommentIfExistingForCommittee(){
 		this.proposalService.checkProposalCommentIfExisting(this.proposal_id, this.currentUser._id).subscribe(
 			data => {
-				if(!data){
+				if(data.length == 0){
 					this.checkProposalCommentIfExisting = true;
 				} else {
 					this.checkProposalCommentIfExisting = false;
@@ -242,17 +242,21 @@ export class ProposalsProfileComponent implements OnInit {
 		this.proposalComment.value.proposal_id = this.proposal_id;
 		this.proposalComment.value.committee_id = this.currentUser._id;
 		this.proposalComment.value.decision = decision;
+		console.log(this.proposalComment.value)
 		this.proposalService.checkProposalCommentIfExisting(this.proposalComment.value.proposal_id, this.proposalComment.value.committee_id).subscribe(
 			data => {
-				if (!data) {
+				console.log("niel", data)
+				if (data.length == 0) {
 					this.proposalService.createProposalComment(this.proposalComment.value).subscribe(
 						data => {
+							this.updateApproveRejectOnOpen();
 							this.getProposalApproveReject();
 						}
 					);
 				} else {
 					this.proposalService.updateProposalComment(this.proposalComment.value.proposal_id, this.proposalComment.value.committee_id, this.proposalComment.value).subscribe(
 						data => {
+							this.updateApproveRejectOnOpen();
 							this.getProposalApproveReject();
 							this.changeDecision();
 						}
@@ -549,7 +553,7 @@ export class ProposalsProfileComponent implements OnInit {
 	updateApproveRejectOnOpen() {
 		this.proposalService.getProposalApproveCount(this.proposal_id).subscribe(
 			data => {
-				// console.log(data.length);
+				console.log("lols",this.proposal_id);
 				// if(data.length >= 0 && data.length <= 6){
 				// 	this.update_proposal_status.value.status = 'Pending';
 				// 	this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(

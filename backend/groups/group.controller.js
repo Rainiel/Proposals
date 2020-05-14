@@ -7,6 +7,7 @@ router.post('/createGroup', createGroup);
 router.get('/', getAll);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
+router.get('/getGroupsBySection/:section/:year', getGroupsBySection);
 router.put('/update/:id', update);
 router.delete('/:id', _delete);
 router.get('/getProposalGroup/:id', getProposalGroup);
@@ -29,6 +30,12 @@ function getCurrent(req, res, next) {
     groupService.getById(req.user.sub)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
+}
+
+function getGroupsBySection(req, res, next){
+    groupService.getGroupsBySection(req.params.section, req.params.year)
+    .then(section => res.json(section))
+    .catch(err => next(err));
 }
 
 function getById(req, res, next) {

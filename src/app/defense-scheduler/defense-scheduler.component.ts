@@ -49,6 +49,7 @@ export class DefenseSchedulerComponent implements OnInit {
 			this.schedule_id = params["schedule"];
 		});
 		this.getSchedule();
+		this.getGroups();
 		this.schedule = this.formBuilder.group({
 			monday: [this.monday],
 			tuesday: [this.tuesday],
@@ -88,7 +89,7 @@ export class DefenseSchedulerComponent implements OnInit {
 						this.saturday.push(data[0].saturday[i]);
 						this.GroupsNotPush.push(data[0].saturday[i]);
 					}
-					this.getGroups();
+					// this.getGroups();
 				}
 			)
 		}
@@ -112,7 +113,7 @@ export class DefenseSchedulerComponent implements OnInit {
 	}
 
 	removeArrayItem(data){
-		console.log(this.Groups)
+		// console.log(this.Groups)
 		for(let k = 0; k<this.GroupsNotPush.length; k++){
 			console.log(this.GroupsNotPush[k].group)
 				if(this.GroupsNotPush[k].group == data.group){
@@ -124,7 +125,7 @@ export class DefenseSchedulerComponent implements OnInit {
 	createSchedule(){
 		this.defense_scheduleService.create(this.schedule.value).subscribe(
 			data => {
-				console.log(data)
+				// console.log(data)
 			}
 		)
 	}
@@ -132,7 +133,7 @@ export class DefenseSchedulerComponent implements OnInit {
 	updateSchedule(){
 		this.defense_scheduleService.update(this.schedule_id, this.schedule.value).subscribe(
 			data => {
-				console.log(data)
+				// console.log(data)
 				this.router.navigate(['/defense_schedule']);
 			}
 		)
