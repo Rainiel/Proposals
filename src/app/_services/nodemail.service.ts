@@ -23,4 +23,8 @@ export class NodemailService {
   approvedProposal(proposalId){
     return this.http.get(`${this.url}/mail/approvedProposal/${proposalId}`);
   }
+
+  defenseSched(week){
+    return this.http.get(`${this.url}/mail/defenseSched/${week}`);
+  }
 }

@@ -12,7 +12,8 @@ const mailer = {user: 'proposalsystemmailer@gmail.com', password: 'Proposal12345
 module.exports = {
 	nodemail,
 	mailDecision,
-	approvedProposal
+	approvedProposal,
+	defenseSched
 };
 
 async function nodemail(userId, title) {
@@ -93,6 +94,30 @@ async function approvedProposal(proposalId){
     to: `${user1.email}, ${user2.email}`,// list of receivers
     subject: "Approved", // Subject line
     html: `<b>Your Proposal is now approved</b>` // html body
+	});
+	
+	return await info;
+}
+
+async function defenseSched(week){
+	console.log("niel week")
+	let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'proposalsystemmailer@gmail.com', // generated ethereal user
+      pass: 'Proposal12345678' // generated ethereal password
+    },
+		tls: {
+				rejectUnauthorized: false
+		}
+	});
+	
+	let info = await transporter.sendMail({
+    from: '"Proposal System" <proposalsystemmailer@gmail.com>', // sender address
+    to: `villanuevarainiel@gmail.com`,// list of receivers
+    subject: "Schedule", // Subject line
+    html: `<b>the schedule of defense is ${week}</b>` // html body
 	});
 	
 	return await info;

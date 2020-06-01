@@ -150,7 +150,7 @@ export class StudentNavigationComponent implements OnInit {
 		this.avatar_pic.value.avatar_photo = x[3];
 		this.userService.update(this.currentUser._id, this.avatar_pic.value).subscribe(
 			data => {
-				console.log(data)
+				window.location.reload();
 			}
 		);
 		// if(this.ifuser_avatar == false){

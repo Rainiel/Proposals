@@ -31,6 +31,7 @@ app.use('/calendar', require('./calendar/calendar.controller'));
 app.use('/file_explorer', require('./file_explorer/file_explorer.controller'));
 app.use('/activity', require('./activity/activity.controller'));
 app.use('/mail', require('./nodemailer/nodemailer.controller'));
+app.use('/def_week', require('./defense_week/defense-week.controller'));
 
 // global error handler
 app.use(errorHandler);

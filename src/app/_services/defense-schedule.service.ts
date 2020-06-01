@@ -25,4 +25,12 @@ export class DefenseScheduleService {
 		return this.http.delete(`${this.url}/defense_schedule/${id}`);
 	}
 
+	createWeek(week){
+		return this.http.post(`${this.url}/def_week/createWeek`, week);
+	}
+
+	getWeek(){
+		return this.http.get<any>(`${this.url}/def_week`);
+	}
+
 }

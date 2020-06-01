@@ -32,23 +32,29 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="font-icon-alarm"></i>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification" style="width: 400px;">
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif"
+                                    aria-labelledby="dd-notification" style="width: 400px;">
                                     <div class="dropdown-menu-notif-header">
                                         Notifications
                                         <span class="label label-pill label-danger"></span>
                                     </div>
-                                    <div class="dropdown-menu-notif-list" *ngFor="let activity of activities" style="height: 10vh">
-                                        <div class="dropdown-menu-notif-item">
-                                            <div class="photo">
-                                                <img src="{{activity.avatar_path}}{{activity.avatar_photo}}" alt="">
+                                    <div style="overflow-y: scroll; height: 60vh">
+                                        <div class="dropdown-menu-notif-list" *ngFor="let activity of activities"
+                                            style="height: 11vh">
+                                            <div class="dropdown-menu-notif-item">
+                                                <div class="photo">
+                                                    <img src="{{activity.avatar_path}}{{activity.avatar_photo}}" alt="">
+                                                </div>
+                                                <!-- <div class="dot"></div> -->
+                                                <a
+                                                    href="#">{{ activity.firstName }}&nbsp;{{ activity.lastName }}</a>&nbsp;{{ activity.message }}
+                                                <a *ngIf="activity.proposal_title">{{ activity.proposal_title }}</a>
+                                                <a *ngIf="activity.group_name"
+                                                    (click)="viewActivity(activity.link, activity.id)">{{ activity.group_name }}</a>
+                                                <a *ngIf="activity.file_name">{{ activity.file_name }}</a>
+                                                <div class="color-blue-grey-lighter">
+                                                    {{ activity.createdDate | dateActivity }}</div>
                                             </div>
-                                            <!-- <div class="dot"></div> -->
-                                            <a href="#">{{ activity.firstName }}&nbsp;{{ activity.lastName }}</a>&nbsp;{{ activity.message }}
-                                            <a *ngIf="activity.proposal_title">{{ activity.proposal_title }}</a>
-                                            <a *ngIf="activity.group_name" (click)="viewActivity(activity.link, activity.id)">{{ activity.group_name }}</a>
-                                            <a *ngIf="activity.file_name">{{ activity.file_name }}</a>
-                                            <div class="color-blue-grey-lighter">
-                                                {{ activity.createdDate | dateActivity }}</div>
                                         </div>
                                     </div>
                                     <div class="dropdown-menu-notif-more">

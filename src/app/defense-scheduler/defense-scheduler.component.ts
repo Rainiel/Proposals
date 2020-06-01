@@ -5,11 +5,13 @@ import { DefenseScheduleService } from '../_services/defense-schedule.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupService } from '../_services/group.service';
 import { ApiService } from '../_services/api.service';
+import { NodemailService } from '../_services/nodemail.service';
+declare var $: any;
 
 @Component({
-  selector: 'app-defense-scheduler',
-  templateUrl: './defense-scheduler.component.html',
-  styleUrls: ['./defense-scheduler.component.scss']
+	selector: 'app-defense-scheduler',
+	templateUrl: './defense-scheduler.component.html',
+	styleUrls: ['./defense-scheduler.component.scss']
 })
 export class DefenseSchedulerComponent implements OnInit {
 	subs$;
@@ -40,14 +42,15 @@ export class DefenseSchedulerComponent implements OnInit {
 		private route: ActivatedRoute,
 		private groupService: GroupService,
 		private api: ApiService,
-		private router: Router) { }
+		private router: Router,
+		private nodemail: NodemailService) { }
 
 	ngOnInit() {
 		this.subs$ = this.route
-        .queryParams
-        .subscribe((params) => {
-			this.schedule_id = params["schedule"];
-		});
+			.queryParams
+			.subscribe((params) => {
+				this.schedule_id = params["schedule"];
+			});
 		this.getSchedule();
 		this.getGroups();
 		this.schedule = this.formBuilder.group({
@@ -60,32 +63,32 @@ export class DefenseSchedulerComponent implements OnInit {
 		});
 	}
 
-	getSchedule(){
-		if(this.schedule_id){
+	getSchedule() {
+		if (this.schedule_id) {
 			this.defense_sched.getSchedule().subscribe(
-				data=>{
+				data => {
 					this.ifSchedule = false;
-					for(let i = 0; i < data[0].monday.length; i++){
+					for (let i = 0; i < data[0].monday.length; i++) {
 						this.monday.push(data[0].monday[i]);
 						this.GroupsNotPush.push(data[0].monday[i]);
 					}
-					for(let i = 0; i < data[0].tuesday.length; i++){
+					for (let i = 0; i < data[0].tuesday.length; i++) {
 						this.tuesday.push(data[0].tuesday[i]);
 						this.GroupsNotPush.push(data[0].tuesday[i]);
 					}
-					for(let i = 0; i < data[0].wednesday.length; i++){
+					for (let i = 0; i < data[0].wednesday.length; i++) {
 						this.wednesday.push(data[0].wednesday[i]);
 						this.GroupsNotPush.push(data[0].wednesday[i]);
 					}
-					for(let i = 0; i < data[0].thursday.length; i++){
+					for (let i = 0; i < data[0].thursday.length; i++) {
 						this.thursday.push(data[0].thursday[i]);
 						this.GroupsNotPush.push(data[0].thursday[i]);
 					}
-					for(let i = 0; i < data[0].friday.length; i++){
+					for (let i = 0; i < data[0].friday.length; i++) {
 						this.friday.push(data[0].friday[i]);
 						this.GroupsNotPush.push(data[0].friday[i]);
 					}
-					for(let i = 0; i < data[0].saturday.length; i++){
+					for (let i = 0; i < data[0].saturday.length; i++) {
 						this.saturday.push(data[0].saturday[i]);
 						this.GroupsNotPush.push(data[0].saturday[i]);
 					}
@@ -95,12 +98,12 @@ export class DefenseSchedulerComponent implements OnInit {
 		}
 	}
 
-	getGroups(){
+	getGroups() {
 		this.groupService.getAll().subscribe(
-			data=>{
-				for(let i = 0; i < data.length; i++){
+			data => {
+				for (let i = 0; i < data.length; i++) {
 					this.api.getSectionColor2(data[i].year, data[i].section, data[i].groupName, data[i]._id).subscribe(
-						data=>{
+						data => {
 							console.log(data)
 							this.Groups.push(data);
 							this.removeArrayItem(data);
@@ -112,42 +115,47 @@ export class DefenseSchedulerComponent implements OnInit {
 		)
 	}
 
-	removeArrayItem(data){
+	removeArrayItem(data) {
 		// console.log(this.Groups)
-		for(let k = 0; k<this.GroupsNotPush.length; k++){
+		for (let k = 0; k < this.GroupsNotPush.length; k++) {
 			console.log(this.GroupsNotPush[k].group)
-				if(this.GroupsNotPush[k].group == data.group){
-					this.Groups.splice(this.Groups.indexOf(data.group), 1);
-				}
+			if (this.GroupsNotPush[k].group == data.group) {
+				this.Groups.splice(this.Groups.indexOf(data.group), 1);
+			}
 		}
 	}
 
-	createSchedule(){
+	createSchedule() {
 		this.defense_scheduleService.create(this.schedule.value).subscribe(
 			data => {
 				// console.log(data)
 			}
-		)
+		);
+		var week = $('#defenseWeek').val();
+		this.defense_scheduleService.createWeek({week: week}).subscribe();
+		
 	}
 
-	updateSchedule(){
+	updateSchedule() {
 		this.defense_scheduleService.update(this.schedule_id, this.schedule.value).subscribe(
 			data => {
-				// console.log(data)
 				this.router.navigate(['/defense_schedule']);
 			}
-		)
+		);
+		var week = $('#defenseWeek').val();
+		this.defense_scheduleService.createWeek({week: week}).subscribe();
+		this.nodemail.defenseSched(week).subscribe();
 	}
 
-  	drop(event: CdkDragDrop<string[]>) {
+	drop(event: CdkDragDrop<string[]>) {
 		if (event.previousContainer === event.container) {
-		moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+			moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 		} else {
-		transferArrayItem(event.previousContainer.data,
-							event.container.data,
-							event.previousIndex,
-							event.currentIndex);	
+			transferArrayItem(event.previousContainer.data,
+				event.container.data,
+				event.previousIndex,
+				event.currentIndex);
 		}
-  }
+	}
 
 }

@@ -98,12 +98,33 @@
 								<div class="drop-zone-caption">Upload File</div>
 								<span class="btn btn-rounded btn-file">
 									<span>Choose file</span>
-									<input type="file" class="form-control" (change)="onFileChange($event);">
+									<!-- <input type="file" class="form-control" (change)="onFileChange($event);"> -->
+									<input type="file" name="files" accept="application/xlsx" ng2FileSelect [uploader]="uploadFile" (change)="onFileChange($event);">
 								</span>
 
 							</div>
 						</div>
 						<!--.uploading-container-left-->
+						<div class="uploading-container-right">
+							<div class="uploading-container-right-in">
+								<h6 class="uploading-list-title">Upload</h6>
+								<ul class="uploading-list">
+
+									<li class="uploading-list-item" *ngIf="fileToUpload">
+										<div class="uploading-list-item-wrapper">
+											<div class="uploading-list-item-name">
+												<i class="font-icon font-icon-page"></i>
+												{{ fileName }}
+											</div>
+											<div class="uploading-list-item-size">{{ fileSize }}</div>
+											<button type="button" class="uploading-list-item-close">
+												<i class="font-icon-close-2"></i>
+											</button>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</div>
 					<!-- .uploading-container -->
 				</div>

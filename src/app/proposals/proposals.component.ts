@@ -12,6 +12,7 @@ import { FileUploader } from 'ng2-file-upload';
 import * as io from 'socket.io-client';
 import { ActivityService } from '../_services/activity.service';
 import { NodemailService } from '../_services/nodemail.service';
+import { SectionFilterPipe } from '../_pipe/section-filter.pipe';
 declare var $: any;
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
@@ -53,6 +54,7 @@ export class ProposalsComponent implements OnInit {
 	isUserStudent = false;
 	ifSameProposal = false;
 	sameProposals = [];
+	studentSection: any = "";
 	//-----For Realtime--------------
 	socket;
 	url = 'http://localhost:4000';
@@ -69,7 +71,8 @@ export class ProposalsComponent implements OnInit {
 		private changeDetectorRef: ChangeDetectorRef,
 		private router: Router,
 		private activityService: ActivityService,
-		private nodemailService: NodemailService) {
+		private nodemailService: NodemailService,
+		private sectionFilter: SectionFilterPipe) {
 		//-----For Realtime--------------
 		this.authService.currentUser.subscribe(x => this.currentUser = x);
 		this.socket = io(this.url);
@@ -184,6 +187,8 @@ export class ProposalsComponent implements OnInit {
 			console.log('FileUpload:uploaded:', item, status, response, headers);
 			// console.log(file['file']['name'])
 		};
+
+		console.log("current user", this.currentUser)
 	}
 
 	getUserWithoutGroup() {
@@ -275,7 +280,8 @@ export class ProposalsComponent implements OnInit {
 			.subscribe(
 				data => {
 					this.update_status.value.group_proposal_id = data._id;
-					this.api.createGroup(this.groupForm.value.groupMembers, this.update_status.value)
+					this.api.createGroup(this.groupForm.value.groupMembers, this.update_status.value);
+					this.authService.updateStatusForGroup(this.currentUser._id, this.update_status.value);
 					let activity = ({ 
 						notification_users: [this.currentUser._id],
 						user_id: `${this.currentUser._id}`,

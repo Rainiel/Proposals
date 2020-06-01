@@ -13,7 +13,7 @@ import { EmployeeService } from '../_services/employee.service';
 import { FileExplorerService } from '../_services/file-explorer.service';
 import { ActivityService } from '../_services/activity.service';
 import { NodemailService } from '../_services/nodemail.service';
-
+import * as $ from "jquery"
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
 
@@ -254,6 +254,7 @@ export class ProposalsProfileComponent implements OnInit {
 							this.nodemailService.mailDecision(this.currentUser.firstName, this.currentUser.lastName, this.proposalComment.value.decision, this.proposalComment.value.comment, this.proposalComment.value.proposal_id).subscribe();
 							this.updateApproveRejectOnOpen();
 							this.getProposalApproveReject();
+							$("#closeBtn").trigger("click");
 						}
 					);
 				} else {
@@ -345,7 +346,7 @@ export class ProposalsProfileComponent implements OnInit {
 	}
 
 	viewPdf(path, file_name) {
-		// console.log(path + file_name)
+		console.log(path, file_name)
 		window.open(path + file_name, '_blank');
 	}
 
@@ -380,9 +381,9 @@ export class ProposalsProfileComponent implements OnInit {
 				// console.log(this.proposal_approves.length)
 				if (this.proposal_approves.length >= 0 && this.proposal_approves.length <= 6 || this.proposal_rejects.length >= 0 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Pending';
-					this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-						data => { }
-					);
+					// this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
+					// 	data => { }
+					// );
 				}
 				if (this.proposal_approves.length >= 7 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Approved';
@@ -393,9 +394,9 @@ export class ProposalsProfileComponent implements OnInit {
 				}
 				if (this.proposal_approves.length >= 0 && this.proposal_rejects.length >= 4) {
 					this.update_proposal_status.value.status = 'Rejected';
-					this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-						data => { }
-					);
+					// this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
+					// 	data => { }
+					// );
 				}
 			}
 		);

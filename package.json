@@ -28,6 +28,7 @@
     "@fullcalendar/interaction": "^4.3.0",
     "@fullcalendar/list": "^4.3.0",
     "@fullcalendar/timegrid": "^4.3.0",
+    "@types/jquery": "^3.3.38",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
     "bootstrap-select": "^1.13.10",

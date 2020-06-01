@@ -4,7 +4,13 @@
 			<div class="tbl">
 				<div class="tbl-row">
 					<div class="tbl-cell">
-						<h3>Schedule For Defense</h3>
+						<h3>Schedule For Defense</h3> 
+					</div>
+					<div class="tbl-cell">
+						<h4>Week:</h4>
+					</div>
+					<div class="tbl-cell" style="margin-right: 50px;">
+						<input type="name" id="defenseWeek" class="form-control" placeholder="Ex: May 2nd week"/>
 					</div>
 					<div class="tbl-cell tbl-cell-action" *ngIf="ifSchedule">
 						<a class="btn btn-rounded btn-success" style="color: white;" (click)="createSchedule()">Save Schedule</a>

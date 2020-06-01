@@ -24,5 +24,6 @@ module.exports = {
 	Folder: require('../file_explorer/file_explorer.model'),
 	Avatar: require('../api/avatar.model'),
 	Current_batch: require('../api/current_batch.model'),
-	Activity: require('../activity/activity.model')
+	Activity: require('../activity/activity.model'),
+	Defense_week: require('../defense_week/defense-week.model')
 };
