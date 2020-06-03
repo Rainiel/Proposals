@@ -46,7 +46,7 @@
 						<div class="proj-page-attach" *ngFor="let file of proposal_file">
 							<i class="font-icon font-icon-pdf"></i>
 							<p class="name">{{ file.file_name }}</p>
-							<p class="date">16:48, 02 dec 2016</p>
+							<!-- <p class="date">16:48, 02 dec 2016</p> -->
 							<p>
 								<a (click)="viewPdf(file.file_path, file.file_name)" style="color: #0082c6;">View</a>
 							</p>
@@ -94,12 +94,14 @@
 								</div>
 								<div class="comment-row-item-content">
 									<p class="new-line">{{ comment.comment }}</p>
+									<div *ngIf="!ifUserIsStudent">
 									<button type="button" class="comment-row-item-action edit">
 										<i class="font-icon font-icon-pencil" (click)="openModaleditCommentOrDecision( comment.id )"></i>
 									</button>
 									<button type="button" class="comment-row-item-action del">
 										<i class="font-icon font-icon-trash" (click)="openModalDeleteComment( comment.id )"></i>
 									</button>
+									</div>
 								</div>
 								<!-- <a href="#" class="comment-row-item-reply">Reply</a>
 								<div class="comment-row-item-rating">
@@ -459,7 +461,7 @@
 
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button"  id="closeBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button type="submit" class="btn btn-primary">Add</button>
 				</div>
 			</form>

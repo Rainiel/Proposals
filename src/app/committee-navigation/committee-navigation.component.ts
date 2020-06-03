@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/internal/operators/first';
 import { EmployeeService } from '../_services/employee.service';
 import { Router } from '@angular/router';
+import { ActivityService } from '../_services/activity.service';
 
 @Component({
   selector: 'app-committee-navigation',
@@ -19,13 +20,15 @@ export class CommitteeNavigationComponent implements OnInit {
 	user_avatar: any;
 	ifuser_avatar: any;
 	avatar_pic: any;
+	activities: any[];
 
 	constructor(private api: ApiService,
 		private userService: UserService,
 		private employeeService: EmployeeService,
 		private authService: AuthService,
 		private formBuilder: FormBuilder,
-		private router: Router
+		private router: Router,
+		private activityService: ActivityService
 		) 
 		{
 			this.update_status = this.formBuilder.group({
@@ -43,6 +46,26 @@ export class CommitteeNavigationComponent implements OnInit {
 		this.getEmployeeNavigation();
 		this.getAvatar();
 		this.api.loadScript("../../assets/sidebar/js/main.js");
+		this.getActivities();
+	}
+
+	getActivities() {
+		let activities = [];
+		this.activityService.getAllActivity().subscribe(
+			data => {
+				for (let i = 0; i < data.length; i++) {
+					this.userService.getById(data[i].user_id).subscribe(
+						user=> {
+							activities.push({...user, ...data[i]});
+						}
+					);
+				}
+			}, err => { },
+			() => {
+				this.activities = activities;
+				console.log("activity", this.activities)
+			}
+		);
 	}
 
 	getEmployeeNavigation(){

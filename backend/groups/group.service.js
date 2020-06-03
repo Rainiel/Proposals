@@ -7,6 +7,7 @@ const Group = db.Group;
 module.exports = {
     getAll,
     getById,
+    getGroupsBySection,
     create,
     update,
 	delete: _delete,
@@ -26,6 +27,10 @@ async function create(groupParam) {
 
     // save user
     return await group.save()
+}
+
+async function getGroupsBySection(section, year){
+    return await Group.find({ section: `${section}`, year: `${year}`});
 }
 
 async function update(id, groupParam) {

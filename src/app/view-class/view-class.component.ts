@@ -7,6 +7,9 @@ import { ApiService } from '../_services/api.service';
 import { FormGroup } from '@angular/forms';
 import { SectionFilterPipe } from '../_pipe/section-filter.pipe';
 import { ExcelService } from '../_services/excel.service';
+import { FileUploader } from 'ng2-file-upload';
+
+const UploadURL = 'http://localhost:4000/file/uploadFile';
 
 @Component({
 	selector: 'app-view-class',
@@ -24,6 +27,10 @@ export class ViewClassComponent implements OnInit {
 	ifRoleStudent: boolean;
 	ifRoleCommittee: boolean;
 	classmates = [];
+	uploadFile: any;
+	fileToUpload = false;
+	fileName: any;
+	fileSize: any;
 
 	constructor(private userService: UserService,
 		private api: ApiService,
@@ -54,10 +61,24 @@ export class ViewClassComponent implements OnInit {
 			this.ifRoleStudent = false;
 			this.ifRoleCommittee = false;
 		}
+
+		this.uploadFile = new FileUploader({
+			url: UploadURL, itemAlias: 'files', headers: []
+		});
 	}
 
 	ngOnInit() {
-
+		this.uploadFile.onAfterAddingFile = (file) => {
+			file.withCredentials = false;
+			this.fileToUpload = true;
+			this.fileName = file['file']['name'];
+			this.api.formatBytes(file['file']['size'], 2).subscribe(
+				data => {
+					this.fileSize = data;
+				}
+			)
+			// console.log(file['file']['size'])
+		};
 	}
 
 	getSectionList() {

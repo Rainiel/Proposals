@@ -42,10 +42,12 @@ import { ActivityComponent } from './activity/activity.component';
 import { DateActivityPipe } from './_pipe/date-activity.pipe';
 import { GroupProfileComponent } from './group-profile/group-profile.component';
 
+import { FileUploadModule } from 'ng2-file-upload';
+import { GroupsFilterPipe } from './_pipe/groups-filter.pipe';
+
 @NgModule({
   	declarations: [
 		AppComponent,
-		FileSelectDirective,
 		StudentLoginComponent,
 		StudentRegisterComponent,
 		StudentNavigationComponent,
@@ -68,7 +70,8 @@ import { GroupProfileComponent } from './group-profile/group-profile.component';
 		DateCommentPipe,
 		ActivityComponent,
 		DateActivityPipe,
-		GroupProfileComponent
+		GroupProfileComponent,
+		GroupsFilterPipe
   	],
   	imports: [
 		BrowserModule,
@@ -81,6 +84,7 @@ import { GroupProfileComponent } from './group-profile/group-profile.component';
 		jqxDragDropModule,
 		MaterialModule,
 		FullCalendarModule,
+		FileUploadModule,
 		NgMultiSelectDropDownModule.forRoot()
   	],
   	providers: [ 	
@@ -91,7 +95,8 @@ import { GroupProfileComponent } from './group-profile/group-profile.component';
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 		DatePipe,
-		SectionFilterPipe
+		SectionFilterPipe,
+		GroupsFilterPipe
 
 		// provider used to create fake backend
 		// fakeBackendProvider,

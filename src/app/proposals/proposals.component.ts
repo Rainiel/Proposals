@@ -6,11 +6,13 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { User } from '../_models';
 import { GroupService } from '../_services/group.service';
 import { ApiService } from '../_services/api.service';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { ProposalsService } from '../_services/proposals.service';
 import { Router } from '@angular/router';
+import { FileUploader } from 'ng2-file-upload';
 import * as io from 'socket.io-client';
 import { ActivityService } from '../_services/activity.service';
+import { NodemailService } from '../_services/nodemail.service';
+import { SectionFilterPipe } from '../_pipe/section-filter.pipe';
 declare var $: any;
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
@@ -52,9 +54,11 @@ export class ProposalsComponent implements OnInit {
 	isUserStudent = false;
 	ifSameProposal = false;
 	sameProposals = [];
+	studentSection: any = "";
 	//-----For Realtime--------------
 	socket;
 	url = 'http://localhost:4000';
+	proposalsCompare: any;
 	//-----For Realtime--------------
 
 	constructor(
@@ -66,33 +70,36 @@ export class ProposalsComponent implements OnInit {
 		private proposalService: ProposalsService,
 		private changeDetectorRef: ChangeDetectorRef,
 		private router: Router,
-		private activityService: ActivityService) {
+		private activityService: ActivityService,
+		private nodemailService: NodemailService,
+		private sectionFilter: SectionFilterPipe) {
 		//-----For Realtime--------------
 		this.authService.currentUser.subscribe(x => this.currentUser = x);
 		this.socket = io(this.url);
+		this.userSubscription.push(
+			this.proposalService
+				.getProposals()
+				.subscribe(() => {
+
+					if (this.currentUser.role == 'Student') {
+						// console.log('group id', this.currentUser.group_proposal_id);
+						this.getOwnProposal();
+						this.getAllProposalsForCompare();
+					} else {
+						// console.log('group Id', this.currentUser.group_proposal_id);
+						this.getAllProposals();
+					}
+				})
+		);
+		//-----For Realtime--------------
 		if (this.currentUser.role == 'Student') {
 			this.isUserStudent = false;
+			this.getUserWithoutGroup();
 		}
 		else {
 			this.isUserStudent = true;
 		}
-		// this.userSubscription.push(
-		// 	this.proposalService
-		// 		.getProposals()
-		// 		.subscribe(() => {
 
-		// 			if (this.currentUser.role == 'Student') {
-		// 				console.log('group id', this.currentUser.group_proposal_id);
-		// 				this.getOwnProposal();
-		// 			} else {
-		// 				console.log('group Id', this.currentUser.group_proposal_id);
-		// 				this.getAllProposals();
-		// 			}
-		// 		})
-		// );
-		//-----For Realtime--------------
-
-		this.getUserWithoutGroup();
 		this.getLoaded();
 		this.api.checkIfUserHaveGroup().subscribe(
 			data => {
@@ -209,9 +216,18 @@ export class ProposalsComponent implements OnInit {
 				// console.log(data)
 				if (this.isUserStudent == false) {
 					this.getOwnProposal();
+					this.getAllProposalsForCompare();
 				} else {
 					this.getAllProposals();
 				}
+			}
+		)
+	}
+
+	getAllProposalsForCompare() {
+		this.proposalService.getProposal().subscribe(
+			data => {
+				this.proposalsCompare = data;
 			}
 		)
 	}
@@ -220,7 +236,6 @@ export class ProposalsComponent implements OnInit {
 		this.proposalService.getProposal().subscribe(
 			data => {
 				this.proposals = data;
-				console.log(data)
 			},
 			error => { this.errorMessage = <any>error },
 			() => {
@@ -238,7 +253,6 @@ export class ProposalsComponent implements OnInit {
 	getOwnProposal() {
 		this.proposalService.getOwnProposal(this.currentUser.group_proposal_id).subscribe(
 			data => {
-				console.log(data)
 				this.proposals = data;
 			},
 			error => { this.errorMessage = <any>error },
@@ -264,7 +278,8 @@ export class ProposalsComponent implements OnInit {
 			.subscribe(
 				data => {
 					this.update_status.value.group_proposal_id = data._id;
-					this.api.createGroup(this.groupForm.value.groupMembers, this.update_status.value)
+					this.api.createGroup(this.groupForm.value.groupMembers, this.update_status.value);
+					this.authService.updateStatusForGroup(this.currentUser._id, this.update_status.value);
 					let activity = ({ 
 						notification_users: [this.currentUser._id],
 						user_id: `${this.currentUser._id}`,
@@ -275,7 +290,8 @@ export class ProposalsComponent implements OnInit {
 						message: 'created a group',
 						link: `group-profile`,
 						group_name: `${this.groupForm.value.groupName}`,
-						group_members: this.groupForm.value.groupMembers
+						group_members: this.groupForm.value.groupMembers,
+						group_id: `${this.currentUser.group_proposal_id}`
 					});
 					this.activityService.create(activity).subscribe(
 						data=> {
@@ -304,16 +320,16 @@ export class ProposalsComponent implements OnInit {
 					// console.log("finish")
 					// console.log(this.proposalForm.value)
 					let creatingProposal = this.proposalForm.value.title.split(" ");
-					for (let i = 0; i < this.proposals.length; i++) {
-						let splitted = this.proposals[i].title.split(" ");
+					for (let i = 0; i < this.proposalsCompare.length; i++) {
+						let splitted = this.proposalsCompare[i].title.split(" ");
 						console.log("splitted", splitted);
 						for (let j = 0; j < splitted.length; j++) {
 							for (let k = 0; k < creatingProposal.length; k++) {
 								if (splitted[j].toLowerCase().replace(/s$|1$|2$|3$|4$|5$|6$|7$|8$|9$|0$/, "") == creatingProposal[k].toLowerCase().replace(/s$|1$|2$|3$|4$|5$|6$|7$|8$|9$|0$/, "")) {
 									this.ifSameProposal = true;
 									counter = 1;
-									console.log("Possible same thesis", this.proposals[i]);
-									this.sameProposals.push(this.proposals[i]);
+									// console.log("Possible same thesis", this.proposalsCompare[i]);
+									this.sameProposals.push(this.proposalsCompare[i]);
 								}
 							}
 						}
@@ -329,6 +345,7 @@ export class ProposalsComponent implements OnInit {
 				if (counter == 0) {
 					this.proposalService.createProposal(this.proposalForm.value).subscribe(
 						data => {
+							this.nodemailService.nodemail(this.currentUser.email, this.proposalForm.value.title).subscribe();
 							let activity = ({ 
 								notification_users: [this.currentUser._id],
 								user_id: `${this.currentUser._id}`,
@@ -337,11 +354,12 @@ export class ProposalsComponent implements OnInit {
 								batch_year:	`${this.currentUser.created_batch_year}`,
 								batch_sem:	`${this.currentUser.created_batch_sem}`,
 								message: 'created a proposal',
-								proposal_title: `${this.proposalForm.value.title}`
+								proposal_title: `${this.proposalForm.value.title}`,
+								group_id: `${this.currentUser.group_proposal_id}`
 							});
 							this.activityService.create(activity).subscribe(
 								data=> {
-
+									// this.proposalService.nodemail();
 								}
 							);
 						}
@@ -381,6 +399,10 @@ export class ProposalsComponent implements OnInit {
 		} else {
 			this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
 		}
+	}
+
+	viewGroupProfile() {
+		this.router.navigate(['/group-profile'], { queryParams: { name: this.currentUser.group_proposal_id } });
 	}
 
 	ngOnDestroy() {

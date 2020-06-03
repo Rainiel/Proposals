@@ -64,7 +64,14 @@ export class AuthService {
 				window.location.reload();
 			}
 		);
+    }
 
+    updateStatusForGroup(uid, value){
+        console.log("group proposal id",value)
+		var currentStatus = JSON.parse(localStorage.getItem('currentUser'));
+		currentStatus.group_proposal_id = value.group_proposal_id;
+		localStorage.setItem('currentUser',JSON.stringify(currentStatus));
+		window.location.reload();
 	}
 
     logout() {

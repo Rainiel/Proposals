@@ -12,7 +12,7 @@
 								data-target="#groupModal">Create Group</a>
 						</div>
 						<div class="tbl-cell tbl-cell-action" *ngIf="userHaveGroup">
-							<a class="btn btn-rounded btn-info" style="color: white;" routerLink="group_list">View your group</a>
+							<a class="btn btn-rounded btn-info" style="color: white;" (click)="viewGroupProfile()">View your group</a>
 						</div>
 						<div class="tbl-cell tbl-cell-action" *ngIf="userHaveGroup">
 							<a class="btn btn-rounded" style="color: white;" data-toggle="modal" data-target="#upload3Modal">Add
@@ -33,7 +33,15 @@
 			<div class="card-block">
 				<!-- Filters for Proposals -->
 				<div class="row" style="padding-left: 15px; padding-right: 15px;" *ngIf="isUserStudent">
-
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="studentSection">Year And Section</label>
+						</div>
+						<select class="custom-select" id="studentSection" [(ngModel)]="studentSection">
+							<option *ngFor="let section of section_list" value="{{section.year}},{{section.section}}">
+								{{ section.year }}-{{ section.section }}</option>
+						</select>
+					</div>
 				</div><!-- Filters for Proposals -->
 
 				<!-- Table For Proposals -->
@@ -41,13 +49,6 @@
 					<thead>
 						<tr>
 							<th *ngFor="let column of proposal_table_column">{{ column.column }}</th>
-							<!-- <th>Group</th>
-						<th>Section</th>
-						<th>Title</th>
-						<th>Approve</th>
-						<th>Reject</th>
-						<th>Status</th>
-						<th>Action</th> -->
 						</tr>
 					</thead>
 					<tfoot>
@@ -56,7 +57,7 @@
 						</tr>
 					</tfoot>
 					<tbody>
-						<tr *ngFor="let proposal of proposals">
+						<tr *ngFor="let proposal of proposals | sectionFilter: studentSection">
 							<td>{{ proposal.createdDate | dateFormat}}</td>
 							<td>{{ proposal.section }}</td>
 							<td>{{ proposal.title }}</td>
@@ -234,6 +235,14 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<div *ngIf="ifSameProposal">
+				<div class="alert alert-info" role="alert">
+					There's a same proposal
+				</div>
+				<!-- <div class="alert alert-info" role="alert" *ngFor="let proposal of sameProposals">
+					{{ proposal.title }}
+				</div> -->
+			</div>
 			<form [formGroup]="proposalForm" (ngSubmit)="createProposal()">
 				<div class="modal-body">
 
@@ -245,14 +254,7 @@
 								<div *ngIf="f.email.errors.required">Email is required</div>
 								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
 							</div>
-							<div *ngIf="ifSameProposal">
-								<div class="alert alert-info" role="alert">
-									Possible same title or proposals
-								</div>
-								<div class="alert alert-info" role="alert" *ngFor="let proposal of sameProposals">
-									{{ proposal.title }}
-								</div>
-							</div>
+
 						</div>
 					</div>
 

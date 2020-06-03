@@ -26,8 +26,12 @@ export class ActivityService {
 		return this.http.post<any>(`${this.url}/activity/create`, activity);
   }
   
-  getActivityStudents(year, section, batch_year, batch_sem){
-    return this.http.get<any>(`${this.url}/activity/getActivityStudents/${year}/${section}/${batch_year}/${batch_sem}`);
+  getActivityStudents(year, section, batch_year, batch_sem, group_id){
+    return this.http.get<any>(`${this.url}/activity/getActivityStudents/${year}/${section}/${batch_year}/${batch_sem}/${group_id}`);
+  }
+
+  getAllActivity(){
+    return this.http.get<any>(`${this.url}/activity/getAllActivity`);
   }
 
 }

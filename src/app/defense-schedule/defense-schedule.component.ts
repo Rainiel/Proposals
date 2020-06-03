@@ -46,6 +46,7 @@ export class DefenseScheduleComponent implements OnInit {
 	panel3: any;
 	ifUserIsStudent:any;
 	currentUser: any;
+	defense_week: any;
 
 	  constructor(private router: Router,
 		private defense_sched: DefenseScheduleService,
@@ -69,6 +70,11 @@ export class DefenseScheduleComponent implements OnInit {
 		console.log(this.arrays)
 		this.getSchedules();
 		this.getEmployees();
+		this.defense_sched.getWeek().subscribe(
+			data=>{
+				this.defense_week = data[0].week;
+			}
+		)
 	}
 
 	getEmployees(){

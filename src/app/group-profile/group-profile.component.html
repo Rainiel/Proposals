@@ -3,38 +3,71 @@
 
 		<section class="card box-typical-full-height">
 			<div class="card-block">
-				<h5 class="with-border m-t-0">Design Project: Groups
+				<h5 class="with-border m-t-0">Design Project: Group - {{ group_name }} {{ year }}-{{ section }}
 					<!-- <a class="btn btn-rounded btn-info" style="color: white; float: right;">Add member</a> -->
 				</h5>
-
-				<!-- <div class="groups" *ngFor="let group of group_lists">
-						<div class="dropdown">
-							<button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #ffffff">
-								&nbsp;{{ group.groupName }}&nbsp;
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item" *ngFor="let member of group.groupMembers">
-								{{ member.whole_name }}
-							</a>
-							</div>
+				<div class="row">
+					<div class="col">
+						<div class="alert alert-secondary" role="alert">
+							Group Type is: {{ group_type }}
 						</div>
-					</div> -->
-
-				<!-- <div class="groups" >
-					<table class="table table-sm table-bordered">
-						<thead class="thead-light">
-							<tr>
-								<th scope="col">co</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ member.whole_name }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div> -->
-
+					</div>
+					<div class="col">
+						<div class="alert alert-secondary" role="alert">
+							This is a secondary alert—check it out!
+						</div>
+					</div>
+					<div class="col">
+						<div class="alert alert-secondary" role="alert">
+							This is a secondary alert—check it out!
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<table id="table-edit" class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let members of group_members">
+									<td>{{ members.whole_name }}</td>
+								</tr>
+								<!-- <tr>
+									<td>Last quarter revene</td>
+									<td class="color-blue-grey-lighter">Revene for last quarter in state America for year 2013, whith...
+									</td>
+								</tr> -->
+							</tbody>
+						</table>
+					</div>
+					<div class="col">
+						<table id="table-edit" class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Panelist</th>
+									<th>Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>panel 1</th>
+									<td>{{ panel1 }}</td>
+								</tr>
+								<tr>
+									<th>panel 2</th>
+									<td>{{ panel2 }}</td>
+								</tr>
+								<tr>
+									<th>panel 3</th>
+									<td>{{ panel3 }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</section>
 

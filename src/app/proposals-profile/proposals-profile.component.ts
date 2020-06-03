@@ -12,7 +12,8 @@ import { GroupService } from '../_services/group.service';
 import { EmployeeService } from '../_services/employee.service';
 import { FileExplorerService } from '../_services/file-explorer.service';
 import { ActivityService } from '../_services/activity.service';
-
+import { NodemailService } from '../_services/nodemail.service';
+import * as $ from "jquery"
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
 
@@ -76,7 +77,8 @@ export class ProposalsProfileComponent implements OnInit {
 		private groupService: GroupService,
 		private employeeService: EmployeeService,
 		private fileExplorerService: FileExplorerService,
-		private activityService: ActivityService) {
+		private activityService: ActivityService,
+		private nodemailService: NodemailService) {
 		//-----For Realtime--------------
 		this.socket = io(this.url);
 		this.userSubscription.push(
@@ -222,7 +224,7 @@ export class ProposalsProfileComponent implements OnInit {
 	checkProposalCommentIfExistingForCommittee(){
 		this.proposalService.checkProposalCommentIfExisting(this.proposal_id, this.currentUser._id).subscribe(
 			data => {
-				if(!data){
+				if(data.length == 0){
 					this.checkProposalCommentIfExisting = true;
 				} else {
 					this.checkProposalCommentIfExisting = false;
@@ -242,17 +244,23 @@ export class ProposalsProfileComponent implements OnInit {
 		this.proposalComment.value.proposal_id = this.proposal_id;
 		this.proposalComment.value.committee_id = this.currentUser._id;
 		this.proposalComment.value.decision = decision;
+		console.log(this.proposalComment.value)
 		this.proposalService.checkProposalCommentIfExisting(this.proposalComment.value.proposal_id, this.proposalComment.value.committee_id).subscribe(
 			data => {
-				if (!data) {
+				// console.log("niel", data)
+				if (data.length == 0) {
 					this.proposalService.createProposalComment(this.proposalComment.value).subscribe(
 						data => {
+							this.nodemailService.mailDecision(this.currentUser.firstName, this.currentUser.lastName, this.proposalComment.value.decision, this.proposalComment.value.comment, this.proposalComment.value.proposal_id).subscribe();
+							this.updateApproveRejectOnOpen();
 							this.getProposalApproveReject();
+							$("#closeBtn").trigger("click");
 						}
 					);
 				} else {
 					this.proposalService.updateProposalComment(this.proposalComment.value.proposal_id, this.proposalComment.value.committee_id, this.proposalComment.value).subscribe(
 						data => {
+							this.updateApproveRejectOnOpen();
 							this.getProposalApproveReject();
 							this.changeDecision();
 						}
@@ -289,7 +297,8 @@ export class ProposalsProfileComponent implements OnInit {
 									batch_year:	`${this.currentUser.created_batch_year}`,
 									batch_sem:	`${this.currentUser.created_batch_sem}`,
 									message: 'uploaded a file',
-									file_name: `${this.fileName}`
+									file_name: `${this.fileName}`,
+									group_id: `${this.currentUser.group_proposal_id}`
 								});
 								this.activityService.create(activity).subscribe(
 									data=> {
@@ -338,7 +347,7 @@ export class ProposalsProfileComponent implements OnInit {
 	}
 
 	viewPdf(path, file_name) {
-		// console.log(path + file_name)
+		console.log(path, file_name)
 		window.open(path + file_name, '_blank');
 	}
 
@@ -358,42 +367,36 @@ export class ProposalsProfileComponent implements OnInit {
 						}
 					);
 				}
-				// for (let i = 0; i < data.length; i++) {
-				// 	if (data[i].decision == 'approve') {
-				// 		this.proposal_approves.push(data[i].decision);
-				// 		if (data[i].user_id == this.currentUser._id) {
-				// 			this.approveBTN = false;
-				// 		}
-				// 	}
-				// 	else {
-				// 		this.proposal_rejects.push(data[i].decision);
-				// 		if (data[i].user_id == this.currentUser._id) {
-				// 			this.rejectBTN = false;
-				// 		}
-				// 	}
-				// }
+				for (let i = 0; i < data.length; i++) {
+					if (data[i].decision == 'approve') {
+						this.proposal_approves.push(data[i].decision);
+					}
+					else {
+						this.proposal_rejects.push(data[i].decision);
+					}
+				}
 			}, error => { console.log(error) },
 			() => {
 				//Complete
 				this.proposal_decisions = array;
-				// console.log(this.proposal_approves.length)
 				if (this.proposal_approves.length >= 0 && this.proposal_approves.length <= 6 || this.proposal_rejects.length >= 0 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Pending';
-					this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-						data => { }
-					);
+					// this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
+					// 	data => { }
+					// );
 				}
-				else if (this.proposal_approves.length >= 7 && this.proposal_rejects.length <= 3) {
+				if (this.proposal_approves.length >= 7 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Approved';
 					this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
 						data => { }
 					);
+					this.nodemailService.approvedProposal(this.proposal_id).subscribe();
 				}
-				else if (this.proposal_approves.length >= 0 && this.proposal_rejects.length >= 4) {
+				if (this.proposal_approves.length >= 0 && this.proposal_rejects.length >= 4) {
 					this.update_proposal_status.value.status = 'Rejected';
-					this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-						data => { }
-					);
+					// this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
+					// 	data => { }
+					// );
 				}
 			}
 		);
@@ -549,7 +552,7 @@ export class ProposalsProfileComponent implements OnInit {
 	updateApproveRejectOnOpen() {
 		this.proposalService.getProposalApproveCount(this.proposal_id).subscribe(
 			data => {
-				// console.log(data.length);
+				console.log("lols",this.proposal_id);
 				// if(data.length >= 0 && data.length <= 6){
 				// 	this.update_proposal_status.value.status = 'Pending';
 				// 	this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(

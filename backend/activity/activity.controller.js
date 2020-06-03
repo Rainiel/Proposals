@@ -5,7 +5,8 @@ const activityService = require('./activity.service');
 // routes
 router.post('/create', create);
 router.get('/', getAll);
-router.get('/getActivityStudents/:year/:section/:batch_year/:batch_sem', getActivityStudents);
+router.get('/getAllActivity', getAllActivity);
+router.get('/getActivityStudents/:year/:section/:batch_year/:batch_sem/:group_id', getActivityStudents);
 router.put('/byId/:id', getById);
 router.put('/updateEvent/:id', update);
 router.delete('/:id', _delete);
@@ -19,8 +20,14 @@ function create(req, res, next) {
 }
 
 function getActivityStudents(req, res, next) {
-    activityService.getActivityStudents(req.params.year, req.params.section, req.params.batch_year, req.params.batch_sem)
+    activityService.getActivityStudents(req.params.year, req.params.section, req.params.batch_year, req.params.batch_sem, req.params.group_id)
         .then(activity => res.json(activity))
+        .catch(err => next(err));
+}
+
+function getAllActivity(req, res, next) {
+    activityService.getAllActivity()
+        .then(events => res.json(events))
         .catch(err => next(err));
 }
 

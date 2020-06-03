@@ -5,9 +5,9 @@ import { User } from '../_models';
 import { AuthService, UserService } from '../_services';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { ActivityService } from '../_services/activity.service';
 import { Router } from '@angular/router';
+import { FileUploader } from 'ng2-file-upload';
 
 const UploadURL = 'http://localhost:4000/upload/uploadPhoto';
 
@@ -77,7 +77,7 @@ export class StudentNavigationComponent implements OnInit {
 
 	getActivities() {
 		let activities = [];
-		this.activityService.getActivityStudents(this.currentUser.year, this.currentUser.section, this.currentUser.created_batch_year, this.currentUser.created_batch_sem).subscribe(
+		this.activityService.getActivityStudents(this.currentUser.year, this.currentUser.section, this.currentUser.created_batch_year, this.currentUser.created_batch_sem, this.currentUser.group_proposal_id).subscribe(
 			data => {
 				for (let i = 0; i < data.length; i++) {
 					this.userService.getById(data[i].user_id).subscribe(
@@ -89,7 +89,6 @@ export class StudentNavigationComponent implements OnInit {
 			}, err => { },
 			() => {
 				this.activities = activities;
-				console.log(this.activities)
 			}
 		);
 	}
@@ -97,18 +96,13 @@ export class StudentNavigationComponent implements OnInit {
 	getUserNavigation() {
 		this.api.getUserNavigation().subscribe(
 			data => {
-				// console.log(data);
 				for (let i = 0; i < data.length; i++) {
-					// this.navigations.push(data[i]);
 					if (data[i].boolean == true) {
 						this.navigations.push(data[i]);
 					}
 					for (let k = 0; k < data[i].notification.length; k++) {
-						// console.log(data[i].notification)
 					}
 				}
-				// console.log(this.navigations);
-				// console.log(this.withChildNav);
 			}
 		);
 	}
@@ -150,7 +144,7 @@ export class StudentNavigationComponent implements OnInit {
 		this.avatar_pic.value.avatar_photo = x[3];
 		this.userService.update(this.currentUser._id, this.avatar_pic.value).subscribe(
 			data => {
-				console.log(data)
+				window.location.reload();
 			}
 		);
 		// if(this.ifuser_avatar == false){
