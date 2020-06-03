@@ -297,7 +297,8 @@ export class ProposalsProfileComponent implements OnInit {
 									batch_year:	`${this.currentUser.created_batch_year}`,
 									batch_sem:	`${this.currentUser.created_batch_sem}`,
 									message: 'uploaded a file',
-									file_name: `${this.fileName}`
+									file_name: `${this.fileName}`,
+									group_id: `${this.currentUser.group_proposal_id}`
 								});
 								this.activityService.create(activity).subscribe(
 									data=> {
@@ -378,7 +379,6 @@ export class ProposalsProfileComponent implements OnInit {
 			() => {
 				//Complete
 				this.proposal_decisions = array;
-				// console.log(this.proposal_approves.length)
 				if (this.proposal_approves.length >= 0 && this.proposal_approves.length <= 6 || this.proposal_rejects.length >= 0 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Pending';
 					// this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(

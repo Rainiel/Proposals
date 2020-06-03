@@ -15,6 +15,7 @@ const schema = new Schema({
     group_name: { type: String, required: false },
     file_name: { type: String, required: false },
     createdDate: { type: Date, default: Date.now },
+    group_id: { type: String, required: true},
 });
 
 schema.set('toJSON', { virtuals: true });

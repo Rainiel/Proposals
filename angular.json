@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/PAFMS",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -27,21 +28,20 @@
               "src/assets"
             ],
             "styles": [
-			  "src/styles.scss",
-			  "node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css"
+              "src/styles.scss",
+              "node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css"
             ],
             "scripts": [
-			  "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
               "src/assets/components/build/js/lib/popper/popper.min.js",
               "src/assets/components/build/js/lib/tether/tether.min.js",
               "src/assets/components/build/js/lib/bootstrap/bootstrap.min.js",
               "src/assets/components/build/js/plugins.js",
               "src/assets/components/build/js/lib/match-height/jquery.matchHeight.min.js",
-			  "src/assets/components/build/js/lib/datatables-net/datatables.min.js",
-			  "node_modules/select2/dist/js/select2.full.min.js",
-			  "src/assets/components/build/js/app.js"
-            ],
-            "es5BrowserSupport": true
+              "src/assets/components/build/js/lib/datatables-net/datatables.min.js",
+              "node_modules/select2/dist/js/select2.full.min.js",
+              "src/assets/components/build/js/app.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -56,7 +56,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -65,6 +64,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }

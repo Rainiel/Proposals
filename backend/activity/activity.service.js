@@ -8,6 +8,7 @@ module.exports = {
     create,
     getActivityStudents,
     update,
+    getAllActivity,
     delete: _delete
 };
 
@@ -19,6 +20,10 @@ async function getById(id) {
     return await Activity.findById(id).select('-hash');
 }
 
+async function getAllActivity() {
+    return await Activity.find().select('-hash');
+}
+
 async function create(eventParam) {
     console.log(eventParam)
 	const activity = new Activity(eventParam);
@@ -26,8 +31,8 @@ async function create(eventParam) {
     return await activity.save();
 }
 
-async function getActivityStudents(year, section, batch_year, batch_sem) {
-	return await Activity.find({ year: `${year}`, section: `${section}`, batch_year: `${batch_year}`, batch_sem: `${batch_sem}`});
+async function getActivityStudents(year, section, batch_year, batch_sem, group_id) {
+	return await Activity.find({ year: `${year}`, section: `${section}`, batch_year: `${batch_year}`, batch_sem: `${batch_sem}`, group_id: `${group_id}`});
 }
 
 async function update(id, eventParam) {

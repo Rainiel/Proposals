@@ -12,7 +12,7 @@
 								data-target="#groupModal">Create Group</a>
 						</div>
 						<div class="tbl-cell tbl-cell-action" *ngIf="userHaveGroup">
-							<a class="btn btn-rounded btn-info" style="color: white;" routerLink="group_list">View your group</a>
+							<a class="btn btn-rounded btn-info" style="color: white;" (click)="viewGroupProfile()">View your group</a>
 						</div>
 						<div class="tbl-cell tbl-cell-action" *ngIf="userHaveGroup">
 							<a class="btn btn-rounded" style="color: white;" data-toggle="modal" data-target="#upload3Modal">Add
@@ -49,13 +49,6 @@
 					<thead>
 						<tr>
 							<th *ngFor="let column of proposal_table_column">{{ column.column }}</th>
-							<!-- <th>Group</th>
-						<th>Section</th>
-						<th>Title</th>
-						<th>Approve</th>
-						<th>Reject</th>
-						<th>Status</th>
-						<th>Action</th> -->
 						</tr>
 					</thead>
 					<tfoot>

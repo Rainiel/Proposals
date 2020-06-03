@@ -77,7 +77,7 @@ export class StudentNavigationComponent implements OnInit {
 
 	getActivities() {
 		let activities = [];
-		this.activityService.getActivityStudents(this.currentUser.year, this.currentUser.section, this.currentUser.created_batch_year, this.currentUser.created_batch_sem).subscribe(
+		this.activityService.getActivityStudents(this.currentUser.year, this.currentUser.section, this.currentUser.created_batch_year, this.currentUser.created_batch_sem, this.currentUser.group_proposal_id).subscribe(
 			data => {
 				for (let i = 0; i < data.length; i++) {
 					this.userService.getById(data[i].user_id).subscribe(
@@ -89,7 +89,6 @@ export class StudentNavigationComponent implements OnInit {
 			}, err => { },
 			() => {
 				this.activities = activities;
-				console.log(this.activities)
 			}
 		);
 	}
@@ -97,18 +96,13 @@ export class StudentNavigationComponent implements OnInit {
 	getUserNavigation() {
 		this.api.getUserNavigation().subscribe(
 			data => {
-				// console.log(data);
 				for (let i = 0; i < data.length; i++) {
-					// this.navigations.push(data[i]);
 					if (data[i].boolean == true) {
 						this.navigations.push(data[i]);
 					}
 					for (let k = 0; k < data[i].notification.length; k++) {
-						// console.log(data[i].notification)
 					}
 				}
-				// console.log(this.navigations);
-				// console.log(this.withChildNav);
 			}
 		);
 	}

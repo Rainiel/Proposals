@@ -1,75 +1,58 @@
 <div class="dark-theme">
-		<header class="site-header">
-			<div class="container-fluid">
-				<a href="#" class="site-logo">
-					<img src="assets/img/puplogo.png" width="50px" height="50px" style="margin-top: 3px;" class="hidden-xs" />
-				</a>
+	<header class="site-header">
+		<div class="container-fluid">
+			<a href="#" class="site-logo">
+				<img src="assets/img/puplogo.png" width="50px" height="50px" style="margin-top: 3px;" class="hidden-xs" />
+			</a>
 
-				<div class="row">
+			<div class="row">
 				<div class="checkbox-toggle col">
 					<input type="checkbox" id="toggle-sidebar" checked />
 					<label for="toggle-sidebar" style="margin-left: 10px; margin-top: 10px; color: #c7c7c7;">Menu</label>
 				</div>
-		
+
 				<div class="site-header-content col">
 					<div class="site-header-content-in">
 						<div class="site-header-shown">
-		
-							<!-- <div class="dropdown dropdown-notification notif">
-								<a href="#"
-								   class="header-alarm dropdown-toggle active"
-								   id="dd-notification"
-								   data-toggle="dropdown"
-								   aria-haspopup="true"
-								   aria-expanded="false">
+
+							<div class="dropdown dropdown-notification notif">
+								<a href="#" class="header-alarm dropdown-toggle active" id="dd-notification" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">
 									<i class="font-icon-alarm"></i>
-								</a> -->
-								<!-- <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification">
+								</a>
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification"
+									style="width: 400px;">
 									<div class="dropdown-menu-notif-header">
 										Notifications
-										<span class="label label-pill label-danger">4</span>
+										<span class="label label-pill label-danger"></span>
 									</div>
-									<div class="dropdown-menu-notif-list">
-										<div class="dropdown-menu-notif-item">
-											<div class="photo">
-												<img src="assets/components/build/img/photo-64-1.jpg" alt="">
+									<div style="overflow-y: scroll; height: 60vh">
+										<div class="dropdown-menu-notif-list" *ngFor="let activity of activities" style="height: 11vh">
+											<div class="dropdown-menu-notif-item">
+												<div class="photo">
+													<img src="{{activity.avatar_path}}{{activity.avatar_photo}}" alt="">
+												</div>
+												<a
+													href="#">{{ activity.firstName }}&nbsp;{{ activity.lastName }}</a>&nbsp;{{ activity.message }}
+												<a *ngIf="activity.proposal_title">{{ activity.proposal_title }}</a>
+												<a *ngIf="activity.group_name"
+													(click)="viewActivity(activity.link, activity.id)">{{ activity.group_name }}</a>
+												<a *ngIf="activity.file_name">{{ activity.file_name }}</a>
+												<div class="color-blue-grey-lighter">
+													{{ activity.createdDate | dateActivity }}
+												</div>
 											</div>
-											<div class="dot"></div>
-											<a href="#">Morgan</a> was bothering about something
-											<div class="color-blue-grey-lighter">7 hours ago</div>
-										</div>
-										<div class="dropdown-menu-notif-item">
-											<div class="photo">
-												<img src="assets/components/build/img/photo-64-2.jpg" alt="">
-											</div>
-											<div class="dot"></div>
-											<a href="#">Lioneli</a> had commented on this <a href="#">Super Important Thing</a>
-											<div class="color-blue-grey-lighter">7 hours ago</div>
-										</div>
-										<div class="dropdown-menu-notif-item">
-											<div class="photo">
-												<img src="assets/components/build/img/photo-64-3.jpg" alt="">
-											</div>
-											<div class="dot"></div>
-											<a href="#">Xavier</a> had commented on the <a href="#">Movie title</a>
-											<div class="color-blue-grey-lighter">7 hours ago</div>
-										</div>
-										<div class="dropdown-menu-notif-item">
-											<div class="photo">
-												<img src="assets/components/build/img/photo-64-4.jpg" alt="">
-											</div>
-											<a href="#">Lionely</a> wants to go to <a href="#">Cinema</a> with you to see <a href="#">This Movie</a>
-											<div class="color-blue-grey-lighter">7 hours ago</div>
 										</div>
 									</div>
 									<div class="dropdown-menu-notif-more">
-										<a href="#">See more</a>
+										<a routerLink="activity">See more</a>
 									</div>
-								</div> -->
-							<!-- </div> -->
-		
+								</div>
+							</div>
+
 							<div class="dropdown user-menu">
-								<button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">
 									<img src="assets/components/build/img/avatar-2-64.png" alt="">
 								</button>
 								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
@@ -77,200 +60,218 @@
 									<a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-cog"></span>Settings</a>
 									<a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a>
 									<div class="dropdown-divider"></div> -->
-									<a class="dropdown-item" (click)="logout()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
+									<a class="dropdown-item" (click)="logout()"><span
+											class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
 								</div>
 							</div>
-						</div><!--.site-header-shown-->
-		
+						</div>
+						<!--.site-header-shown-->
+
 						<div class="mobile-menu-right-overlay"></div>
 						<!--.site-header-collapsed-->
-					</div><!--site-header-content-in-->
-				</div><!--.site-header-content-->
+					</div>
+					<!--site-header-content-in-->
 				</div>
-			</div><!--.container-fluid-->
-		</header><!--.site-header-->
-		
-		<div class="page-wrapper default-theme sidebar-bg bg1 toggled">
-			<nav id="sidebar" class="sidebar-wrapper">
-				<div class="sidebar-content">
-					<!-- sidebar-brand  -->
-
-					<!-- sidebar-header  -->
-					<div class="sidebar-item sidebar-header d-flex flex-nowrap">
-						<div class="user-pic">
-							<img class="img-responsive img-rounded" src="{{ user_avatar }}" alt="User picture" data-toggle="modal" data-target="#changePhoto">
-						</div>
-						<div class="user-info">
-							<span class="user-name">{{ currentUser.firstName }}
-								<strong>{{ currentUser.lastName }}</strong>
-							</span>
-							<span class="user-role">{{ currentUser.role }}</span>
-							<span class="user-status">
-								<i class="fa fa-circle"></i>
-								<span>online</span>
-							</span>
-						</div>
-					</div>
-					<!-- sidebar-search  -->
-					<div class="sidebar-item sidebar-pin">
-						<div style="padding: 0px;">
-							<div class="checkbox-toggle col ">
-								<input type="checkbox" id="pin-sidebar" checked/>
-								<label for="pin-sidebar" style="margin-left: 4px; margin-top: 10px; color: #c7c7c7"><span class="pin-menu">Pin-Menu</span></label>
-							</div>
-						</div>
-					</div>
-					<!-- sidebar-menu  -->
-					<div class="sidebar-item sidebar-menu">
-						<ul>
-							<li class="header-menu">
-								<span>General</span>
-							</li>
-	
-							<li *ngFor="let nav of navigations" [ngClass]="{'sidebar-dropdown' : nav.child_nav!=false }">
-								<a class="myClickableThing" [routerLink]="nav.link ? nav.link : null">
-									<i class="{{nav.icon}}"></i>
-									<span class="menu-text">{{ nav.navigation }}</span>
-									<span class="badge badge-pill badge-danger"></span>
-								</a>
-								<div  class="sidebar-submenu">
-									<ul>
-										<li>
-											<a *ngFor="let child of nav.child_nav" class="myClickableThing" routerLink="view_class">{{ child.child_name }}</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-	
-							<li class="header-menu">
-								<span>Extra</span>
-							</li>
-							
-							<li>
-								<a class="myClickableThing" routerLink="settings">
-									<i class="fa fa-book"></i>
-									<span class="menu-text">Settings</span>
-								</a>
-							</li>
-						</ul>
-					</div>
-					<!-- sidebar-menu  -->
-				<!-- sidebar-footer  -->
-			<!-- page-content" -->
-				</div>
-			</nav>		<!-- page-wrapper -->
+				<!--.site-header-content-->
+			</div>
 		</div>
-		
-		<!-- Model for uploading Display Photo -->
-		<div class="modal fade" id="changePhoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-			  <div class="modal-content">
+		<!--.container-fluid-->
+	</header>
+	<!--.site-header-->
+
+	<div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+		<nav id="sidebar" class="sidebar-wrapper">
+			<div class="sidebar-content">
+				<!-- sidebar-brand  -->
+
+				<!-- sidebar-header  -->
+				<div class="sidebar-item sidebar-header d-flex flex-nowrap">
+					<div class="user-pic">
+						<img class="img-responsive img-rounded" src="{{ user_avatar }}" alt="User picture" data-toggle="modal"
+							data-target="#changePhoto">
+					</div>
+					<div class="user-info">
+						<span class="user-name">{{ currentUser.firstName }}
+							<strong>{{ currentUser.lastName }}</strong>
+						</span>
+						<span class="user-role">{{ currentUser.role }}</span>
+						<span class="user-status">
+							<i class="fa fa-circle"></i>
+							<span>online</span>
+						</span>
+					</div>
+				</div>
+				<!-- sidebar-search  -->
+				<div class="sidebar-item sidebar-pin">
+					<div style="padding: 0px;">
+						<div class="checkbox-toggle col ">
+							<input type="checkbox" id="pin-sidebar" checked />
+							<label for="pin-sidebar" style="margin-left: 4px; margin-top: 10px; color: #c7c7c7"><span
+									class="pin-menu">Pin-Menu</span></label>
+						</div>
+					</div>
+				</div>
+				<!-- sidebar-menu  -->
+				<div class="sidebar-item sidebar-menu">
+					<ul>
+						<li class="header-menu">
+							<span>General</span>
+						</li>
+
+						<li *ngFor="let nav of navigations" [ngClass]="{'sidebar-dropdown' : nav.child_nav!=false }">
+							<a class="myClickableThing" [routerLink]="nav.link ? nav.link : null">
+								<i class="{{nav.icon}}"></i>
+								<span class="menu-text">{{ nav.navigation }}</span>
+								<span class="badge badge-pill badge-danger"></span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li>
+										<a *ngFor="let child of nav.child_nav" class="myClickableThing"
+											routerLink="view_class">{{ child.child_name }}</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+
+						<li class="header-menu">
+							<span>Extra</span>
+						</li>
+
+						<li>
+							<a class="myClickableThing" routerLink="settings">
+								<i class="fa fa-book"></i>
+								<span class="menu-text">Settings</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!-- sidebar-menu  -->
+				<!-- sidebar-footer  -->
+				<!-- page-content" -->
+			</div>
+		</nav> <!-- page-wrapper -->
+	</div>
+
+	<!-- Model for uploading Display Photo -->
+	<div class="modal fade" id="changePhoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
 				<div class="modal-header">
-				  <h5 class="modal-title" id="exampleModalLabel">Display photo</h5>
-				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				  </button>
+					<h5 class="modal-title" id="exampleModalLabel">Display photo</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					<div class="container">
-							<div class="container">
-								<div class="row">
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Boy_1.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_1.png" (change)="selectAvatar($event.target.value)">Avatar 1
-												</label>
-											</div>
-										</div>
-										&nbsp;
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Boy_2.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_2.png" (change)="selectAvatar($event.target.value)">Avatar 2
-												</label>
-											</div>
-										</div>
-										&nbsp;
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Boy_3.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_3.png" (change)="selectAvatar($event.target.value)">Avatar 3
-												</label>
-											</div>
-										</div>
-										&nbsp;
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Boy_4.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_4.png" (change)="selectAvatar($event.target.value)">Avatar 4
-												</label>
-											</div>
-										</div>
+						<div class="container">
+							<div class="row">
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Boy_1.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_1.png"
+												(change)="selectAvatar($event.target.value)">Avatar 1
+										</label>
+									</div>
 								</div>
-								<div class="row">
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Girl_1.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_1.png" (change)="selectAvatar($event.target.value)">Avatar 5
-												</label>
-											</div>
-										</div>
-										&nbsp;
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Girl_2.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_2.png" (change)="selectAvatar($event.target.value)">Avatar 6
-												</label>
-											</div>
-										</div>
-										&nbsp;
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Girl_3.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_3.png" (change)="selectAvatar($event.target.value)">Avatar 7
-												</label>
-											</div>
-										</div>
-										&nbsp;
-										<div>
-											<div class="avatar-pic">
-												<img src="assets/img/Avatars/Girl_4.png">
-											</div>								
-											<div class="form-check">
-												<label class="form-check-label">
-													<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_4.png" (change)="selectAvatar($event.target.value)">Avatar 8
-												</label>
-											</div>
-										</div>
+								&nbsp;
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Boy_2.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_2.png"
+												(change)="selectAvatar($event.target.value)">Avatar 2
+										</label>
+									</div>
+								</div>
+								&nbsp;
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Boy_3.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_3.png"
+												(change)="selectAvatar($event.target.value)">Avatar 3
+										</label>
+									</div>
+								</div>
+								&nbsp;
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Boy_4.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Boy_4.png"
+												(change)="selectAvatar($event.target.value)">Avatar 4
+										</label>
+									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Girl_1.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_1.png"
+												(change)="selectAvatar($event.target.value)">Avatar 5
+										</label>
+									</div>
+								</div>
+								&nbsp;
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Girl_2.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_2.png"
+												(change)="selectAvatar($event.target.value)">Avatar 6
+										</label>
+									</div>
+								</div>
+								&nbsp;
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Girl_3.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_3.png"
+												(change)="selectAvatar($event.target.value)">Avatar 7
+										</label>
+									</div>
+								</div>
+								&nbsp;
+								<div>
+									<div class="avatar-pic">
+										<img src="assets/img/Avatars/Girl_4.png">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optradio" value="assets/img/Avatars/Girl_4.png"
+												(change)="selectAvatar($event.target.value)">Avatar 8
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				  <button type="button" class="btn btn-primary" (click)="submitAvatar()">Save changes</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" (click)="submitAvatar()">Save changes</button>
 				</div>
-			  </div>
 			</div>
 		</div>
+	</div>

@@ -76,12 +76,6 @@ export class ProposalsComponent implements OnInit {
 		//-----For Realtime--------------
 		this.authService.currentUser.subscribe(x => this.currentUser = x);
 		this.socket = io(this.url);
-		if (this.currentUser.role == 'Student') {
-			this.isUserStudent = false;
-		}
-		else {
-			this.isUserStudent = true;
-		}
 		this.userSubscription.push(
 			this.proposalService
 				.getProposals()
@@ -98,8 +92,14 @@ export class ProposalsComponent implements OnInit {
 				})
 		);
 		//-----For Realtime--------------
+		if (this.currentUser.role == 'Student') {
+			this.isUserStudent = false;
+			this.getUserWithoutGroup();
+		}
+		else {
+			this.isUserStudent = true;
+		}
 
-		this.getUserWithoutGroup();
 		this.getLoaded();
 		this.api.checkIfUserHaveGroup().subscribe(
 			data => {
@@ -187,8 +187,6 @@ export class ProposalsComponent implements OnInit {
 			console.log('FileUpload:uploaded:', item, status, response, headers);
 			// console.log(file['file']['name'])
 		};
-
-		console.log("current user", this.currentUser)
 	}
 
 	getUserWithoutGroup() {
@@ -292,7 +290,8 @@ export class ProposalsComponent implements OnInit {
 						message: 'created a group',
 						link: `group-profile`,
 						group_name: `${this.groupForm.value.groupName}`,
-						group_members: this.groupForm.value.groupMembers
+						group_members: this.groupForm.value.groupMembers,
+						group_id: `${this.currentUser.group_proposal_id}`
 					});
 					this.activityService.create(activity).subscribe(
 						data=> {
@@ -355,7 +354,8 @@ export class ProposalsComponent implements OnInit {
 								batch_year:	`${this.currentUser.created_batch_year}`,
 								batch_sem:	`${this.currentUser.created_batch_sem}`,
 								message: 'created a proposal',
-								proposal_title: `${this.proposalForm.value.title}`
+								proposal_title: `${this.proposalForm.value.title}`,
+								group_id: `${this.currentUser.group_proposal_id}`
 							});
 							this.activityService.create(activity).subscribe(
 								data=> {
@@ -399,6 +399,10 @@ export class ProposalsComponent implements OnInit {
 		} else {
 			this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
 		}
+	}
+
+	viewGroupProfile() {
+		this.router.navigate(['/group-profile'], { queryParams: { name: this.currentUser.group_proposal_id } });
 	}
 
 	ngOnDestroy() {
