@@ -95,10 +95,10 @@
 					<div class="row">
 						<div class="col form-group">
 							<input type="email" id="groupName" formControlName="groupName" class="form-control"
-								placeholder="Group Name" [ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
-							<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-								<div *ngIf="f.email.errors.required">Email is required</div>
-								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+								placeholder="Group Name" [ngClass]="{ 'is-invalid': submitted &&  f.groupName.errors }" />
+							<div *ngIf="submitted && f.groupName.errors" class="invalid-feedback">
+								<div *ngIf="f.groupName.errors.required">groupName is required</div>
+								<div *ngIf="f.groupName.errors.groupName">groupName must be a valid groupName</div>
 							</div>
 						</div>
 						<div class="col input-group mb-3">
@@ -166,7 +166,7 @@
 												</div>
 											</div>
 											<!--.uploading-container-left-->
-											<div class="uploading-container-right">
+											<!-- <div class="uploading-container-right">
 												<div class="uploading-container-right-in">
 													<div class="form-group">
 														<input type="name" formControlName="title" class="form-control" placeholder="Thesis Title"
@@ -197,7 +197,7 @@
 														</li>
 													</ul>
 												</div>
-											</div>
+											</div> -->
 											<!--.uploading-container-right-->
 										</div>
 										<!--.uploading-container-->
@@ -248,12 +248,13 @@
 
 					<div class="row">
 						<div class="col form-group">
-							<input type="name" formControlName="title" class="form-control" placeholder="Proposal Title"
-								[ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
-							<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-								<div *ngIf="f.email.errors.required">Email is required</div>
-								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-							</div>
+							<input type="name" formControlName="title" class="form-control" placeholder="Proposal Title"/>
+							<!-- <input type="name" formControlName="title" class="form-control" placeholder="Proposal Title"
+								[ngClass]="{ 'is-invalid': submitted &&  f.titleerrors }" /> -->
+							<!-- <div *ngIf="submitted && f.titleerrors" class="invalid-feedback">
+								<div *ngIf="f.titleerrors.required">title is required</div>
+								<div *ngIf="f.titleerrors.title">Email must be a valid email address</div>
+							</div> -->
 
 						</div>
 					</div>

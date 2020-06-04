@@ -17,6 +17,11 @@ import * as $ from "jquery"
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
 
+export interface profile {
+	title: String;
+}
+
+
 @Component({
 	selector: 'app-proposals-profile',
 	templateUrl: './proposals-profile.component.html',
@@ -28,7 +33,7 @@ export class ProposalsProfileComponent implements OnInit {
 	subs$;
 	proposal_members = [];
 	proposal_file: any;
-	proposal_profile = [];
+	proposal_profile: any;
 	proposal_comment = [];
 	proposal_groupName: any;
 	proposalFileForm: any;
@@ -110,14 +115,6 @@ export class ProposalsProfileComponent implements OnInit {
 					{ name: 'subject', value: 'proposals' }
 				]
 		});
-	}
-
-	ngOnInit() {
-		this.subs$ = this.route
-			.queryParams
-			.subscribe((params) => {
-				this.proposal_id = params["name"];
-			});
 		this.getProposalMembers();
 		this.getProposalProfile();
 		this.getProposalFile();
@@ -127,6 +124,14 @@ export class ProposalsProfileComponent implements OnInit {
 		this.getProposalPanelist();
 		this.getProposalAdviser();
 		this.checkProposalCommentIfExistingForCommittee();
+	}
+
+	ngOnInit() {
+		this.subs$ = this.route
+			.queryParams
+			.subscribe((params) => {
+				this.proposal_id = params["name"];
+			});
 
 		this.update_proposal_approve = this.formBuilder.group({
 			approve: ['']
@@ -442,6 +447,7 @@ export class ProposalsProfileComponent implements OnInit {
 		this.proposalService.getById(this.proposal_id).subscribe(
 			data => {
 				this.proposal_profile = data;
+				console.log(this.proposal_profile)
 				this.groupService.getById(data.group_id).subscribe(
 					data => {
 						// console.log(data)

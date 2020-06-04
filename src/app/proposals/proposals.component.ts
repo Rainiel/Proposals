@@ -27,6 +27,7 @@ export class ProposalsComponent implements OnInit {
 	// @ViewChild('closeModalWhenCreateGroup', {static: false}) private closeModal: ElementRef;
 	private userSubscription: Subscription[] = [];
 	users: Array<any>;
+	submitted = false;
 	groupForm: any;
 	selectedMember: any;
 	currentUser: User;
@@ -116,6 +117,8 @@ export class ProposalsComponent implements OnInit {
 				]
 		});
 	}
+
+	get f() { return this.groupForm.controls; }
 
 	ngOnInit() {
 		$(document).ready(function () {
@@ -277,6 +280,7 @@ export class ProposalsComponent implements OnInit {
 			.pipe(first())
 			.subscribe(
 				data => {
+					this.submitted = true;
 					this.update_status.value.group_proposal_id = data._id;
 					this.api.createGroup(this.groupForm.value.groupMembers, this.update_status.value);
 					this.authService.updateStatusForGroup(this.currentUser._id, this.update_status.value);
