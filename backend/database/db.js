@@ -25,5 +25,6 @@ module.exports = {
 	Avatar: require('../api/avatar.model'),
 	Current_batch: require('../api/current_batch.model'),
 	Activity: require('../activity/activity.model'),
-	Defense_week: require('../defense_week/defense-week.model')
+	Defense_week: require('../defense_week/defense-week.model'),
+	Dashboard: require('../dashboard/dashboard.model')
 };
