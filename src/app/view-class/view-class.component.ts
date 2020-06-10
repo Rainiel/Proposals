@@ -77,7 +77,6 @@ export class ViewClassComponent implements OnInit {
 					this.fileSize = data;
 				}
 			)
-			// console.log(file['file']['size'])
 		};
 	}
 
@@ -85,7 +84,6 @@ export class ViewClassComponent implements OnInit {
 		this.api.getSectionList().subscribe(
 			data => {
 				this.section_list = data;
-				// console.log(data)
 			}
 		)
 	}
@@ -109,10 +107,6 @@ export class ViewClassComponent implements OnInit {
 		)
 	}
 
-	sectionFilter() {
-		// this.getAllUsers();
-	}
-
 	tryDelete(id) {
 		console.log(id)
 		console.log("sad");
@@ -129,5 +123,4 @@ export class ViewClassComponent implements OnInit {
 	ngOnDestroy() {
 		this.userSubscription.forEach(Subscription => Subscription.unsubscribe());
 	}
-
 }

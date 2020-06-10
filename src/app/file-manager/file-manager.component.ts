@@ -4,9 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FileService } from '../_services/file.service';
 
 @Component({
-  selector: 'app-file-manager',
-  templateUrl: './file-manager.component.html',
-  styleUrls: ['./file-manager.component.scss']
+	selector: 'app-file-manager',
+	templateUrl: './file-manager.component.html',
+	styleUrls: ['./file-manager.component.scss']
 })
 export class FileManagerComponent implements OnInit {
 	folders = [];
@@ -14,24 +14,23 @@ export class FileManagerComponent implements OnInit {
 	folder_files = [];
 
 	constructor(private fileExplorerService: FileExplorerService,
-				private router: Router,
-				private route: ActivatedRoute,
-				private fileService: FileService) { 
+		private router: Router,
+		private route: ActivatedRoute,
+		private fileService: FileService) {
 
-				}
+	}
 
 	ngOnInit() {
 		this.getFolders();
 	}
 
-	getFolders(){
+	getFolders() {
 		console.log("hue")
 		this.fileExplorerService.getFolders().subscribe(
-			data=>{
+			data => {
 				console.log("testingdatas", data)
-				// this.folders = data;
-				for(let i = 0; i<data.length; i++){
-					if(!data[i].folder_parent){
+				for (let i = 0; i < data.length; i++) {
+					if (!!data[i].folder_parent) {
 						this.folders.push(data[i]);
 					}
 				}
@@ -40,7 +39,7 @@ export class FileManagerComponent implements OnInit {
 		);
 	}
 
-	beadcrumbClick(param){
+	beadcrumbClick(param) {
 		this.fileService.getFile(param).subscribe(
 			data => {
 				console.log(data)
@@ -48,29 +47,29 @@ export class FileManagerComponent implements OnInit {
 			}
 		)
 		var index = this.folder_names.indexOf(param);
-		this.folder_names.splice(index  + 1);
+		this.folder_names.splice(index + 1);
 		this.fileExplorerService.getFolders().subscribe(
-			data=>{				
+			data => {
 				this.folders = [];
-				for(let i = 0; i<data.length; i++){
-					if(data[i].folder_parent == param){
+				for (let i = 0; i < data.length; i++) {
+					if (data[i].folder_parent == param) {
 						this.folders.push(data[i]);
 					}
 				}
 
 
 			}
-		)
+		);
 	}
 
-	folderClick(param){
+	folderClick(param) {
 		this.fileExplorerService.getFolders().subscribe(
-			data=>{
+			data => {
 				// this.folders = data;
 				this.folder_names.push(param);
 				this.folders = [];
-				for(let i = 0; i<data.length; i++){
-					if(data[i].folder_parent == param){
+				for (let i = 0; i < data.length; i++) {
+					if (data[i].folder_parent == param) {
 						this.folders.push(data[i]);
 					}
 				}
@@ -83,27 +82,27 @@ export class FileManagerComponent implements OnInit {
 				)
 
 			}
-		)
+		);
 	}
 
-	homeClick(){
+	homeClick() {
 		this.folder_files = [];
 		this.fileExplorerService.getFolders().subscribe(
-			data=>{
+			data => {
 				this.folders = [];
 				this.folder_names = [];
-				for(let i = 0; i<data.length; i++){
-					if(data[i].folder_parent == false){
+				for (let i = 0; i < data.length; i++) {
+					if (data[i].folder_parent == false) {
 						this.folders.push(data[i]);
 					}
 				}
 			}
-		)
+		);
 	}
 
-	fileClick(path, file_name){
+	fileClick(path, file_name) {
 		console.log(path + file_name)
-		window.open(path+file_name, '_blank');
+		window.open(path + file_name, '_blank');
 	}
 
 }

@@ -8,9 +8,9 @@ import * as io from 'socket.io-client';
 declare var $: any;
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+	selector: 'app-settings',
+	templateUrl: './settings.component.html',
+	styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
 	private userSubscription: Subscription[] = [];
@@ -27,21 +27,21 @@ export class SettingsComponent implements OnInit {
 	currentBatchForm: any;
 	batchYear: any;
 	batchSem: any;
-//-----For Realtime--------------
+	//-----For Realtime--------------
 
 	constructor(private api: ApiService,
-			private userService: UserService,
-			private employeeService: EmployeeService,
-			private formBuilder: FormBuilder) {
-				//-----For Realtime--------------
-				this.socket = io(this.url);	
-				this.userSubscription.push(
-					this.api.getSectionListData().subscribe(() => {
-						this.getSections();
-					})
-				);
-				//-----For Realtime--------------
-			}
+		private userService: UserService,
+		private employeeService: EmployeeService,
+		private formBuilder: FormBuilder) {
+		//-----For Realtime--------------
+		this.socket = io(this.url);
+		this.userSubscription.push(
+			this.api.getSectionListData().subscribe(() => {
+				this.getSections();
+			})
+		);
+		//-----For Realtime--------------
+	}
 
 	ngOnInit() {
 		this.getSections();
@@ -65,16 +65,16 @@ export class SettingsComponent implements OnInit {
 	}
 
 	getCurrentBatch() {
-			this.api.getCurrentBatch().subscribe(
-				data=>{
-					console.log(data)
-					this.batchYear = data[0].batch_year;
-					this.batchSem = data[0].batch_sem;
-				}
-			)
+		this.api.getCurrentBatch().subscribe(
+			data => {
+				console.log(data)
+				this.batchYear = data[0].batch_year;
+				this.batchSem = data[0].batch_sem;
+			}
+		)
 	}
 
-	getSections(){
+	getSections() {
 		this.api.getSectionList().subscribe(
 			data => {
 				console.log(data)
@@ -83,53 +83,51 @@ export class SettingsComponent implements OnInit {
 		)
 	}
 
-	getEmployees(){
+	getEmployees() {
 		this.employeeService.getAll().subscribe(
-			data=>{
-				// console.log(data);
+			data => {
 				this.employees = data;
 			}
 		)
 	}
 
-	getUserNavigation(){
+	getUserNavigation() {
 		this.api.getUserNavigation().subscribe(
-			data=>{
+			data => {
 				console.log(data)
 				this.userNavigation = data;
 			}
 		)
 	}
 
-	getEmployeeNavigation(){
+	getEmployeeNavigation() {
 		this.api.getEmployeeNavigation().subscribe(
-			data=>{
+			data => {
 				console.log(data)
 				this.employeeNavigation = data;
 			}
 		)
 	}
 
-	openInputColorSection(section_id){
+	openInputColorSection(section_id) {
 		$('#section_id').val(section_id);
 		document.getElementById("buttonColorSection").click();
 	}
 
-	inputColorSection(){
+	inputColorSection() {
 		var colorSection = $('#color').val();
 		var section_id = $('#section_id').val();
 		var colorSectionForm = ({
 			color: colorSection
 		});
-		// console.log(colorSectionForm, section_id)
 		this.api.updateColorSection(section_id, colorSectionForm).subscribe(
-			data=>{
+			data => {
 				console.log(data)
 			}
 		)
 	}
 
-	selectAdviser(emp_id){
+	selectAdviser(emp_id) {
 		var adviser = emp_id.split(',');
 		console.log(adviser)
 		var adviserForm = ({
@@ -137,56 +135,53 @@ export class SettingsComponent implements OnInit {
 			adviser_whole_name: adviser[2] + ' ' + adviser[3]
 		});
 		this.api.sectionAdviser(adviser[1], adviserForm).subscribe(
-			data=>{
-				// console.log(data);
-				if(data == "ERROR"){
+			data => {
+				if (data == "ERROR") {
 					this.isAssigned = true;
 				}
 			}
 		)
 	}
 
-	checkboxUserNav(unav_id, show_hide){
+	checkboxUserNav(unav_id, show_hide) {
 		console.log(unav_id, show_hide);
-		var boolean = ({boolean: show_hide});
+		var boolean = ({ boolean: show_hide });
 		this.api.userNavigation(unav_id, boolean).subscribe(
-			data=>{
+			data => {
 				console.log(data)
 			}
 		)
 	}
 
-	checkboxEmploeeNav(unav_id, show_hide){
+	checkboxEmploeeNav(unav_id, show_hide) {
 		console.log(unav_id, show_hide);
-		var boolean = ({boolean: show_hide});
+		var boolean = ({ boolean: show_hide });
 		this.api.employeeNavigation(unav_id, boolean).subscribe(
-			data=>{
+			data => {
 				console.log(data)
 			}
 		)
 	}
 
-	createYearAndSection(){
+	createYearAndSection() {
 		var year = $('#year').val();
 		var section = $('#section').val();
 		this.yearAndSectionForm.value.year = year;
 		this.yearAndSectionForm.value.section = section;
 		this.api.createYearAndSection(this.yearAndSectionForm.value).subscribe(
-			data=>{
-				console.log(data)
+			data => {
 			}
 		)
 	}
 
-	updateCurrentBatch(){
+	updateCurrentBatch() {
 		let batch_year = $('#batch_year').val();
 		let batch_sem = $('#batch_sem').val();
 		this.currentBatchForm.value.batch_year = batch_year;
 		this.currentBatchForm.value.batch_sem = batch_sem;
 		this.api.updateCurrentBatch(this.currentBatchForm.value).subscribe(
-			data=>{
+			data => {
 			}
 		);
 	}
-
 }

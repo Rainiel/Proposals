@@ -18,27 +18,19 @@ export class StudentGroupComponent implements OnInit {
 		private groupService: GroupService) { 
 		this.authService.currentUser.subscribe(x => this.currentUser = x);
 		this.getProposalGroup();
-		
 	}
 
-	ngOnInit() {
-
-	}
-
-
-
+	ngOnInit() {}
+	
 	getProposalGroup(){
 		this.groupService.getProposalGroup(this.currentUser.group_proposal_name).subscribe(
 			data => {
-				// console.log(data)
 				for(let i = 0; i<data.length;i++){
 					if(data[i].subject == 'Design_Project'){
 						this.groupMembers = data[i].groupMembers;
-						// console.log(this.groupMembers);
 					}
 				} 
 			}
 		)
 	}
-
 }

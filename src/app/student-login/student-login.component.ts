@@ -26,7 +26,6 @@ export class StudentLoginComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService
   ) {
-    // redirect to home if already logged in
     if (this.authService.currentUserValue) {
       this.router.navigate(['/proposals']);
     }
@@ -47,10 +46,6 @@ export class StudentLoginComponent implements OnInit {
         }, 100);
       });
     });
-
-    // reset login status
-    // this.authService.logout();
-
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]]
@@ -68,7 +63,6 @@ export class StudentLoginComponent implements OnInit {
     console.log(this.loginForm.value.email)
     this.submitted = true;
     if (this.loginForm.invalid) {
-      // console.log('bihi')
       return;
     }
 
@@ -76,7 +70,6 @@ export class StudentLoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          // console.log(data);
           this.authService.updateStatus(data._id, this.update_status.value);
         },
         error => {
@@ -84,7 +77,6 @@ export class StudentLoginComponent implements OnInit {
             this.incorrect = true;
           }
         });
-
   }
 
   update(id) {
@@ -92,10 +84,8 @@ export class StudentLoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          // console.log(data)
           this.router.navigate(['/proposals']);
         }
       );
   }
-
 }

@@ -35,7 +35,6 @@ export class GroupProfileComponent implements OnInit {
   ngOnInit() {
     this.groupService.getById(this.group_id).subscribe(
       data=>{
-        console.log(data);
         this.group_members = data.groupMembers;
         this.group_name = data.groupName;
         this.group_type = data.groupType;

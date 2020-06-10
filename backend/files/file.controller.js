@@ -3,6 +3,8 @@ const router = express.Router();
 const fs   = require('fs');
 const multer = require('multer');
 const fileService = require('./file.service');
+const db = require('database/db');
+const Group = db.Group;
 
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -15,19 +17,12 @@ var storage = multer.diskStorage({
 		
 	},
 	filename: function (req, file, cb) {
-	//   cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
 	cb(null, file.originalname)
 	  console.log(file)
 	}
 })
 
 var upload = multer({storage: storage});
-
-// router.get('/',function(req,res){
-// 	res.sendFile('sad',{ root: '_fileStorage/section5-2/proposals/code/' } );
-//   	console.log(req.headers)
-//   	});
-
 router.post('/uploadPhoto',
   	upload.single('photo'), function (req, res, next){
     if (!req.file) {

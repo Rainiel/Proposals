@@ -4,13 +4,13 @@
 			<div class="tbl">
 				<div class="tbl-row">
 					<div class="tbl-cell">
-						<h3>Schedule For Defense</h3> 
+						<h3>Schedule For Defense</h3>
 					</div>
 					<div class="tbl-cell">
 						<h4>Week:</h4>
 					</div>
 					<div class="tbl-cell" style="margin-right: 50px;">
-						<input type="name" id="defenseWeek" class="form-control" placeholder="Ex: May 2nd week"/>
+						<input type="name" id="defenseWeek" class="form-control" placeholder="Ex: May 2nd week" />
 					</div>
 					<div class="tbl-cell tbl-cell-action" *ngIf="ifSchedule">
 						<a class="btn btn-rounded btn-success" style="color: white;" (click)="createSchedule()">Save Schedule</a>
@@ -21,92 +21,72 @@
 				</div>
 			</div>
 		</div>
-	</header><!--.page-content-header-->
-<div class="container-fluid p-4">
+	</header>
+	<!--.page-content-header-->
+	<div class="container-fluid p-4">
 
-	<div cdkDropListGroup>
-		<div class="example-container">
-		  <h5>Groups</h5>
-	  
-		  <div
-			cdkDropList
-			[cdkDropListData]="Groups"
-			class="example-list"
-			cdkDropListSortingDisabled
-			(cdkDropListDropped)="drop($event)">
-			<div class="example-box" *ngFor="let item of Groups" cdkDrag [ngStyle]="{'background-color': item.color}">{{item.group}}</div>
+		<div cdkDropListGroup>
+			<div class="example-container">
+				<h5>Groups</h5>
 
-		  </div>
-		</div>
-	  
-		<div class="example-container2">
-		 	<h5>Monday</h5>
-	  
-			<div
-				cdkDropList
-				[cdkDropListData]="monday"
-				class="example-list"
-				(cdkDropListDropped)="drop($event)">
-				<div class="example-box" *ngFor="let item of monday" cdkDrag [ngStyle]="{'background-color': item.color}">{{item.group}}</div>
+				<div cdkDropList [cdkDropListData]="Groups" class="example-list" cdkDropListSortingDisabled
+					(cdkDropListDropped)="drop($event)">
+					<div class="example-box" *ngFor="let item of Groups" cdkDrag [ngStyle]="{'background-color': item.color}">
+						{{item.group}}</div>
+
+				</div>
 			</div>
-		</div>
-		<div class="example-container2">
-			<h5>Tuesday</h5>
-		
-			<div
-				cdkDropList
-				[cdkDropListData]="tuesday"
-				class="example-list"
-				(cdkDropListDropped)="drop($event)">
-				<div class="example-box" *ngFor="let item of tuesday" cdkDrag [ngStyle]="{'background-color': item.color}">{{item.group}}</div>
+
+			<div class="example-container2">
+				<h5>Monday</h5>
+
+				<div cdkDropList [cdkDropListData]="monday" class="example-list" (cdkDropListDropped)="drop($event)">
+					<div class="example-box" *ngFor="let item of monday" cdkDrag [ngStyle]="{'background-color': item.color}">
+						{{item.group}}</div>
+				</div>
 			</div>
-		</div>
-		<div class="example-container2">
-			<h5>Wednesday</h5>
-		
-			<div
-				cdkDropList
-				[cdkDropListData]="wednesday"
-				class="example-list"
-				(cdkDropListDropped)="drop($event)">
-				<div class="example-box" *ngFor="let item of wednesday" cdkDrag [ngStyle]="{'background-color': item.color}">{{item.group}}</div>
+			<div class="example-container2">
+				<h5>Tuesday</h5>
+
+				<div cdkDropList [cdkDropListData]="tuesday" class="example-list" (cdkDropListDropped)="drop($event)">
+					<div class="example-box" *ngFor="let item of tuesday" cdkDrag [ngStyle]="{'background-color': item.color}">
+						{{item.group}}</div>
+				</div>
 			</div>
-		</div>
-		<div class="example-container2">
-			<h5>Thursday</h5>
-		
-			<div
-				cdkDropList
-				[cdkDropListData]="thursday"
-				class="example-list"
-				(cdkDropListDropped)="drop($event)">
-				<div class="example-box" *ngFor="let item of thursday" cdkDrag [ngStyle]="{'background-color': item.color}">{{item.group}}</div>
+			<div class="example-container2">
+				<h5>Wednesday</h5>
+
+				<div cdkDropList [cdkDropListData]="wednesday" class="example-list" (cdkDropListDropped)="drop($event)">
+					<div class="example-box" *ngFor="let item of wednesday" cdkDrag [ngStyle]="{'background-color': item.color}">
+						{{item.group}}</div>
+				</div>
 			</div>
-		</div>
-		<div class="example-container2">
-			<h5>Friday</h5>
-		
-			<div
-				cdkDropList
-				[cdkDropListData]="friday"
-				class="example-list"
-				(cdkDropListDropped)="drop($event)">
-				<div class="example-box" *ngFor="let item of friday" cdkDrag [ngStyle]="{'background-color': item.color}">{{item.group}}</div>
+			<div class="example-container2">
+				<h5>Thursday</h5>
+
+				<div cdkDropList [cdkDropListData]="thursday" class="example-list" (cdkDropListDropped)="drop($event)">
+					<div class="example-box" *ngFor="let item of thursday" cdkDrag [ngStyle]="{'background-color': item.color}">
+						{{item.group}}</div>
+				</div>
 			</div>
-		</div>
-		<div class="example-container2">
-			<h5>Saturday</h5>
-		
-			<div
-				cdkDropList
-				[cdkDropListData]="saturday"
-				class="example-list"
-				(cdkDropListDropped)="drop($event)">
-				<div class="example-box" *ngFor="let item of saturday" cdkDrag [ngStyle]="{'background-color': item.color}">{{item.group}}</div>
+			<div class="example-container2">
+				<h5>Friday</h5>
+
+				<div cdkDropList [cdkDropListData]="friday" class="example-list" (cdkDropListDropped)="drop($event)">
+					<div class="example-box" *ngFor="let item of friday" cdkDrag [ngStyle]="{'background-color': item.color}">
+						{{item.group}}</div>
+				</div>
 			</div>
+			<div class="example-container2">
+				<h5>Saturday</h5>
+
+				<div cdkDropList [cdkDropListData]="saturday" class="example-list" (cdkDropListDropped)="drop($event)">
+					<div class="example-box" *ngFor="let item of saturday" cdkDrag [ngStyle]="{'background-color': item.color}">
+						{{item.group}}</div>
+				</div>
+			</div>
+
 		</div>
 
-	  </div>
-
-</div>
+	</div>
 </div>

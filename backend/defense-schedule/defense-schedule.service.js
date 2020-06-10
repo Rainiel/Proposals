@@ -15,17 +15,12 @@ async function getAll() {
 
 async function create(scheduleParam){
     const schedule = new Defense_schedule(scheduleParam);
-
-    // save user
     return await schedule.save()
 }
 
 async function update(id, scheduleParam){
 	const schedule = await Defense_schedule.findById(id);
-
-    // copy userParam properties to user
     Object.assign(schedule, scheduleParam);
-
     await schedule.save();
 }
 

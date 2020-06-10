@@ -3,23 +3,11 @@
 
 		<section class="card box-typical-full-height">
 			<div class="card-block">
-				<h5 class="with-border m-t-0">Design Project: Group - {{ group_name }} {{ year }}-{{ section }}
-					<!-- <a class="btn btn-rounded btn-info" style="color: white; float: right;">Add member</a> -->
-				</h5>
+				<h5 class="with-border m-t-0">Design Project: Group - {{ group_name }} {{ year }}-{{ section }}</h5>
 				<div class="row">
 					<div class="col">
 						<div class="alert alert-secondary" role="alert">
 							Group Type is: {{ group_type }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="alert alert-secondary" role="alert">
-							This is a secondary alert—check it out!
-						</div>
-					</div>
-					<div class="col">
-						<div class="alert alert-secondary" role="alert">
-							This is a secondary alert—check it out!
 						</div>
 					</div>
 				</div>
@@ -35,11 +23,6 @@
 								<tr *ngFor="let members of group_members">
 									<td>{{ members.whole_name }}</td>
 								</tr>
-								<!-- <tr>
-									<td>Last quarter revene</td>
-									<td class="color-blue-grey-lighter">Revene for last quarter in state America for year 2013, whith...
-									</td>
-								</tr> -->
 							</tbody>
 						</table>
 					</div>

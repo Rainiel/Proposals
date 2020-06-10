@@ -71,18 +71,13 @@ export class CommitteeNavigationComponent implements OnInit {
 	getEmployeeNavigation(){
 		this.api.getEmployeeNavigation().subscribe(
 			data => {
-				// console.log(data);
 				for(let i = 0;i<data.length;i++){
-					// this.navigations.push(data[i]);
 					if(data[i].boolean == true){
 						this.navigations.push(data[i]);
 					}
 					for(let k=0;k<data[i].notification.length;k++){
-						// console.log(data[i].notification)
 					}
 				}
-				// console.log(this.navigations);
-				// console.log(this.withChildNav);
 			}
 		)
 	}
@@ -127,5 +122,4 @@ export class CommitteeNavigationComponent implements OnInit {
 			}
 		);
 	}
-
 }

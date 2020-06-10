@@ -36,7 +36,4 @@ export class DashboardService {
   getStudents(){
     return this.http.get<any>(`${this.url}/users`);
   }
-
-  
-
 }

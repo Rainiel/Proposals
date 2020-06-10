@@ -15,17 +15,12 @@ async function getAll() {
 
 async function createWeek(scheduleParam){
     const week = new Defense_week(scheduleParam);
-
-    // save user
     return await week.save()
 }
 
 async function update(id, scheduleParam){
 	const week = await Defense_week.findById(id);
-
-    // copy userParam properties to user
     Object.assign(week, scheduleParam);
-
     await week.save();
 }
 

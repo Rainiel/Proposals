@@ -12,99 +12,92 @@
                 </div>
             </div>
         </div>
-    </header><!--.page-content-header-->
-<div class="container-fluid p-4">
+    </header>
+    <!--.page-content-header-->
+    <div class="container-fluid p-4">
 
-	<!-- Student Profile -->
-	<div class="row card-user-grid" style="padding-left: 15px;">
-		<div style="width: 150px; padding-right: 15px;" *ngFor="let committee of committees">
-			<article class="card-user box-typical" >
-				<!-- <div class="card-user-action float-right">
-					<div class="dropdown dropdown-user-menu">
-						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="glyphicon glyphicon-option-vertical"></span>
-						</button>
-						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="#"><span class="font-icon font-icon-home"></span>Quant and Verbal</a>
-							<a class="dropdown-item" href="#"><span class="font-icon font-icon-cart"></span>Real Gmat Test</a>
-							<a class="dropdown-item" href="#"><span class="font-icon font-icon-speed"></span>Prep Official App</a>
-							<a class="dropdown-item" href="#"><span class="font-icon font-icon-users"></span>CATprer Test</a>
-							<a class="dropdown-item" ><i class="font-icon font-icon-comments" ></i>Third Party Test</a>
-						</div>
-					</div>
-				</div> -->
-				<div class="card-user-photo">
-					<img src="{{committee.avatar_path}}{{committee.avatar_photo}}" alt="">
-				</div>
-				<div class="card-user-name">{{committee.title}}&nbsp;{{ committee.firstName}} <br> {{ committee.lastName}}</div>
-				<!-- <button class="btn btn-rounded btn-sm">View Proposal</button> -->
-			</article><!-- .card-user -->
-		</div><!-- Student Profile -->
-	</div> <!-- .card-user-grid -->
-	
-</div>
-</div>
+        <!-- Student Profile -->
+        <div class="row card-user-grid" style="padding-left: 15px;">
+            <div style="width: 150px; padding-right: 15px;" *ngFor="let committee of committees">
+                <article class="card-user box-typical">
+                    <div class="card-user-photo">
+                        <img src="{{committee.avatar_path}}{{committee.avatar_photo}}" alt="">
+                    </div>
+                    <div class="card-user-name">{{committee.title}}&nbsp;{{ committee.firstName}} <br>
+                        {{ committee.lastName}}</div>
+                </article><!-- .card-user -->
+            </div><!-- Student Profile -->
+        </div> <!-- .card-user-grid -->
 
-<!-- Modal for committee registration -->
-<div class="modal fade" id="committeeModal" tabindex="-1" role="dialog" aria-labelledby="committeeModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="committeeModalLabel">Committee Registration</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form class="sign-box" [formGroup]="registerForm" (ngSubmit) = "tryRegisterCommittee()">
-            <div class="modal-body">
-				<div class="form-group">
-					<select class="browser-default custom-select" formControlName="title">
-						<option selected value="">Choose Title</option>
-						<option value="Mr.">Mr.</option>
-						<option value="Engr.">Engr.</option>
-						<option value="Dr.">Dr.</option>
-					</select>
-				</div>
-                <div class="form-group">
-                    <input type="text" formControlName="firstName" class="form-control" placeholder="First Name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"/>
-                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="text" formControlName="lastName" class="form-control" placeholder="Last Name" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
-                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="text" formControlName="email" class="form-control" placeholder="E-Mail" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                        <div *ngIf="f.email.errors.required">Email is required</div>
-                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="password" formControlName="password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <div *ngIf="f.password.errors.required">Password is required</div>
-                        <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Repeat password" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"/>
-                    <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-                        <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-                        <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
-                    </div>
-                </div>
-                <!-- <button type="submit" class="btn btn-rounded btn-success sign-up">Sign up</button> -->
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-rounded btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-rounded btn-success sign-up">Save changes</button>
-            </div>
-        </form>
-      </div>
     </div>
-  </div>
+</div>
+<!-- Modal for committee registration -->
+<div class="modal fade" id="committeeModal" tabindex="-1" role="dialog" aria-labelledby="committeeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="committeeModalLabel">Committee Registration</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="sign-box" [formGroup]="registerForm" (ngSubmit)="tryRegisterCommittee()">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select class="browser-default custom-select" formControlName="title">
+                            <option selected value="">Choose Title</option>
+                            <option value="Mr.">Mr.</option>
+                            <option value="Engr.">Engr.</option>
+                            <option value="Dr.">Dr.</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" formControlName="firstName" class="form-control" placeholder="First Name"
+                            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                            <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" formControlName="lastName" class="form-control" placeholder="Last Name"
+                            [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                            <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" formControlName="email" class="form-control" placeholder="E-Mail"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" formControlName="password" class="form-control" placeholder="Password"
+                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" formControlName="confirmPassword" class="form-control"
+                            placeholder="Repeat password"
+                            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                        <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                            <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+                        </div>
+                    </div>
+                    <!-- <button type="submit" class="btn btn-rounded btn-success sign-up">Sign up</button> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-rounded btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-rounded btn-success sign-up">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

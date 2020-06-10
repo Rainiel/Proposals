@@ -24,7 +24,7 @@ export class CommitteeLoginComponent implements OnInit {
 		private employeeService: EmployeeService
 
 	) {
-		// redirect to home if already logged insdas
+		// redirect to home if already logged
 		if (this.authService.currentUserValue) {
 			this.router.navigate(['/proposals']);
 		}
@@ -82,7 +82,6 @@ export class CommitteeLoginComponent implements OnInit {
 				() => {
 					window.location.reload();
 				});
-
 	}
 
 	update(id) {
@@ -95,5 +94,4 @@ export class CommitteeLoginComponent implements OnInit {
 				}
 			);
 	}
-
 }

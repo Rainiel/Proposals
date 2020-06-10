@@ -92,7 +92,6 @@ export class DefenseSchedulerComponent implements OnInit {
 						this.saturday.push(data[0].saturday[i]);
 						this.GroupsNotPush.push(data[0].saturday[i]);
 					}
-					// this.getGroups();
 				}
 			)
 		}
@@ -116,7 +115,6 @@ export class DefenseSchedulerComponent implements OnInit {
 	}
 
 	removeArrayItem(data) {
-		// console.log(this.Groups)
 		for (let k = 0; k < this.GroupsNotPush.length; k++) {
 			console.log(this.GroupsNotPush[k].group)
 			if (this.GroupsNotPush[k].group == data.group) {
@@ -128,7 +126,6 @@ export class DefenseSchedulerComponent implements OnInit {
 	createSchedule() {
 		this.defense_scheduleService.create(this.schedule.value).subscribe(
 			data => {
-				// console.log(data)
 			}
 		);
 		var week = $('#defenseWeek').val();

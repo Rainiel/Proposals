@@ -17,14 +17,12 @@ declare var $: any;
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
 
-
 @Component({
 	selector: 'app-proposals',
 	templateUrl: './proposals.component.html',
 	styleUrls: ['./proposals.component.scss']
 })
 export class ProposalsComponent implements OnInit {
-	// @ViewChild('closeModalWhenCreateGroup', {static: false}) private closeModal: ElementRef;
 	private userSubscription: Subscription[] = [];
 	users: Array<any>;
 	submitted = false;
@@ -83,11 +81,9 @@ export class ProposalsComponent implements OnInit {
 				.subscribe(() => {
 
 					if (this.currentUser.role == 'Student') {
-						// console.log('group id', this.currentUser.group_proposal_id);
 						this.getOwnProposal();
 						this.getAllProposalsForCompare();
 					} else {
-						// console.log('group Id', this.currentUser.group_proposal_id);
 						this.getAllProposals();
 					}
 				})
@@ -188,7 +184,6 @@ export class ProposalsComponent implements OnInit {
 		};
 		this.uploadFile.onCompleteItem = (file, item: any, response: any, status: any, headers: { any }) => {
 			console.log('FileUpload:uploaded:', item, status, response, headers);
-			// console.log(file['file']['name'])
 		};
 	}
 
@@ -210,13 +205,11 @@ export class ProposalsComponent implements OnInit {
 		this.api.getSectionList().subscribe(
 			data => {
 				this.section_list = data;
-				// console.log(data)
 			}
 		);
 		this.api.getProposalTableColumn().subscribe(
 			data => {
 				this.proposal_table_column = data;
-				// console.log(data)
 				if (this.isUserStudent == false) {
 					this.getOwnProposal();
 					this.getAllProposalsForCompare();
@@ -245,7 +238,6 @@ export class ProposalsComponent implements OnInit {
 				//Complete
 				this.changeDetectorRef.detectChanges();
 				var table = $("#proposals_table").DataTable();
-				// this.dataTable = table.DataTable();
 				$('#section_list').on('change', function () {
 					table.column(2).search(this.value).draw();
 				});
@@ -265,7 +257,6 @@ export class ProposalsComponent implements OnInit {
 				var table = $("#proposals_table").on("draw.dt", function () {
 					$(this).find(".dataTables_empty").parents('tbody').empty();
 				}).DataTable();
-				// this.dataTable = table.DataTable();
 				$('#section_list').on('change', function () {
 					table.column(2).search(this.value).draw();
 				});
@@ -284,13 +275,13 @@ export class ProposalsComponent implements OnInit {
 					this.update_status.value.group_proposal_id = data._id;
 					this.api.createGroup(this.groupForm.value.groupMembers, this.update_status.value);
 					this.authService.updateStatusForGroup(this.currentUser._id, this.update_status.value);
-					let activity = ({ 
+					let activity = ({
 						notification_users: [this.currentUser._id],
 						user_id: `${this.currentUser._id}`,
-						section:	`${this.currentUser.section}`,
-						year:	`${this.currentUser.year}`,
-						batch_year:	`${this.currentUser.created_batch_year}`,
-						batch_sem:	`${this.currentUser.created_batch_sem}`,
+						section: `${this.currentUser.section}`,
+						year: `${this.currentUser.year}`,
+						batch_year: `${this.currentUser.created_batch_year}`,
+						batch_sem: `${this.currentUser.created_batch_sem}`,
 						message: 'created a group',
 						link: `group-profile`,
 						group_name: `${this.groupForm.value.groupName}`,
@@ -298,11 +289,9 @@ export class ProposalsComponent implements OnInit {
 						group_id: `${this.currentUser.group_proposal_id}`
 					});
 					this.activityService.create(activity).subscribe(
-						data=> {
-
+						data => {
 						}
 					);
-
 				},
 				error => { console.log(error) },
 				() => {
@@ -320,9 +309,6 @@ export class ProposalsComponent implements OnInit {
 				if (data_data.group_proposal_id) {
 					this.proposalForm.value.section = this.currentUser.section;
 					this.proposalForm.value.group_id = data_data.group_proposal_id;
-					// ------------------------
-					// console.log("finish")
-					// console.log(this.proposalForm.value)
 					let creatingProposal = this.proposalForm.value.title.split(" ");
 					for (let i = 0; i < this.proposalsCompare.length; i++) {
 						let splitted = this.proposalsCompare[i].title.split(" ");
@@ -332,13 +318,11 @@ export class ProposalsComponent implements OnInit {
 								if (splitted[j].toLowerCase().replace(/s$|1$|2$|3$|4$|5$|6$|7$|8$|9$|0$/, "") == creatingProposal[k].toLowerCase().replace(/s$|1$|2$|3$|4$|5$|6$|7$|8$|9$|0$/, "")) {
 									this.ifSameProposal = true;
 									counter = 1;
-									// console.log("Possible same thesis", this.proposalsCompare[i]);
 									this.sameProposals.push(this.proposalsCompare[i]);
 								}
 							}
 						}
 					}
-					//-------------------------
 				}
 				else {
 					console.log("di nag e exist");
@@ -350,20 +334,19 @@ export class ProposalsComponent implements OnInit {
 					this.proposalService.createProposal(this.proposalForm.value).subscribe(
 						data => {
 							this.nodemailService.nodemail(this.currentUser.email, this.proposalForm.value.title).subscribe();
-							let activity = ({ 
+							let activity = ({
 								notification_users: [this.currentUser._id],
 								user_id: `${this.currentUser._id}`,
-								section:	`${this.currentUser.section}`,
-								year:	`${this.currentUser.year}`,
-								batch_year:	`${this.currentUser.created_batch_year}`,
-								batch_sem:	`${this.currentUser.created_batch_sem}`,
+								section: `${this.currentUser.section}`,
+								year: `${this.currentUser.year}`,
+								batch_year: `${this.currentUser.created_batch_year}`,
+								batch_sem: `${this.currentUser.created_batch_sem}`,
 								message: 'created a proposal',
 								proposal_title: `${this.proposalForm.value.title}`,
 								group_id: `${this.currentUser.group_proposal_id}`
 							});
 							this.activityService.create(activity).subscribe(
-								data=> {
-									// this.proposalService.nodemail();
+								data => {
 								}
 							);
 						}
