@@ -30,7 +30,6 @@ export class ApiService {
 		this.socket = io(this.url);
 	}
 	//-----For Realtime--------------
-
 	getSectionListData(): Observable<string> {
 		return this.observable = new Observable((observer) => {
 			this.socket.on('SectionListData', (data) => observer.next(data)
@@ -38,8 +37,6 @@ export class ApiService {
 		})
 	}
 	//-----For Realtime--------------
-
-
 	getSectionColor2(year, section, groupName, group_id): Observable<any> {
 		var subject = new Subject<any>();
 		this.getSectionColor(year, section).subscribe(
@@ -164,7 +161,6 @@ export class ApiService {
 				i = Math.floor(Math.log(bytes) / Math.log(k));
 			filesize = parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 		}
-		// return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 		return of(filesize);
 	}
 
@@ -223,12 +219,10 @@ export class ApiService {
 		return (formGroup: FormGroup) => {
 			const control = formGroup.controls[controlName];
 			const matchingControl = formGroup.controls[matchingControlName];
-
 			if (matchingControl.errors && !matchingControl.errors.mustMatch) {
 				// return if another validator has already found an error on the matchingControl
 				return;
 			}
-
 			// set error on matchingControl if validation fails
 			if (control.value !== matchingControl.value) {
 				matchingControl.setErrors({ mustMatch: true });

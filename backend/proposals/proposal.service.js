@@ -100,25 +100,18 @@ async function checkProposalCommentIfExisting(proposal_id, committee_id){
 
 async function update(id, proposalParam) {
 	const proposal = await Proposal.findById(id);
-
-	// copy proposalParam properties to user
 	Object.assign(proposal, proposalParam);
-
 	return await proposal.save();
 }
 
 async function updateProposalComment(proposal_id, committee_id, commentParam){
 	const comment = await Proposal_comment.findOne({proposal_id: `${proposal_id}`, committee_id: `${committee_id}`});
-
 	Object.assign(comment, commentParam);
-	
 	return await comment.save();
 }
 
 async function updateComment(id, commentParam) {
 	const comment = await Proposal_comment.findById(id);
-
-	// copy proposalParam properties to user
 	Object.assign(comment, commentParam);
 	console.log(comment)
 	console.log(commentParam)
@@ -127,8 +120,6 @@ async function updateComment(id, commentParam) {
 
 async function updateProposalDecision(id, proposalParam) {
 	const decision = await Proposal_approve_reject.findOne({ proposal_id: `${id}` });
-
-	// copy proposalParam properties to user
 	Object.assign(decision, proposalParam);
 	console.log(decision);
 	await decision.save();

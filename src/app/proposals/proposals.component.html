@@ -43,7 +43,6 @@
 						</select>
 					</div>
 				</div><!-- Filters for Proposals -->
-
 				<!-- Table For Proposals -->
 				<table id="proposals_table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 					<thead>
@@ -95,10 +94,10 @@
 					<div class="row">
 						<div class="col form-group">
 							<input type="email" id="groupName" formControlName="groupName" class="form-control"
-								placeholder="Group Name" [ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
-							<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-								<div *ngIf="f.email.errors.required">Email is required</div>
-								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+								placeholder="Group Name" [ngClass]="{ 'is-invalid': submitted &&  f.groupName.errors }" />
+							<div *ngIf="submitted && f.groupName.errors" class="invalid-feedback">
+								<div *ngIf="f.groupName.errors.required">groupName is required</div>
+								<div *ngIf="f.groupName.errors.groupName">groupName must be a valid groupName</div>
 							</div>
 						</div>
 						<div class="col input-group mb-3">
@@ -165,40 +164,6 @@
 
 												</div>
 											</div>
-											<!--.uploading-container-left-->
-											<div class="uploading-container-right">
-												<div class="uploading-container-right-in">
-													<div class="form-group">
-														<input type="name" formControlName="title" class="form-control" placeholder="Thesis Title"
-															[ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
-														<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-															<div *ngIf="f.email.errors.required">Email is required</div>
-															<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-														</div>
-													</div>
-													<h6 class="uploading-list-title">Upload</h6>
-													<ul class="uploading-list">
-
-														<li class="uploading-list-item" *ngIf="fileToUpload">
-															<div class="uploading-list-item-wrapper">
-																<div class="uploading-list-item-name">
-																	<i class="font-icon font-icon-page"></i>
-																	{{ fileName }}
-																</div>
-																<div class="uploading-list-item-size">{{ fileSize }}</div>
-																<button type="button" class="uploading-list-item-close">
-																	<i class="font-icon-close-2"></i>
-																</button>
-															</div>
-															<div class="progress">
-																<span class="progress-bar" [ngStyle]="{ 'width': uploadFile.progress + '%' }"></span>
-															</div>
-															<div class="uploading-list-item-progress">{{ uploadFile.progress }}</div>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<!--.uploading-container-right-->
 										</div>
 										<!--.uploading-container-->
 									</div>
@@ -211,7 +176,6 @@
 								</form>
 							</div>
 							<!--.tab-pane-->
-
 						</div>
 						<!--.tab-content-->
 					</div>
@@ -239,22 +203,13 @@
 				<div class="alert alert-info" role="alert">
 					There's a same proposal
 				</div>
-				<!-- <div class="alert alert-info" role="alert" *ngFor="let proposal of sameProposals">
-					{{ proposal.title }}
-				</div> -->
 			</div>
 			<form [formGroup]="proposalForm" (ngSubmit)="createProposal()">
 				<div class="modal-body">
 
 					<div class="row">
 						<div class="col form-group">
-							<input type="name" formControlName="title" class="form-control" placeholder="Proposal Title"
-								[ngClass]="{ 'is-invalid': submitted &&  f.email.errors }" />
-							<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-								<div *ngIf="f.email.errors.required">Email is required</div>
-								<div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-							</div>
-
+							<input type="name" formControlName="title" class="form-control" placeholder="Proposal Title"/>
 						</div>
 					</div>
 

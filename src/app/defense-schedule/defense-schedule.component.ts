@@ -80,7 +80,6 @@ export class DefenseScheduleComponent implements OnInit {
 	getEmployees(){
 		this.employeeService.getAll().subscribe(
 			data=>{
-				// console.log(data);
 				this.employees = data;
 			}
 		)
@@ -238,5 +237,4 @@ export class DefenseScheduleComponent implements OnInit {
 			}
 		);
 	}
-
 }

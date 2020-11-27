@@ -17,6 +17,11 @@ import * as $ from "jquery"
 
 const UploadURL = 'http://localhost:4000/file/uploadFile';
 
+export interface profile {
+	title: String;
+}
+
+
 @Component({
 	selector: 'app-proposals-profile',
 	templateUrl: './proposals-profile.component.html',
@@ -28,7 +33,7 @@ export class ProposalsProfileComponent implements OnInit {
 	subs$;
 	proposal_members = [];
 	proposal_file: any;
-	proposal_profile = [];
+	proposal_profile: any;
 	proposal_comment = [];
 	proposal_groupName: any;
 	proposalFileForm: any;
@@ -67,7 +72,6 @@ export class ProposalsProfileComponent implements OnInit {
 	editCommentForm: any;
 	checkProposalCommentIfExisting: boolean;
 	//-----For Realtime--------------	
-
 	constructor(private route: ActivatedRoute,
 		private api: ApiService,
 		private proposalService: ProposalsService,
@@ -79,7 +83,7 @@ export class ProposalsProfileComponent implements OnInit {
 		private fileExplorerService: FileExplorerService,
 		private activityService: ActivityService,
 		private nodemailService: NodemailService) {
-		//-----For Realtime--------------
+		//-----For RT--------------
 		this.socket = io(this.url);
 		this.userSubscription.push(
 			this.proposalService
@@ -96,30 +100,47 @@ export class ProposalsProfileComponent implements OnInit {
 					this.getProposalComment();
 				})
 		);
-		//-----For Realtime--------------
+		//-----For RT--------------
 		this.authService.currentUser.subscribe(x => this.currentUser = x);
 		if (this.currentUser.role == 'Student') {
 			this.ifUserIsStudent = false;
 		} else { this.ifUserIsStudent = true; }
-		this.uploadFile = new FileUploader({
-			url: UploadURL, itemAlias: 'files', headers:
-				[
-					{ name: 'year', value: `${this.currentUser.year}` },
-					{ name: 'section', value: `${this.currentUser.section}` },
-					{ name: 'group_name', value: `${this.currentUser.group_proposal_name}` },
-					{ name: 'subject', value: 'proposals' }
-				]
-		});
-	}
+		this.groupService.getById(this.currentUser.group_proposal_id).subscribe(
+			data => {
+				console.log("group", data)
+				this.uploadFile = new FileUploader({
+					url: UploadURL, itemAlias: 'files', headers:
+						[
+							{ name: 'year', value: `${this.currentUser.year}` },
+							{ name: 'section', value: `${this.currentUser.section}` },
+							{ name: 'group_name', value: `${data.groupName}` },
+							{ name: 'subject', value: 'proposals' }
+						]
+				});
+				this.uploadFile.onAfterAddingFile = (file) => {
+					file.withCredentials = false;
+					this.fileToUpload = true;
+					this.fileName = file['file']['name'];
+					this.api.formatBytes(file['file']['size'], 2).subscribe(
+						data => {
+							this.fileSize = data;
+						}
+					);
+				};
+				this.uploadFile.onProgressItem = (progress: any) => {
+				};
+				this.uploadFile.onCompleteItem = (file, item: any, response: any, status: any, headers: { any }) => { };
+			}
+		);
 
-	ngOnInit() {
 		this.subs$ = this.route
 			.queryParams
 			.subscribe((params) => {
 				this.proposal_id = params["name"];
 			});
-		this.getProposalMembers();
+
 		this.getProposalProfile();
+		this.getProposalMembers();
 		this.getProposalFile();
 		this.getProposalComment();
 		this.getProposalApproveReject();
@@ -127,7 +148,9 @@ export class ProposalsProfileComponent implements OnInit {
 		this.getProposalPanelist();
 		this.getProposalAdviser();
 		this.checkProposalCommentIfExistingForCommittee();
+	}
 
+	ngOnInit() {
 		this.update_proposal_approve = this.formBuilder.group({
 			approve: ['']
 		});
@@ -169,24 +192,6 @@ export class ProposalsProfileComponent implements OnInit {
 		this.editCommentForm = this.formBuilder.group({
 			comment: [''],
 		});
-
-		this.uploadFile.onAfterAddingFile = (file) => {
-			file.withCredentials = false;
-			this.fileToUpload = true;
-			this.fileName = file['file']['name'];
-			this.api.formatBytes(file['file']['size'], 2).subscribe(
-				data => {
-					this.fileSize = data;
-				}
-			)
-			// console.log(file['file']['size'])
-		};
-		this.uploadFile.onProgressItem = (progress: any) => {
-			// console.log(progress['progress']);
-		};
-		this.uploadFile.onCompleteItem = (file, item: any, response: any, status: any, headers: { any }) => {
-			// console.log('FileUpload:uploaded:', item, status, response, headers);
-		};
 	}
 
 	createProposalApproveReject(decision) {
@@ -198,10 +203,9 @@ export class ProposalsProfileComponent implements OnInit {
 		this.proposal_approve_reject.value.title = this.currentUser.title;
 		this.proposal_approve_reject.value.avatar_path = this.currentUser.avatar_path;
 		this.proposal_approve_reject.value.avatar_photo = this.currentUser.avatar_photo;
-		// var proposal_approve_reject = {proposal_approve_reject: [this.proposal_approve_reject.value]};
 		this.proposalService.createProposalApproveReject(this.proposal_id, this.currentUser._id, this.proposal_approve_reject.value).subscribe(
 			data => {
-				// console.log(data);
+				;
 
 			}
 		)
@@ -209,26 +213,25 @@ export class ProposalsProfileComponent implements OnInit {
 
 	updateProposalApproveReject(decision) {
 		var changeDecision = { decision: `${decision}` };
-		// var proposal_approve_reject = {proposal_approve_reject: [this.proposal_approve_reject.value]};
 		this.proposalService.updateProposalDecision(this.proposal_id, changeDecision).subscribe(
 			data => {
-				// console.log(data);
+				;
 			}
 		);
 	}
 
-	changeDecision(){
+	changeDecision() {
 		this.checkProposalCommentIfExisting = !this.checkProposalCommentIfExisting;
 	}
 
-	checkProposalCommentIfExistingForCommittee(){
+	checkProposalCommentIfExistingForCommittee() {
 		this.proposalService.checkProposalCommentIfExisting(this.proposal_id, this.currentUser._id).subscribe(
 			data => {
-				if(data.length == 0){
+				if (data.length == 0) {
 					this.checkProposalCommentIfExisting = true;
 				} else {
 					this.checkProposalCommentIfExisting = false;
-					if(data[0].decision == 'approve'){
+					if (data[0].decision == 'approve') {
 						this.approveBTN = false;
 						this.rejectBTN = true;
 					} else {
@@ -247,7 +250,6 @@ export class ProposalsProfileComponent implements OnInit {
 		console.log(this.proposalComment.value)
 		this.proposalService.checkProposalCommentIfExisting(this.proposalComment.value.proposal_id, this.proposalComment.value.committee_id).subscribe(
 			data => {
-				// console.log("niel", data)
 				if (data.length == 0) {
 					this.proposalService.createProposalComment(this.proposalComment.value).subscribe(
 						data => {
@@ -281,7 +283,6 @@ export class ProposalsProfileComponent implements OnInit {
 					data => {
 						this.proposalFileForm.value.folder_parent = data.groupName;
 						this.proposalFileForm.value.file_path = `assets/_fileStorage/section${this.currentUser.year}-${this.currentUser.section}/proposals/${data.groupName}/`;
-						// bukas kailangan gumawa ng folder dito yung folder_name at folder_parent
 					},
 					error => { console.log(error) },
 					() => {
@@ -289,23 +290,22 @@ export class ProposalsProfileComponent implements OnInit {
 							data => {
 								var counter = 0;
 								this.uploadFile.uploadAll();
-								let activity = ({ 
+								let activity = ({
 									notification_users: [this.currentUser._id],
 									user_id: `${this.currentUser._id}`,
-									section:	`${this.currentUser.section}`,
-									year:	`${this.currentUser.year}`,
-									batch_year:	`${this.currentUser.created_batch_year}`,
-									batch_sem:	`${this.currentUser.created_batch_sem}`,
+									section: `${this.currentUser.section}`,
+									year: `${this.currentUser.year}`,
+									batch_year: `${this.currentUser.created_batch_year}`,
+									batch_sem: `${this.currentUser.created_batch_sem}`,
 									message: 'uploaded a file',
 									file_name: `${this.fileName}`,
 									group_id: `${this.currentUser.group_proposal_id}`
 								});
 								this.activityService.create(activity).subscribe(
-									data=> {
-			
+									data => {
+
 									}
 								);
-
 								this.fileExplorerService.getFolders().subscribe(
 									data => {
 										for (let i = 0; i < data.length; i++) {
@@ -323,7 +323,6 @@ export class ProposalsProfileComponent implements OnInit {
 											}
 											this.fileExplorerService.create(folder).subscribe(
 												data => {
-													// console.log("sample folder", data);
 												}
 											)
 										}
@@ -334,15 +333,7 @@ export class ProposalsProfileComponent implements OnInit {
 					}
 				)
 			},
-			error => { console.log(error) },
-			() => {
-				// this.proposalService.createProposalFile(this.proposalFileForm.value).subscribe(
-				// 	data => {
-				// 		this.uploadFile.uploadAll();
-				// 		// console.log(data)
-				// 	}
-				// )
-			}
+			error => { console.log(error) }
 		);
 	}
 
@@ -358,7 +349,6 @@ export class ProposalsProfileComponent implements OnInit {
 				if (data.length != 0) {
 					this.ifProposalHaveDecision = false;
 				}
-				// this.proposal_decisions = data;
 				for (let i = 0; i < data.length; i++) {
 					this.employeeService.getById(data[i].committee_id).subscribe(
 						committee => {
@@ -381,9 +371,6 @@ export class ProposalsProfileComponent implements OnInit {
 				this.proposal_decisions = array;
 				if (this.proposal_approves.length >= 0 && this.proposal_approves.length <= 6 || this.proposal_rejects.length >= 0 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Pending';
-					// this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-					// 	data => { }
-					// );
 				}
 				if (this.proposal_approves.length >= 7 && this.proposal_rejects.length <= 3) {
 					this.update_proposal_status.value.status = 'Approved';
@@ -394,9 +381,6 @@ export class ProposalsProfileComponent implements OnInit {
 				}
 				if (this.proposal_approves.length >= 0 && this.proposal_rejects.length >= 4) {
 					this.update_proposal_status.value.status = 'Rejected';
-					// this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-					// 	data => { }
-					// );
 				}
 			}
 		);
@@ -421,7 +405,6 @@ export class ProposalsProfileComponent implements OnInit {
 
 			}, () => {
 				this.proposal_comment = array;
-				// console.log(this.proposal_comment)
 			}
 		)
 	}
@@ -429,7 +412,6 @@ export class ProposalsProfileComponent implements OnInit {
 	getProposalFile() {
 		this.proposalService.getProposalFile(this.proposal_id).subscribe(
 			data => {
-				// console.log(data)
 				if (data.length != 0) {
 					this.Proposal_have_attachment = false;
 				}
@@ -441,10 +423,9 @@ export class ProposalsProfileComponent implements OnInit {
 	getProposalProfile() {
 		this.proposalService.getById(this.proposal_id).subscribe(
 			data => {
-				this.proposal_profile = data;
+				this.proposal_profile = data.title;
 				this.groupService.getById(data.group_id).subscribe(
 					data => {
-						// console.log(data)
 						this.proposal_groupName = data.groupName;
 					}
 				)
@@ -457,11 +438,10 @@ export class ProposalsProfileComponent implements OnInit {
 			data => {
 				this.groupService.getById(data.group_id).subscribe(
 					data => {
-						// console.log(data)
+
 						if (data.panel1 != "N/A") {
 							this.employeeService.getById(data.panel1).subscribe(
 								data => {
-									// console.log(data)
 									let panel: any;
 									panel = data;
 									this.panel1_photo = panel.avatar_path + panel.avatar_photo;
@@ -475,7 +455,6 @@ export class ProposalsProfileComponent implements OnInit {
 						if (data.panel2 != "N/A") {
 							this.employeeService.getById(data.panel2).subscribe(
 								data => {
-									// console.log(data)
 									let panel: any;
 									panel = data;
 									this.panel2_photo = panel.avatar_path + panel.avatar_photo;
@@ -489,7 +468,6 @@ export class ProposalsProfileComponent implements OnInit {
 						if (data.panel3 != "N/A") {
 							this.employeeService.getById(data.panel3).subscribe(
 								data => {
-									// console.log(data)
 									let panel: any;
 									panel = data;
 									this.panel3_photo = panel.avatar_path + panel.avatar_photo;
@@ -509,12 +487,10 @@ export class ProposalsProfileComponent implements OnInit {
 	getProposalMembers() {
 		this.api.getProposalMembers(this.proposal_id).subscribe(
 			data => {
-				// console.log(data)
-				// this.proposal_members = data;
 				for (let i = 0; i < data.length; i++) {
 					this.api.getAvatar(data[i]._id).subscribe(
 						data => {
-							// console.log(data);
+							;
 							this.proposal_members.push(data)
 						}
 					)
@@ -528,11 +504,9 @@ export class ProposalsProfileComponent implements OnInit {
 			data => {
 				this.api.getSectionAdviser(data.year, data.section).subscribe(
 					data => {
-						// console.log(data)
 						if (data[0].adviser_id != 'N/A') {
 							this.employeeService.getById(data[0].adviser_id).subscribe(
 								data => {
-									// console.log(data)
 									let adviserData: any;
 									adviserData = data;
 									this.adviser_photo = adviserData.avatar_path + adviserData.avatar_photo;
@@ -552,19 +526,6 @@ export class ProposalsProfileComponent implements OnInit {
 	updateApproveRejectOnOpen() {
 		this.proposalService.getProposalApproveCount(this.proposal_id).subscribe(
 			data => {
-				console.log("lols",this.proposal_id);
-				// if(data.length >= 0 && data.length <= 6){
-				// 	this.update_proposal_status.value.status = 'Pending';
-				// 	this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-				// 		data=>{}
-				// 	)
-				// }
-				// else if(data.length > 6){
-				// 	this.update_proposal_status.value.status = 'Approved';
-				// 	this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-				// 		data=>{}
-				// 	)
-				// }
 				this.update_proposal_approve.value.approve = data.length;
 				this.proposalService.update(this.proposal_id, this.update_proposal_approve.value).subscribe(
 					data => { }
@@ -573,19 +534,6 @@ export class ProposalsProfileComponent implements OnInit {
 		);
 		this.proposalService.getProposalRejectCount(this.proposal_id).subscribe(
 			data => {
-				// console.log(data.length);
-				// if(data.length >= 0 && data.length <= 3){
-				// 	this.update_proposal_status.value.status = 'Pending';
-				// 	this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-				// 		data=>{}
-				// 	)
-				// }
-				// else if(data.length > 3){
-				// 	this.update_proposal_status.value.status = 'Rejected';
-				// 	this.proposalService.update(this.proposal_id, this.update_proposal_status.value).subscribe(
-				// 		data=>{}
-				// 	)
-				// }
 				this.update_proposal_reject.value.reject = data.length;
 				this.proposalService.update(this.proposal_id, this.update_proposal_reject.value).subscribe(
 					data => {

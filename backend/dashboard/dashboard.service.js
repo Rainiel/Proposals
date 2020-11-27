@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const db = require('database/db');
-const Defense_schedule = db.Defense_schedule;
+const Dashboard = db.Dashboard;
 
 module.exports = {
     getAll,
@@ -10,18 +10,21 @@ module.exports = {
 };
 
 async function getAll() {
-    return await Defense_schedule.find().select('-hash');
+    return await Defense_week.find().select('-hash');
 }
 
 async function create(scheduleParam){
-    const schedule = new Defense_schedule(scheduleParam);
-    return await schedule.save()
+    const week = new Defense_week(scheduleParam);
+    return await week.save()
 }
 
 async function update(id, scheduleParam){
-	const schedule = await Defense_schedule.findById(id);
-    Object.assign(schedule, scheduleParam);
-    await schedule.save();
+	const week = await Defense_week.findById(id);
+
+    // copy userParam properties to user
+    Object.assign(week, scheduleParam);
+
+    await week.save();
 }
 
 async function _delete(id){

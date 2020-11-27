@@ -97,9 +97,6 @@ import { GroupsFilterPipe } from './_pipe/groups-filter.pipe';
 		DatePipe,
 		SectionFilterPipe,
 		GroupsFilterPipe
-
-		// provider used to create fake backend
-		// fakeBackendProvider,
 	],
   bootstrap: [AppComponent]
 })

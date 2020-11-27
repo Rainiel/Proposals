@@ -35,12 +35,11 @@ export class ExcelService {
 		});
 		FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
 	}
-	// -------------------------------------------
 	// ------------------------------------------- 
 	onFileChange(event) {
 		if (event.target.files.length > 0) {
-		 this.file = event.target.files[0];
-		 console.log('file', this.file)
+			this.file = event.target.files[0];
+			console.log('file', this.file)
 		}
 	}
 	Upload() {
@@ -56,20 +55,18 @@ export class ExcelService {
 			var worksheet = workbook.Sheets[first_sheet_name];
 			this.exceljsondata = XLSX.utils.sheet_to_json(worksheet, { raw: true, defval: "" });
 
-			console.log('exceljsondata',this.exceljsondata);
-			for(let i = 0; i < this.exceljsondata.length; i++){
+			console.log('exceljsondata', this.exceljsondata);
+			for (let i = 0; i < this.exceljsondata.length; i++) {
 				this.userService.register(this.exceljsondata[i]).subscribe(
-					data=>{
-						
+					data => {
 					}
 				);
-			} 
+			}
 		}
 		fileReader.readAsArrayBuffer(this.file);
 	}
-
-	importexcel(providrdata):Observable<any> {
+	importexcel(providrdata): Observable<any> {
 		return this.http.post(`${this.url}/defense_schedule`, providrdata);
-}
+	}
 
 }

@@ -1,7 +1,3 @@
-// module.exports = {
-//     db: 'mongodb://localhost:27017/pafms'
-//   };
-
 const config = require('config.json');
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || config.connectionString, { useCreateIndex: true, useNewUrlParser: true });
@@ -25,5 +21,6 @@ module.exports = {
 	Avatar: require('../api/avatar.model'),
 	Current_batch: require('../api/current_batch.model'),
 	Activity: require('../activity/activity.model'),
-	Defense_week: require('../defense_week/defense-week.model')
+	Defense_week: require('../defense_week/defense-week.model'),
+	Dashboard: require('../dashboard/dashboard.model')
 };

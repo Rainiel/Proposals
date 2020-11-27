@@ -27,7 +27,6 @@ async function getAllActivity() {
 async function create(eventParam) {
     console.log(eventParam)
 	const activity = new Activity(eventParam);
-    // save employee
     return await activity.save();
 }
 
@@ -37,10 +36,7 @@ async function getActivityStudents(year, section, batch_year, batch_sem, group_i
 
 async function update(id, eventParam) {
     const Activity = await Activity.findById(id);
-
-    // copy eventParam properties to Activity
     Object.assign(Activity, eventParam);
-
     await Activity.save();
 }
 

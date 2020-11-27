@@ -24,8 +24,6 @@ async function getById(id) {
 
 async function create(groupParam) {
     const group = new Group(groupParam);
-
-    // save user
     return await group.save()
 }
 
@@ -35,10 +33,7 @@ async function getGroupsBySection(section, year){
 
 async function update(id, groupParam) {
 	const group = await Group.findById(id);
-
-    // copy userParam properties to user
     Object.assign(group, groupParam);
-
     return await group.save();
 }
 

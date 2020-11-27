@@ -46,10 +46,6 @@ export class StudentNavigationComponent implements OnInit {
 		this.getAvatar();
 		this.getActivities();
 
-		// this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-		// this.authService.currentUser.subscribe(x => this.currentUser = x);
-		// this.currentUser = this.authService.currentUserValue();
-
 		this.update_status = this.formBuilder.group({
 			status: ['offline'],
 			status_id: ['0']
@@ -81,8 +77,8 @@ export class StudentNavigationComponent implements OnInit {
 			data => {
 				for (let i = 0; i < data.length; i++) {
 					this.userService.getById(data[i].user_id).subscribe(
-						user=> {
-							activities.push({...user, ...data[i]});
+						user => {
+							activities.push({ ...user, ...data[i] });
 						}
 					);
 				}
@@ -147,20 +143,6 @@ export class StudentNavigationComponent implements OnInit {
 				window.location.reload();
 			}
 		);
-		// if(this.ifuser_avatar == false){
-		// 	this.api.selectAvatar(this.avatar_pic.value).subscribe(
-		// 		data => {
-		// 			console.log(data);
-		// 		}
-		// 	)
-		// }
-		// else{
-		// 	this.api.updateAvatar(this.avatar_pic.value).subscribe(
-		// 		data=> {
-		// 			console.log('update'+ data);
-		// 		}
-		// 	)
-		// }
 	}
 
 	preview(files) {

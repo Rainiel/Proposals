@@ -90,26 +90,11 @@ export class StudentRegisterComponent implements OnInit {
           return;
         }
         else if (this.registerForm.value.password == this.registerForm.value.confirmPassword) {
-          // this.api.registerStudent(value);
           this.userService.register(this.registerForm.value)
             .pipe(first())
             .subscribe(
               data => {
                 this.router.navigate(['/login']);
-                // let activity = ({ 
-                //   notification_users: [this.currentUser._id],
-                //   user_id: `${this.currentUser._id}`,
-                //   section:	`${this.currentUser.section}`,
-                //   year:	`${this.currentUser.year}`,
-                //   batch_year:	`${this.currentUser.created_batch_year}`,
-                //   batch_sem:	`${this.currentUser.created_batch_sem}`,
-                //   message: 'created a proposal'
-                // });
-                // this.activityService.create(activity).subscribe(
-                //   data=> {
-  
-                //   }
-                // );
               },
               error => {
                 console.log(error)

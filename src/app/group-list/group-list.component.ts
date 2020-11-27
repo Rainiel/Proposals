@@ -13,7 +13,6 @@ import { GroupsFilterPipe } from '../_pipe/groups-filter.pipe';
 	styleUrls: ['./group-list.component.scss']
 })
 export class GroupListComponent implements OnInit {
-
 	group_lists = [];
 	subs$: any;
 	group_id: any;
@@ -45,7 +44,6 @@ export class GroupListComponent implements OnInit {
 			}
 			if (authService.currentUserValue.role == 'Committee') {
 				this.ifRoleCommittee = true;
-				// this.getAllUsers();k
 				this.getAllGroups();
 				this.getSectionList();
 			}
@@ -62,18 +60,12 @@ export class GroupListComponent implements OnInit {
 			.subscribe((params) => {
 				this.group_id = params["name"];
 			});
-		// if (this.isUserStudent == true) {
-			
-		// } else {
-		// 	this.getAllGroups();
-		// }
 	}
 
 	getSectionList() {
 		this.api.getSectionList().subscribe(
 			data => {
 				this.section_list = data;
-				// console.log(data)
 			}
 		)
 	}
@@ -81,7 +73,6 @@ export class GroupListComponent implements OnInit {
 	getAllGroups() {
 		this.groupService.getAll().subscribe(
 			data => {
-				// console.log(data);
 				this.group_lists = data;
 			}
 		)
