@@ -1,6 +1,7 @@
 # PAFMS
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
+This project is Project Approval and Feedback Monitoring System. this system is created to disrupt the school from paper documents, a transition from passing actual documents to online proposals.
+This system is built with MEAN stack.
 
 ## Development server
 
